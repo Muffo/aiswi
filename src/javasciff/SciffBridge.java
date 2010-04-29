@@ -1,5 +1,7 @@
 package javasciff;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import jpl.*;
 
 /**
@@ -15,7 +17,7 @@ public class SciffBridge {
     /***
      * Percorso relativo della cartella contenente SCIFF
      */
-    private String relPath;
+    private String path;
 
 
     /***
@@ -25,7 +27,7 @@ public class SciffBridge {
      * @param path percorso della cartella contenente SCIFF
      */
     public SciffBridge(String path) {
-        this.relPath = path;
+        this.path = path;
         compileSciff();
     }
 
@@ -55,18 +57,35 @@ public class SciffBridge {
      * @return esito dell'esecuzione
      */
     public boolean runProject(String projectName) {
+        setDefaultPath();
         if(Query.hasSolution("project(" + projectName + ")"))
             return Query.hasSolution("run");
 
         return false;
-         
     }
 
     /***
      * Esegue il comando prolog: "compile(sciff)"
      */
     private void compileSciff() {
-        Query.hasSolution("compile(" + relPath + "sciff)");
+        Query.hasSolution("compile(" + path + "sciff)");
+    }
+
+
+    /**
+     * Inserisce all'interno del file "default.pl" il percorso corrente.
+     * In questo modo sarà possibile eseguire correttamente i progetti creati.
+     */
+    private void setDefaultPath() {
+        try {
+            FileWriter fstream = new FileWriter(path + "/defaults.pl");
+            BufferedWriter out = new BufferedWriter(fstream);
+            System.getProperty("user.dir");
+            out.write("default_dir('" + System.getProperty("user.dir") + "/').");
+            out.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
 
@@ -77,6 +96,4 @@ public class SciffBridge {
     private static void execute(String goal) {
         System.out.println(goal + ": " + Query.hasSolution(goal) + " - " + Query.oneSolution(goal));
     }
-    
-
 }

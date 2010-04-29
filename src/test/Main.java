@@ -14,6 +14,8 @@ public class Main {
      */
     public static void main(String[] args) {
 
+        System.out.println(System.getProperty("user.dir"));
+
         // Crea un nuovo pogettto chiamato "nuovo"
         Project project = new Project("nuovo");
 
