@@ -1,0 +1,66 @@
+% INIZIO
+H(start,0)
+/\ inizio(X, Y, C, F)
+--->E(sono(X, Y, C, F), 0).
+
+%% /\ not clause(fine(X,Y,C,F), true) %% aggiungendo questa riga all'evento impediamo di terminare il gioco nella stessa casella dell'inizio
+
+
+H(start,0)
+/\ not clause(inizio(_,_,_,_), true)
+---> E(sono(1,1,_,_),0).
+
+%% cosi il numero di casi se aggiungiamo una cluasola esplode! perche non fare aspettative separate???
+%OBIETTIVO se non e definito maxmove
+ H(start,0)
+ /\ fine(X, Y, C, F) /\ not clause(maxmove(_), true)
+ --->E(sono(X,Y,C,F),T) /\ T > 0
+ 	/\EN(sono(_,_,_,_),T2) /\ T2 > T.
+
+H(start,0)
+ /\ not clause(fine(X, Y, C, F), true) /\ maxmove(MAXT)
+ --->E(sono(X,Y,C,F),T) /\ T >0
+ 	/\EN(sono(_,_,_,_),T2) /\ T2 < MAXT.
+
+% FINIRE IN MAXMOVE MOSSE
+H(start,0)
+/\ fine(X, Y, C, F) /\ maxmove(MAXMOVE)
+--->E(sono(X,Y,C,F),T) /\ T > 0 /\ T < MAXMOVE
+	/\EN(sono(_,_,_,_),T2) /\ T2 > T.
+
+H(start,0)
+/\ not clause(fine(_,_,_,_), true)
+--->E(sono(10,10,_,_),T) /\ T > 0 
+	/\EN(sono(_,_,_,_),T2) /\ T2 > T.
+	
+
+
+% Mossa che devi fare entro DELAY mosse
+H(start,0)
+/\ risposta([X,Y,C,F],[X2,Y2,C2,F2], DELAY)	
+/\ H(sono(X,Y,C,F),T)
+--->E(sono(X2,Y2,C2,F2),T2) /\ T2 > T /\ T2 <= T+DELAY.
+
+% Mossa che NON puoi fare entro DELAY mosse
+H(start,0)
+/\ notrisposta([X,Y,C,F],[X2,Y2,C2,F2], DELAY)	
+/\ H(sono(X,Y,C,F),T)
+--->EN(sono(X2,Y2,C2,F2),T2) /\ T2 > T /\ T2 <= T+DELAY.
+
+% DEVO spostarmi [definito in kb.pl]  rispetto all'ultimo click
+H(start,0)
+/\ regola([X,Y,C,F], COND, DELAY)
+/\ H(sono(X,Y,C,F),T)
+--->E(sono(X2,Y2,C2,F2),T2) /\ T2 > T /\ T2 <= T+DELAY /\ call(COND, X, Y, X2, Y2).
+%% condregola([X,Y,C,F], [X2,Y2,C2,F2]).
+
+% NON DEVO spostarmi [definito in kb.pl]  rispetto all'ultimo click
+H(start,0)
+/\ notregola([X,Y,C,F], COND, DELAY)
+/\ H(sono(X,Y,C,F),T)
+--->EN(sono(X2,Y2,C2,F2),T2) /\ T2 > T /\ T2 <= T+DELAY /\ call(COND, X, Y, X2, Y2).
+
+
+
+
+
