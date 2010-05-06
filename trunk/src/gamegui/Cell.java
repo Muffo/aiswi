@@ -53,7 +53,7 @@ public class Cell extends javax.swing.JPanel{
         lblIcon = new javax.swing.JLabel();
 
         lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIcon.setIcon(new javax.swing.ImageIcon(projectPath + "/src/img/martello.png")); // NOI18N
+        lblIcon.setIcon(new javax.swing.ImageIcon(projectPath + "/img/martello.png")); // NOI18N
         lblIcon.setSize(new java.awt.Dimension(64, 64));
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -88,6 +88,7 @@ public class Cell extends javax.swing.JPanel{
     public void setFigure(String figure) {
         this.figure = figure;
         String figureFile = (String) Cell.catalogCF.get(figure);
+        System.out.println(figureFile);
         lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
 
     }
