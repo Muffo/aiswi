@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<chessboard>
+	<cell>
+		<x>4</x>
+		<y>4</y>
+		<color>Blue</color>
+		<figure>Fiore</figure>
+	</cell>
+	<cell>
+		<x>5</x>
+		<y>5</y>
+		<color>Yellow</color>
+		<figure>Flower</figure>
+	</cell>
+	<cell>
+		<x>6</x>
+		<y>6</y>
+		<color>Red</color>
+		<figure>Skin</figure>
+	</cell>
+</chessboard>
