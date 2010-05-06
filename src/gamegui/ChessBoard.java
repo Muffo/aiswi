@@ -41,7 +41,7 @@ public class ChessBoard extends javax.swing.JFrame {
     public ChessBoard() {
         initComponents();
         initBoard();
-        //uploadBoardFromXml();
+        //updateBoardFromXml();
     }
 
     /** This method is called from within the constructor to
@@ -233,7 +233,6 @@ public class ChessBoard extends javax.swing.JFrame {
             ChessBoard.catalogCF.put("red", new java.awt.Color(255,0,0));
             ChessBoard.catalogCF.put("rosso", new java.awt.Color(255,0,0));
 
-
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -286,10 +285,11 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
 
-    private void uploadBoardFromXml(int pos_x, int pos_y, String color, String figure) {
-        cells[pos_x][pos_y].setIcon((String)ChessBoard.catalogCF.get(figure));
-        cells[pos_x][pos_y].setBackground((java.awt.Color)ChessBoard.catalogCF.get(color));
-        
+    private void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
+       // cells[pos_x][pos_y].setIcon((String)ChessBoard.catalogCF.get(figure.toLowerCase()));
+       // cells[pos_x][pos_y].setBackground((java.awt.Color)ChessBoard.catalogCF.get(color.toLowerCase()));
+        cells[pos_x][pos_y].setIcon(figure.toLowerCase());
+        cells[pos_x][pos_y].setBackground(color.toLowerCase());
     }
 
 }
