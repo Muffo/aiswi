@@ -30,10 +30,6 @@ public class Cell extends javax.swing.JPanel{
         super();
         this.x = x;
         this.y = y;
-
-
-        setColor(color);
-        setFigure(figure);
         
         String projectPath = "";
         
@@ -53,8 +49,10 @@ public class Cell extends javax.swing.JPanel{
         lblIcon = new javax.swing.JLabel();
 
         lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIcon.setIcon(new javax.swing.ImageIcon(projectPath + "/img/martello.png")); // NOI18N
         lblIcon.setSize(new java.awt.Dimension(64, 64));
+
+        this.setColor(color);
+        this.setFigure(figure);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -89,10 +87,8 @@ public class Cell extends javax.swing.JPanel{
         this.figure = figure;
         String figureFile = (String) Cell.catalogCF.get(figure);
 
-        // lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
         System.out.println(figureFile);
         lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
-
     }
 
     public void setColor(String color) {
