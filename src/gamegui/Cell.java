@@ -5,11 +5,9 @@
 
 package gamegui;
 
-import java.awt.Color;
 import java.io.File;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import javax.swing.border.Border;
 
 /**
  *
@@ -98,8 +96,23 @@ public class Cell extends javax.swing.JPanel{
         setBackground((java.awt.Color)Cell.catalogCF.get(color));
     }
 
-   
+    public String getColor(){
+        return this.color;
+    }
 
+    public String getFigure(){
+        return this.figure;
+    }
+
+    public int getPosX(){
+        return this.x;
+    }
+
+    public int getPosY(){
+        return this.y;
+    }
+
+    
     public static void initDictionary() {
        File dir = new File (".");
         try{
