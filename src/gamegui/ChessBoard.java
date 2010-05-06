@@ -11,6 +11,10 @@
 
 package gamegui;
 
+import java.io.File;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
@@ -28,11 +32,16 @@ public class ChessBoard extends javax.swing.JFrame {
     Cell[][] cells = new Cell[DIM][DIM];
     List<String> trace = new Vector<String>();
     private int moveCounter = 0;
+    private static Dictionary<String, Object> catalogCF = new Hashtable<String, Object>();
+
+
+
 
     /** Creates new form ChessBoard */
     public ChessBoard() {
         initComponents();
         initBoard();
+        //uploadBoardFromXml();
     }
 
     /** This method is called from within the constructor to
@@ -210,14 +219,33 @@ public class ChessBoard extends javax.swing.JFrame {
             }
         }
     }
+
+    private static void initDictionary() {
+       File dir = new File (".");
+        try{
+            String projectPath = dir.getCanonicalPath();
+            ChessBoard.catalogCF.put("martello", projectPath+"/img/martello.png");
+            ChessBoard.catalogCF.put("hammer", projectPath+"/img/martello.png");
+            ChessBoard.catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
+            ChessBoard.catalogCF.put("giallo", new java.awt.Color(255,255,0));
+            ChessBoard.catalogCF.put("blue", new java.awt.Color(0,0,255));
+            ChessBoard.catalogCF.put("blue", new java.awt.Color(0,0,255));
+            ChessBoard.catalogCF.put("red", new java.awt.Color(255,0,0));
+            ChessBoard.catalogCF.put("rosso", new java.awt.Color(255,0,0));
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     
     /**
     * @param args the command line arguments
     */
     public static void main(String args[]) {
-
+        initDictionary();
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
+            java.awt.EventQueue.invokeLater(new Runnable() {
                
             public void run() {
                 ChessBoard.instance.setVisible(true);
@@ -238,6 +266,10 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
+    private void loadFromXML(String path){
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Board;
     private javax.swing.JButton btnEval;
@@ -254,6 +286,10 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
 
-   
+    private void uploadBoardFromXml(int pos_x, int pos_y, String color, String figure) {
+        cells[pos_x][pos_y].setIcon((String)ChessBoard.catalogCF.get(figure));
+        cells[pos_x][pos_y].setBackground((java.awt.Color)ChessBoard.catalogCF.get(color));
+        
+    }
 
 }
