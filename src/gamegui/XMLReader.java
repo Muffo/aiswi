@@ -17,15 +17,15 @@ import org.w3c.dom.NodeList;
  * @author baio
  */
 public class XMLReader {
+    
 
-    public static void main(String argv[]) {
-
+    public void read(String fileName) {
         try {
 
             //finding local path
             File dir = new File (".");
             String projectPath = dir.getCanonicalPath();
-            File file = new File(projectPath +"/src/xml/xml.xml");
+            File file = new File(projectPath +"/src/xml/"+fileName);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
@@ -48,6 +48,7 @@ public class XMLReader {
                     Element xNmElmnt = (Element) xNmElmntLst.item(0);
                     NodeList xNm = xNmElmnt.getChildNodes();
                     System.out.println("x : " + ((Node) xNm.item(0)).getNodeValue());
+                    int x = Integer.parseInt("" + ((Node) xNm.item(0)).getNodeValue());
 
                     /**
                      * Retriving y
@@ -56,6 +57,7 @@ public class XMLReader {
                     Element yNmElmnt = (Element) yNmElmntLst.item(0);
                     NodeList yNm = yNmElmnt.getChildNodes();
                     System.out.println("y : " + ((Node) yNm.item(0)).getNodeValue());
+                    int y = Integer.parseInt("" + ((Node) yNm.item(0)).getNodeValue());
 
                     /**
                      * Retriving color
@@ -64,6 +66,7 @@ public class XMLReader {
                     Element colorNmElmnt = (Element) colorNmElmntLst.item(0);
                     NodeList colorNm = colorNmElmnt.getChildNodes();
                     System.out.println("color : " + ((Node) colorNm.item(0)).getNodeValue());
+                    String color = ("" + ((Node) colorNm.item(0)).getNodeValue());
 
                     /**
                      * Retriving figure
@@ -72,6 +75,8 @@ public class XMLReader {
                     Element figureNmElmnt = (Element) figureNmElmntLst.item(0);
                     NodeList figureNm = figureNmElmnt.getChildNodes();
                     System.out.println("figure : " + ((Node) figureNm.item(0)).getNodeValue());
+                    String figure = ("" + ((Node) figureNm.item(0)).getNodeValue());
+                    ChessBoard.getInstance().updateBoardFromXml(x, y, color, figure);
 
                 }
 

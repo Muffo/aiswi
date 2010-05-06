@@ -30,6 +30,7 @@ public class Cell extends javax.swing.JPanel{
         super();
         this.x = x;
         this.y = y;
+
         
         String projectPath = "";
         
@@ -89,6 +90,7 @@ public class Cell extends javax.swing.JPanel{
 
         System.out.println(figureFile);
         lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
+
     }
 
     public void setColor(String color) {
@@ -102,8 +104,23 @@ public class Cell extends javax.swing.JPanel{
        File dir = new File (".");
         try{
             String projectPath = dir.getCanonicalPath();
+            catalogCF.put("arm", projectPath + "/img/arm.png");
+            catalogCF.put("arms", projectPath + "/img/arms-lancia.png");
+            catalogCF.put("bin", projectPath + "/img/bin.png");
+            catalogCF.put("book", projectPath + "/img/book.png");
+            catalogCF.put("disk", projectPath + "/img/disk.png");
+            catalogCF.put("ipod", projectPath + "/img/ipod.png");
+            catalogCF.put("monkey", projectPath + "/img/monkey.png");
+            catalogCF.put("mouse", projectPath + "/img/mouse.png");
+            catalogCF.put("paper", projectPath + "/img/paper.png");
+            catalogCF.put("pen", projectPath + "/img/pen.png");
+            catalogCF.put("poison", projectPath + "/img/poison.png");
+            catalogCF.put("skull", projectPath + "/img/skull-empty.png");
+            catalogCF.put("star", projectPath + "/img/star.png");
+            catalogCF.put("troll", projectPath + "/img/troll.png");
             catalogCF.put("martello", projectPath + "/img/martello.png");
             catalogCF.put("hammer", projectPath + "/img/martello.png");
+            catalogCF.put("arrow", projectPath + "/img/arrow.png");
             catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
             catalogCF.put("giallo", new java.awt.Color(255,255,0));
             catalogCF.put("blue", new java.awt.Color(0,0,255));

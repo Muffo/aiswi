@@ -11,10 +11,6 @@
 
 package gamegui;
 
-import java.io.File;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
@@ -27,6 +23,7 @@ import javasciff.SciffBridge;
 public class ChessBoard extends javax.swing.JFrame {
 
     final static private int DIM = 8;
+    final static private String xmlFile = "xml.xml";
     private static ChessBoard instance = new ChessBoard();
 
     Cell[][] cells = new Cell[DIM][DIM];
@@ -41,7 +38,7 @@ public class ChessBoard extends javax.swing.JFrame {
     public ChessBoard() {
         initComponents();
         initBoard();
-        //updateBoardFromXml();
+        
     }
 
     /** This method is called from within the constructor to
@@ -216,7 +213,6 @@ public class ChessBoard extends javax.swing.JFrame {
                 cells[i][j] = new Cell(i, j, "blue", "martello");
                 cells[i][j].setLocation(i * CellGraphic.DIM_IMG, j* CellGraphic.DIM_IMG);
                 cells[i][j].setVisible(true);
-
                 Board.add(cells[i][j]);
             }
         }
@@ -232,6 +228,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
             public void run() {
                 ChessBoard.instance.setVisible(true);
+                ChessBoard.instance.loadFromXML(xmlFile);
              }
         });
     }
@@ -250,7 +247,14 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     private void loadFromXML(String path){
+        XMLReader r = new XMLReader();
+        r.read(path);
+    }
 
+    public void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
+        System.out.println(""+pos_x + pos_y + color + figure);
+        cells[pos_x][pos_y].setFigure(figure.toLowerCase());
+        cells[pos_x][pos_y].setColor(color.toLowerCase());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -269,9 +273,6 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
 
-    private void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
-        cells[pos_x][pos_y].setFigure(figure.toLowerCase());
-        cells[pos_x][pos_y].setColor(color.toLowerCase());
-    }
+
 
 }
