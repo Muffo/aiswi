@@ -6,6 +6,7 @@
 package gamegui;
 
 import java.awt.Color;
+import java.io.File;
 import javax.swing.border.Border;
 
 /**
@@ -27,7 +28,16 @@ public class Cell extends javax.swing.JPanel{
         this.y = y;
         this.color = color;
         this.figure = figure;
+        String projectPath = "";
         
+        //finding local path
+        File dir = new File (".");
+        try{
+            projectPath = dir.getCanonicalPath();
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         
         this.setBackground(Color.blue);
         this.setSize(DIM_IMG, DIM_IMG);
@@ -36,7 +46,7 @@ public class Cell extends javax.swing.JPanel{
         lblIcon = new javax.swing.JLabel();
 
         lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIcon.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/src/img/martello.png")); // NOI18N
+        lblIcon.setIcon(new javax.swing.ImageIcon(projectPath + "/src/img/martello.png")); // NOI18N
         lblIcon.setSize(new java.awt.Dimension(64, 64));
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
