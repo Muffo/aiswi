@@ -28,6 +28,7 @@ public class SciffBridge {
      */
     public SciffBridge(String path) {
         this.path = path;
+        loadClpModule();
         compileSciff();
     }
 
@@ -43,8 +44,8 @@ public class SciffBridge {
      * @param project Progetto SCIFF
      * @return esito dell'esecuzione
      */
-    public boolean runProject(Project project) {
-        project.create();
+    public boolean runProject(SProject project) {
+        project.generateProject();
         return runProject(project.getProjectName());
     }
 
@@ -69,6 +70,13 @@ public class SciffBridge {
      */
     private void compileSciff() {
         Query.hasSolution("compile(" + path + "sciff)");
+    }
+
+    /***
+     * Esegue il comando prolog: "compile(sciff)"
+     */
+    private void loadClpModule() {
+        Query.hasSolution("use_module(library(clpfd))");
     }
 
 
