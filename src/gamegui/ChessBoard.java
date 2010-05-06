@@ -11,10 +11,12 @@
 
 package gamegui;
 
+import java.awt.Dialog;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
 import javasciff.SciffBridge;
+import sun.security.action.OpenFileInputStreamAction;
 
 /**
  *
@@ -167,6 +169,11 @@ public class ChessBoard extends javax.swing.JFrame {
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
         jMenuItem1.setText("Load...");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseClicked(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_MASK));
@@ -211,6 +218,11 @@ public class ChessBoard extends javax.swing.JFrame {
         // Lo verifica e stampa l'esito su terminale
         txtRules.append("Nuovo: " + sciff.runProject(project));
     }//GEN-LAST:event_btnEvalActionPerformed
+
+    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
+        //@TODO dialog
+
+    }//GEN-LAST:event_jMenuItem1MouseClicked
 
 
     public static ChessBoard getInstance(){
