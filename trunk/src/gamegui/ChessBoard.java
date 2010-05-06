@@ -22,7 +22,7 @@ import javasciff.SciffBridge;
  */
 public class ChessBoard extends javax.swing.JFrame {
 
-    final static private int DIM = 8;
+    final static public int DIM = 8;
     final static private String xmlFile = "xml.xml";
     private static ChessBoard instance = new ChessBoard();
 
@@ -229,6 +229,7 @@ public class ChessBoard extends javax.swing.JFrame {
             public void run() {
                 ChessBoard.instance.setVisible(true);
                 ChessBoard.instance.loadFromXML(xmlFile);
+
              }
         });
     }
@@ -249,6 +250,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private void loadFromXML(String path){
         XMLReader r = new XMLReader();
         r.read(path);
+        r.writeToXML(cells, "out.xml");
     }
 
     public void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
@@ -256,6 +258,8 @@ public class ChessBoard extends javax.swing.JFrame {
         cells[pos_x][pos_y].setFigure(figure.toLowerCase());
         cells[pos_x][pos_y].setColor(color.toLowerCase());
     }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Board;

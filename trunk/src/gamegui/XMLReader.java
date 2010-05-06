@@ -4,7 +4,9 @@
  */
 package gamegui;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -85,4 +87,47 @@ public class XMLReader {
             e.printStackTrace();
         }
     }
+
+    public void writeToXML(Cell[][] c, String newFileName){
+        String head = "<?xml version=\"1.0\"?>\n";
+        String rootElement = "<chessboard>\n";
+        String closeRootElement = "</chessboard>\n";
+        File dir = new File(".");
+        String projectPath = "";
+        try {
+            projectPath = dir.getCanonicalPath();
+            File file = new File(projectPath + "/src/xml/" + newFileName);
+            file.createNewFile();
+            FileWriter fstream = new FileWriter(projectPath + "/src/xml/" + newFileName);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(head);
+            out.write(rootElement);
+            for (int i = 0; i < ChessBoard.DIM; i++) {
+                for (int j = 0; j < ChessBoard.DIM; j++) {
+                    String figure = c[i][j].getFigure();
+                    String color = c[i][j].getColor();
+                    String pos_x = "" + c[i][j].getPosX();
+                    String pos_y = "" + c[i][j].getPosY();
+                    String element = "\t<cell>\n"
+                            + "\t\t<x>" + pos_x
+                            + "</x>\n"
+                            + "\t\t<y>" + pos_y
+                            + "</y>\n"
+                            + "\t\t<color>" + color
+                            + "</color>\n"
+                            + "\t\t<figure>" + figure
+                            + "</figure>\n"
+                            + "\t</cell>\n";
+                    out.write(element);
+                }
+                
+            }
+            out.write(closeRootElement);
+            out.close();
+        }catch  (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    
 }
