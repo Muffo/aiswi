@@ -7,6 +7,8 @@ package gamegui;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import javax.swing.border.Border;
 
 /**
@@ -18,16 +20,21 @@ public class Cell extends javax.swing.JPanel{
     final static public int DIM_IMG = 64;
     private javax.swing.JLabel lblIcon;
     private int x, y;
-    private Color color;
+    private String color;
     private String figure;
 
+    private static Dictionary<String, Object> catalogCF = new Hashtable<String, Object>();
 
-    public Cell(int x, int y, Color color, String figure) {
+
+    public Cell(int x, int y, String color, String figure) {
         super();
         this.x = x;
         this.y = y;
-        this.color = color;
-        this.figure = figure;
+
+
+        setColor(color);
+        setFigure(figure);
+        
         String projectPath = "";
         
         //finding local path
@@ -38,8 +45,8 @@ public class Cell extends javax.swing.JPanel{
         }catch(Exception e){
             e.printStackTrace();
         }
+
         
-        this.setBackground(Color.blue);
         this.setSize(DIM_IMG, DIM_IMG);
         this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -69,7 +76,7 @@ public class Cell extends javax.swing.JPanel{
 
 
     public String getPrologMove() {
-        return "sono(" + x + "," + y + "," + getColorString(color) + "," + figure + ")";
+        return "sono(" + x + "," + y + "," + color + "," + figure + ")";
     }
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {
@@ -78,13 +85,36 @@ public class Cell extends javax.swing.JPanel{
        
     }
 
-    public void setIcon(String file) {
-         lblIcon.setIcon(new javax.swing.ImageIcon(file));
+    public void setFigure(String figure) {
+        this.figure = figure;
+        String figureFile = (String) Cell.catalogCF.get(figure);
+        lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
 
     }
 
-    private String getColorString(Color color) {
-        return "blue";
+    public void setColor(String color) {
+        setBackground((java.awt.Color)Cell.catalogCF.get(color));
+        this.color = color;
+    }
+
+   
+
+    public static void initDictionary() {
+       File dir = new File (".");
+        try{
+            String projectPath = dir.getCanonicalPath();
+            catalogCF.put("martello", projectPath+"/img/martello.png");
+            catalogCF.put("hammer", projectPath+"/img/martello.png");
+            catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
+            catalogCF.put("giallo", new java.awt.Color(255,255,0));
+            catalogCF.put("blue", new java.awt.Color(0,0,255));
+            catalogCF.put("blue", new java.awt.Color(0,0,255));
+            catalogCF.put("red", new java.awt.Color(255,0,0));
+            catalogCF.put("rosso", new java.awt.Color(255,0,0));
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

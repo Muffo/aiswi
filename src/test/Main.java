@@ -1,6 +1,7 @@
 package test;
 
 import javasciff.Project;
+import javasciff.SProject;
 import javasciff.SciffBridge;
 
 /**
@@ -17,12 +18,14 @@ public class Main {
         System.out.println(System.getProperty("user.dir"));
 
         // Crea un nuovo pogettto chiamato "nuovo"
-        Project project = new Project("nuovo");
+        SProject project = new SProject("nuovo2", "project_template");
 
         // Aggiunge delle regole
-        project.rules.add("H(start,0) ---> E(sono(1,1,_,_),0).");
-        project.rules.add("H(start,0) ---> E(sono(10,10,_,_),T) /\\ T > 0 /\\ EN(sono(_,_,_,_),T2) /\\ T2 > T.");
-        project.rules.add("H(sono(X,Y,C,fiore),T) ---> E(sono(X2,Y2,C2,teschio),T2) /\\ T2 > T.");
+//        project.rules.add("H(start,0) ---> E(sono(1,1,_,_),0).");
+//        project.rules.add("H(start,0) ---> E(sono(10,10,_,_),T) /\\ T > 0 /\\ EN(sono(_,_,_,_),T2) /\\ T2 > T.");
+//        project.rules.add("H(sono(X,Y,C,fiore),T) ---> E(sono(X2,Y2,C2,teschio),T2) /\\ T2 > T.");
+
+        project.kb = "inzio(1,1,_,_).";
 
         // Aggiunge la traccia degli eventi
         project.trace.add("hap(start,0).");
@@ -38,18 +41,21 @@ public class Main {
         System.out.println("Nuovo: " + sciff.runProject(project));
     }
 
-//    private static void execute(String goal) {
-//        System.out.println(goal + ": " + Query.hasSolution(goal) + " - " + Query.oneSolution(goal));
-//    }
+    
+/**
+    private static void execute(String goal) {
+        System.out.println(goal + ": " + Query.hasSolution(goal) + " - " + Query.oneSolution(goal));
+    }
 
-//    private static void testPL() {
-//        Query q1 = new Query("consult", new Term[]{new Atom("test.pl")});
-//        System.out.println("consult " + (q1.query() ? "succeeded" : "failed"));
-//        Query q2 = new Query("child_of", new Term[]{new Atom("joe"), new Atom("ralf")});
-//        System.out.println("child_of(joe,ralf) is " + (q2.query() ? "provable" : "not provable"));
-//        Hashtable solution = Query.oneSolution("descendent_of(X, ralf)");
-//        System.out.println("first solution of descendent_of(X, ralf)");
-//        System.out.println("X = " + solution.get("X") + " - " + solution);
-//        System.out.println(Query.oneSolution("child_of(joe,X)"));
-//    }
+    private static void testPL() {
+        Query q1 = new Query("consult", new Term[]{new Atom("test.pl")});
+        System.out.println("consult " + (q1.query() ? "succeeded" : "failed"));
+        Query q2 = new Query("child_of", new Term[]{new Atom("joe"), new Atom("ralf")});
+        System.out.println("child_of(joe,ralf) is " + (q2.query() ? "provable" : "not provable"));
+        Hashtable solution = Query.oneSolution("descendent_of(X, ralf)");
+        System.out.println("first solution of descendent_of(X, ralf)");
+        System.out.println("X = " + solution.get("X") + " - " + solution);
+        System.out.println(Query.oneSolution("child_of(joe,X)"));
+    } 
+ */
 }
