@@ -88,14 +88,16 @@ public class Cell extends javax.swing.JPanel{
     public void setFigure(String figure) {
         this.figure = figure;
         String figureFile = (String) Cell.catalogCF.get(figure);
+
+        // lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
         System.out.println(figureFile);
         lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
 
     }
 
     public void setColor(String color) {
-        setBackground((java.awt.Color)Cell.catalogCF.get(color));
         this.color = color;
+        setBackground((java.awt.Color)Cell.catalogCF.get(color));
     }
 
    
@@ -104,8 +106,8 @@ public class Cell extends javax.swing.JPanel{
        File dir = new File (".");
         try{
             String projectPath = dir.getCanonicalPath();
-            catalogCF.put("martello", projectPath+"/img/martello.png");
-            catalogCF.put("hammer", projectPath+"/img/martello.png");
+            catalogCF.put("martello", projectPath + "/img/martello.png");
+            catalogCF.put("hammer", projectPath + "/img/martello.png");
             catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
             catalogCF.put("giallo", new java.awt.Color(255,255,0));
             catalogCF.put("blue", new java.awt.Color(0,0,255));
