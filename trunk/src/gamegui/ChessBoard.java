@@ -216,7 +216,6 @@ public class ChessBoard extends javax.swing.JFrame {
                 cells[i][j] = new Cell(i, j, "blue", "martello");
                 cells[i][j].setLocation(i * CellGraphic.DIM_IMG, j* CellGraphic.DIM_IMG);
                 cells[i][j].setVisible(true);
-                cells[i][j].setBackground(new java.awt.Color(102, 255, 102));
 
                 Board.add(cells[i][j]);
             }
