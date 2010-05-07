@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
  *
  * @author baio
  */
-public class XMLReader {
+public class XMLObj {
     
 
     public void read(String fileName) {
