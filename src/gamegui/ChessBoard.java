@@ -198,10 +198,10 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
-        jMenuItem1.setText("Load...");
+        jMenuItem1.setText("Load XML...");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem1MouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuItem1MousePressed(evt);
             }
         });
         jMenu1.add(jMenuItem1);
@@ -249,14 +249,6 @@ public class ChessBoard extends javax.swing.JFrame {
         txtRules.append("Result: " + sciff.runProject(project));
     }//GEN-LAST:event_btnEvalActionPerformed
 
-    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
-        //@TODO dialog
-        
-        System.out.println("BAIOOOOO");
-        loadFromXML(xmlFile);
-
-    }//GEN-LAST:event_jMenuItem1MouseClicked
-
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
         // TODO add your handling code here:
         String moves = txtTrace.getText();
@@ -287,6 +279,10 @@ public class ChessBoard extends javax.swing.JFrame {
         cells[x][y].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
     }//GEN-LAST:event_btnUndoMouseClicked
+
+    private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
+        loadFromXML(xmlFile);
+    }//GEN-LAST:event_jMenuItem1MousePressed
 
 
     public static ChessBoard getInstance(){
