@@ -26,6 +26,8 @@ import sun.security.action.OpenFileInputStreamAction;
 public class ChessBoard extends javax.swing.JFrame {
 
     final static public int DIM = 8;
+    final static public int XSTRPOS = 9;
+    final static public int YSTRPOS = 11;
     final static private String xmlFile = "game.xml";
     private static ChessBoard instance = new ChessBoard();
 
@@ -63,6 +65,8 @@ public class ChessBoard extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtTrace = new javax.swing.JTextArea();
         btnEval = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        btnUndo = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -135,6 +139,20 @@ public class ChessBoard extends javax.swing.JFrame {
             }
         });
 
+        btnClear.setText("Clear Moves");
+        btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnClearMouseClicked(evt);
+            }
+        });
+
+        btnUndo.setText("Undo Last Move");
+        btnUndo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUndoMouseClicked(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -148,7 +166,11 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(201, 201, 201)
-                        .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(127, 127, 127)
+                        .add(btnClear)
+                        .add(96, 96, 96)
+                        .add(btnUndo)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -159,7 +181,10 @@ public class ChessBoard extends javax.swing.JFrame {
                     .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .add(18, 18, 18)
-                .add(btnEval)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnEval)
+                    .add(btnClear)
+                    .add(btnUndo))
                 .addContainerGap())
         );
 
@@ -224,6 +249,37 @@ public class ChessBoard extends javax.swing.JFrame {
         //@TODO dialog
 
     }//GEN-LAST:event_jMenuItem1MouseClicked
+
+    private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
+        // TODO add your handling code here:
+        String moves = txtTrace.getText();
+        String[] moveArray = moves.split("\n");
+        for (int i = 0; i<moveArray.length; i++){
+            int x = Integer.parseInt(""+moveArray[i].charAt(XSTRPOS));
+            int y = Integer.parseInt(""+moveArray[i].charAt(YSTRPOS));
+            cells[x][y].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            //System.out.println("x:" + x + "\ny: "+ y);
+        }
+        trace.removeAll(trace);
+        moveCounter = 0;
+        refreshTrace();
+    }//GEN-LAST:event_btnClearMouseClicked
+
+    private void btnUndoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUndoMouseClicked
+        // TODO add your handling code here:
+        if (trace.size()==0){
+            return;
+        }
+        moveCounter--;
+        String lastMove = trace.get(trace.size()-1);
+        trace.remove(trace.size()-1);
+        refreshTrace();
+        System.out.println(lastMove);
+        int x = Integer.parseInt(""+lastMove.charAt(XSTRPOS));
+        int y = Integer.parseInt(""+lastMove.charAt(YSTRPOS));
+        cells[x][y].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+    }//GEN-LAST:event_btnUndoMouseClicked
 
 
     public static ChessBoard getInstance(){
@@ -301,7 +357,9 @@ public class ChessBoard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Board;
+    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEval;
+    private javax.swing.JButton btnUndo;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
