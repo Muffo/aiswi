@@ -33,60 +33,108 @@ public class XMLObj {
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
             System.out.println("Root element " + doc.getDocumentElement().getNodeName());
-            NodeList nodeLst = doc.getElementsByTagName("cell");
+            NodeList chessboardLst = doc.getElementsByTagName("chessboard");
+            for (int i = 0; i < chessboardLst.getLength(); i++){
 
-            for (int s = 0; s < nodeLst.getLength(); s++) {
+                NodeList nodeLst = doc.getElementsByTagName("cell");
 
-                Node fstNode = nodeLst.item(s);
+                for (int s = 0; s < nodeLst.getLength(); s++) {
 
-                if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Node fstNode = nodeLst.item(s);
 
-                    Element fstElmnt = (Element) fstNode;
+                    if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
 
-                    /**
-                     * Retriving x
-                     */
-                    NodeList xNmElmntLst = fstElmnt.getElementsByTagName("x");
-                    Element xNmElmnt = (Element) xNmElmntLst.item(0);
-                    NodeList xNm = xNmElmnt.getChildNodes();
-                    System.out.println("x : " + ((Node) xNm.item(0)).getNodeValue());
-                    int x = Integer.parseInt("" + ((Node) xNm.item(0)).getNodeValue());
+                        Element fstElmnt = (Element) fstNode;
 
-                    /**
-                     * Retriving y
-                     */
-                    NodeList yNmElmntLst = fstElmnt.getElementsByTagName("y");
-                    Element yNmElmnt = (Element) yNmElmntLst.item(0);
-                    NodeList yNm = yNmElmnt.getChildNodes();
-                    System.out.println("y : " + ((Node) yNm.item(0)).getNodeValue());
-                    int y = Integer.parseInt("" + ((Node) yNm.item(0)).getNodeValue());
+                        /**
+                         * Retriving x
+                         */
 
-                    /**
-                     * Retriving color
-                     */
-                    NodeList colorNmElmntLst = fstElmnt.getElementsByTagName("color");
-                    Element colorNmElmnt = (Element) colorNmElmntLst.item(0);
-                    NodeList colorNm = colorNmElmnt.getChildNodes();
-                    System.out.println("color : " + ((Node) colorNm.item(0)).getNodeValue());
-                    String color = ("" + ((Node) colorNm.item(0)).getNodeValue());
+                        NodeList xNmElmntLst = fstElmnt.getElementsByTagName("x");
+                        Element xNmElmnt = (Element) xNmElmntLst.item(0);
+                        NodeList xNm = xNmElmnt.getChildNodes();
+                        System.out.println("x : " + ((Node) xNm.item(0)).getNodeValue());
+                        int x = Integer.parseInt("" + ((Node) xNm.item(0)).getNodeValue());
 
-                    /**
-                     * Retriving figure
-                     */
-                    NodeList figureNmElmntLst = fstElmnt.getElementsByTagName("figure");
-                    Element figureNmElmnt = (Element) figureNmElmntLst.item(0);
-                    NodeList figureNm = figureNmElmnt.getChildNodes();
-                    System.out.println("figure : " + ((Node) figureNm.item(0)).getNodeValue());
-                    String figure = ("" + ((Node) figureNm.item(0)).getNodeValue());
-                    ChessBoard.getInstance().updateBoardFromXml(x, y, color, figure);
+                        /**
+                         * Retriving y
+                         */
+
+                        NodeList yNmElmntLst = fstElmnt.getElementsByTagName("y");
+                        Element yNmElmnt = (Element) yNmElmntLst.item(0);
+                        NodeList yNm = yNmElmnt.getChildNodes();
+                        System.out.println("y : " + ((Node) yNm.item(0)).getNodeValue());
+                        int y = Integer.parseInt("" + ((Node) yNm.item(0)).getNodeValue());
+
+                        /**
+                         * Retriving color
+                         */
+
+                        NodeList colorNmElmntLst = fstElmnt.getElementsByTagName("color");
+                        Element colorNmElmnt = (Element) colorNmElmntLst.item(0);
+                        NodeList colorNm = colorNmElmnt.getChildNodes();
+                        System.out.println("color : " + ((Node) colorNm.item(0)).getNodeValue());
+                        String color = ("" + ((Node) colorNm.item(0)).getNodeValue());
+
+                        /**
+                         * Retriving figure
+                         */
+
+                        NodeList figureNmElmntLst = fstElmnt.getElementsByTagName("figure");
+                        Element figureNmElmnt = (Element) figureNmElmntLst.item(0);
+                        NodeList figureNm = figureNmElmnt.getChildNodes();
+                        System.out.println("figure : " + ((Node) figureNm.item(0)).getNodeValue());
+                        String figure = ("" + ((Node) figureNm.item(0)).getNodeValue());
+                        ChessBoard.getInstance().updateBoardFromXml(x, y, color, figure);
+
+                    }
 
                 }
+            } // for chessboard
 
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            /*
+             * Checking for rules
+             */
+
+            NodeList ruleLst = doc.getElementsByTagName("rules");
+
+            for (int s = 0; s < ruleLst.getLength(); s++) {
+
+                Node secNode = ruleLst.item(s);
+
+                if (secNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element secElmnt = (Element) secNode;
+
+
+
+                    NodeList ruleNmElmntLst = secElmnt.getElementsByTagName("rule");
+
+                    /*
+                     * Retrivng rule elements
+                     */
+
+                    for (int i = 0; i < ruleNmElmntLst.getLength(); i++){
+                        Element ruleNmElmnt = (Element) ruleNmElmntLst.item(i);
+                        NodeList ruleNm = ruleNmElmnt.getChildNodes();
+                        System.out.println("rule : " + ((Node) ruleNm.item(0)).getNodeValue());
+                        String rule =  ("" + ((Node) ruleNm.item(0)).getNodeValue());
+                        rule = rule + "\n";
+                        ChessBoard.getInstance().updateRulesTextArea(rule);
+                    }
+
+                }
+           }
+        }catch (Exception e) {
+                e.printStackTrace();
         }
     }
+
+    /**
+     *
+     * @param c
+     * @param newFileName
+     */
 
     public void writeToXML(Cell[][] c, String newFileName){
         String head = "<?xml version=\"1.0\"?>\n";

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<game>
+
+	<chessboard>
+		<cell>
+			<x>4</x>
+			<y>4</y>
+			<color>Blue</color>
+			<figure>arrow</figure>
+		</cell>
+		<cell>
+			<x>5</x>
+			<y>5</y>
+			<color>Yellow</color>
+			<figure>arrow</figure>
+		</cell>
+		<cell>
+			<x>6</x>
+			<y>6</y>
+			<color>Red</color>
+			<figure>arrow</figure>
+		</cell>
+	</chessboard>
+	<rules>
+		<rule>inizio(1,1,_,_).</rule>
+		<rule>fine(7,7,_,_).</rule>
+	</rules>
+</game>
