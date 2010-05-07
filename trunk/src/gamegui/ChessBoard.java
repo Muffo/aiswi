@@ -216,7 +216,7 @@ public class ChessBoard extends javax.swing.JFrame {
         SciffBridge sciff = new SciffBridge("sciff/");
 
         // Lo verifica e stampa l'esito su terminale
-        txtRules.append("Nuovo: " + sciff.runProject(project));
+        txtRules.append("Result: " + sciff.runProject(project));
     }//GEN-LAST:event_btnEvalActionPerformed
 
     private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
@@ -274,7 +274,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     private void loadFromXML(String path){
-        XMLReader r = new XMLReader();
+        XMLObj r = new XMLObj();
         r.read(path);
         r.writeToXML(cells, "out.xml");
     }
