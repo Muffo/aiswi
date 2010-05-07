@@ -28,19 +28,6 @@ public class Cell extends javax.swing.JPanel{
         super();
         this.x = x;
         this.y = y;
-
-        
-        String projectPath = "";
-        
-        //finding local path
-        File dir = new File (".");
-        try{
-            projectPath = dir.getCanonicalPath();
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
         
         this.setSize(DIM_IMG, DIM_IMG);
         this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -86,7 +73,7 @@ public class Cell extends javax.swing.JPanel{
         this.figure = figure;
         String figureFile = (String) Cell.catalogCF.get(figure);
 
-        System.out.println(figureFile);
+        //System.out.println(figureFile);
         lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
 
     }
