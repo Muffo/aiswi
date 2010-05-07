@@ -1,5 +1,6 @@
 package test;
 
+import gamegui.Move;
 import javasciff.Project;
 import javasciff.SProject;
 import javasciff.SciffBridge;
@@ -28,10 +29,9 @@ public class Main {
         project.kb = "inzio(1,1,_,_).";
 
         // Aggiunge la traccia degli eventi
-        project.trace.add("hap(start,0).");
-        project.trace.add("hap(sono(1,1,blu,fiore),0).");
-        project.trace.add("hap(sono(5,5,rosa,null),1).");
-        project.trace.add("hap(sono(10,10,blu,teschio),2).");
+        project.trace.add(new Move(1, 1, "blue", "skull", 0));
+//        project.trace.add("hap(sono(5,5,rosa,null),1).");
+//        project.trace.add("hap(sono(10,10,blu,teschio),2).");
 
 
         // Crea un nuovo SciffBridge per poter verificare il progetto
