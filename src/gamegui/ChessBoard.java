@@ -11,17 +11,11 @@
 
 package gamegui;
 
-import java.awt.Dialog;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javasciff.SProject;
 import javasciff.SciffBridge;
 import org.xml.sax.SAXException;
-import sun.security.action.OpenFileInputStreamAction;
 
 /**
  *
@@ -266,7 +260,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
     private void btnUndoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUndoMouseClicked
         // TODO add your handling code here:
-        if (trace.size()==0){
+        if (trace.isEmpty()){
             return;
         }
         moveCounter--;
