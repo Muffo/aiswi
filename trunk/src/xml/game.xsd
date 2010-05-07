@@ -4,10 +4,10 @@
   <xs:element name="cell">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="x" use="required" maxOccurs="1" />
-        <xs:element ref="y" use="required" maxOccurs="1" />
-        <xs:element ref="color" use="required" maxOccurs="1" />
-        <xs:element ref="figure"use="required" maxOccurs="1" />
+        <xs:element ref="x" maxOccurs="1" />
+        <xs:element ref="y" maxOccurs="1" />
+        <xs:element ref="color" maxOccurs="1" />
+        <xs:element ref="figure" maxOccurs="1" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -15,7 +15,7 @@
   <xs:element name="chessboard">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="cell" use="required" maxOccurs="unbounded" />
+        <xs:element ref="cell" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -52,7 +52,7 @@
   <xs:element name="rules">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="rule" use="required" maxOccurs="unbounded" />
+        <xs:element ref="rule" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
