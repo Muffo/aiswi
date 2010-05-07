@@ -136,10 +136,16 @@ public class XMLObj {
      * @param newFileName
      */
 
-    public void writeToXML(Cell[][] c, String newFileName){
+    public void writeToXML(Cell[][] c, String rules, String newFileName){
         String head = "<?xml version=\"1.0\"?>\n";
-        String rootElement = "<chessboard>\n";
-        String closeRootElement = "</chessboard>\n";
+        String rootElement = "<game>\n";
+        String closeRootElement = "</game>\n";
+        String fstElement = "\t<chessboard>\n";
+        String closeFstElement = "\t</chessboard>\n";
+        String secElement = "\t<rules>\n";
+        String closeSecElement = "\t</rules>\n";
+
+
         File dir = new File(".");
         String projectPath = "";
         try {
@@ -150,25 +156,35 @@ public class XMLObj {
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(head);
             out.write(rootElement);
+            out.write(fstElement);
             for (int i = 0; i < ChessBoard.DIM; i++) {
                 for (int j = 0; j < ChessBoard.DIM; j++) {
                     String figure = c[i][j].getFigure();
                     String color = c[i][j].getColor();
                     String pos_x = "" + c[i][j].getPosX();
                     String pos_y = "" + c[i][j].getPosY();
-                    String element = "\t<cell>\n"
-                            + "\t\t<x>" + pos_x
+                    String element = "\t\t<cell>\n"
+                            + "\t\t\t<x>" + pos_x
                             + "</x>\n"
-                            + "\t\t<y>" + pos_y
+                            + "\t\t\t<y>" + pos_y
                             + "</y>\n"
-                            + "\t\t<color>" + color
+                            + "\t\t\t<color>" + color
                             + "</color>\n"
-                            + "\t\t<figure>" + figure
+                            + "\t\t\t<figure>" + figure
                             + "</figure>\n"
-                            + "\t</cell>\n";
+                            + "\t\t</cell>\n";
                     out.write(element);
+                }   
+            }
+            out.write(closeFstElement);
+            if (!rules.isEmpty()){
+                out.write(secElement);
+                String[] rows = rules.split("\n");
+                for (int k = 0; k < rows.length; k++){
+                    out.write("\t\t<rule>"+rows[k] + "<rule>\n");
+                    
                 }
-                
+                out.write(closeSecElement);
             }
             out.write(closeRootElement);
             out.close();

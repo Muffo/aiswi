@@ -280,7 +280,7 @@ public class ChessBoard extends javax.swing.JFrame {
             validator.Validate(xmlFile);
             XMLObj r = new XMLObj();
             r.read(path);
-            r.writeToXML(cells, "out.xml");
+            r.writeToXML(cells, txtRules.getText(), "out.xml");
         }catch(SAXException sax){
             System.out.println("DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString());
         }
