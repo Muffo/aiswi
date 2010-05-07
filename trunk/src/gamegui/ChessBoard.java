@@ -267,7 +267,7 @@ public class ChessBoard extends javax.swing.JFrame {
         String lastMove = trace.get(trace.size()-1);
         trace.remove(trace.size()-1);
         refreshTrace();
-        System.out.println(lastMove);
+        //System.out.println(lastMove);
         int x = Integer.parseInt(""+lastMove.charAt(XSTRPOS));
         int y = Integer.parseInt(""+lastMove.charAt(YSTRPOS));
         cells[x][y].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -340,7 +340,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     public void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
-        System.out.println(""+pos_x + pos_y + color + figure);
+       // System.out.println(""+pos_x + pos_y + color + figure);
         cells[pos_x][pos_y].setFigure(figure.toLowerCase());
         cells[pos_x][pos_y].setColor(color.toLowerCase());
     }

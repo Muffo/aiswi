@@ -32,7 +32,7 @@ public class XMLObj {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
-            System.out.println("Root element " + doc.getDocumentElement().getNodeName());
+            //System.out.println("Root element " + doc.getDocumentElement().getNodeName());
             NodeList chessboardLst = doc.getElementsByTagName("chessboard");
             for (int i = 0; i < chessboardLst.getLength(); i++){
 
@@ -53,7 +53,7 @@ public class XMLObj {
                         NodeList xNmElmntLst = fstElmnt.getElementsByTagName("x");
                         Element xNmElmnt = (Element) xNmElmntLst.item(0);
                         NodeList xNm = xNmElmnt.getChildNodes();
-                        System.out.println("x : " + ((Node) xNm.item(0)).getNodeValue());
+                        //System.out.println("x : " + ((Node) xNm.item(0)).getNodeValue());
                         int x = Integer.parseInt("" + ((Node) xNm.item(0)).getNodeValue());
 
                         /**
@@ -63,7 +63,7 @@ public class XMLObj {
                         NodeList yNmElmntLst = fstElmnt.getElementsByTagName("y");
                         Element yNmElmnt = (Element) yNmElmntLst.item(0);
                         NodeList yNm = yNmElmnt.getChildNodes();
-                        System.out.println("y : " + ((Node) yNm.item(0)).getNodeValue());
+                        //System.out.println("y : " + ((Node) yNm.item(0)).getNodeValue());
                         int y = Integer.parseInt("" + ((Node) yNm.item(0)).getNodeValue());
 
                         /**
@@ -73,7 +73,7 @@ public class XMLObj {
                         NodeList colorNmElmntLst = fstElmnt.getElementsByTagName("color");
                         Element colorNmElmnt = (Element) colorNmElmntLst.item(0);
                         NodeList colorNm = colorNmElmnt.getChildNodes();
-                        System.out.println("color : " + ((Node) colorNm.item(0)).getNodeValue());
+                        //System.out.println("color : " + ((Node) colorNm.item(0)).getNodeValue());
                         String color = ("" + ((Node) colorNm.item(0)).getNodeValue());
 
                         /**
@@ -83,7 +83,7 @@ public class XMLObj {
                         NodeList figureNmElmntLst = fstElmnt.getElementsByTagName("figure");
                         Element figureNmElmnt = (Element) figureNmElmntLst.item(0);
                         NodeList figureNm = figureNmElmnt.getChildNodes();
-                        System.out.println("figure : " + ((Node) figureNm.item(0)).getNodeValue());
+                        //System.out.println("figure : " + ((Node) figureNm.item(0)).getNodeValue());
                         String figure = ("" + ((Node) figureNm.item(0)).getNodeValue());
                         ChessBoard.getInstance().updateBoardFromXml(x, y, color, figure);
 
@@ -117,7 +117,7 @@ public class XMLObj {
                     for (int i = 0; i < ruleNmElmntLst.getLength(); i++){
                         Element ruleNmElmnt = (Element) ruleNmElmntLst.item(i);
                         NodeList ruleNm = ruleNmElmnt.getChildNodes();
-                        System.out.println("rule : " + ((Node) ruleNm.item(0)).getNodeValue());
+                       // System.out.println("rule : " + ((Node) ruleNm.item(0)).getNodeValue());
                         String rule =  ("" + ((Node) ruleNm.item(0)).getNodeValue());
                         rule = rule + "\n";
                         ChessBoard.getInstance().updateRulesTextArea(rule);
