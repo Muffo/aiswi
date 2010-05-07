@@ -24,8 +24,6 @@ import org.xml.sax.SAXException;
 public class ChessBoard extends javax.swing.JFrame {
 
     final static public int DIM = 8;
-    final static public int XSTRPOS = 9;
-    final static public int YSTRPOS = 11;
     final static private String xmlFile = "game.xml";
     private static ChessBoard instance = new ChessBoard();
 
