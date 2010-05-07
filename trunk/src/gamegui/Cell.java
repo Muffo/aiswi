@@ -5,6 +5,7 @@
 
 package gamegui;
 
+import java.awt.Cursor;
 import java.io.File;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -23,6 +24,9 @@ public class Cell extends javax.swing.JPanel{
 
     private static Dictionary<String, Object> catalogCF = new Hashtable<String, Object>();
 
+     public Cell(int x, int y) {
+         this(x, y, "default", "empty");
+     }
 
     public Cell(int x, int y, String color, String figure) {
         super();
@@ -31,6 +35,7 @@ public class Cell extends javax.swing.JPanel{
         
         this.setSize(DIM_IMG, DIM_IMG);
         this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         lblIcon = new javax.swing.JLabel();
 
@@ -59,28 +64,37 @@ public class Cell extends javax.swing.JPanel{
     }
 
 
-    public String getPrologMove() {
-        return "sono(" + x + "," + y + "," + color + "," + figure + ")";
-    }
+    
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {
-        this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        ChessBoard.getInstance().appendMove(getPrologMove());
+        setHighlight(true);
+        ChessBoard.getInstance().addMove(x, y, color, figure);
        
     }
 
     public void setFigure(String figure) {
         this.figure = figure;
-        String figureFile = (String) Cell.catalogCF.get(figure);
-
-        //System.out.println(figureFile);
-        lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
+        if (figure.equals("empty")) {
+            lblIcon.setIcon(null);
+        }
+        else {
+            String figureFile = (String) Cell.catalogCF.get(figure);
+            lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
+        }
 
     }
 
     public void setColor(String color) {
         this.color = color;
         setBackground((java.awt.Color)Cell.catalogCF.get(color));
+    }
+
+    public void setHighlight(boolean highlight) {
+        if (highlight)
+            setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0), 3));
+        else
+            setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0,  0, 0), 1));
+        
     }
 
     public String getColor(){
@@ -121,6 +135,7 @@ public class Cell extends javax.swing.JPanel{
             catalogCF.put("martello", projectPath + "/img/martello.png");
             catalogCF.put("hammer", projectPath + "/img/martello.png");
             catalogCF.put("arrow", projectPath + "/img/arrow.png");
+            catalogCF.put("default", new java.awt.Color(255, 255, 255));
             catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
             catalogCF.put("giallo", new java.awt.Color(255,255,0));
             catalogCF.put("blue", new java.awt.Color(0,0,255));

@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * ChessBoard.java
  *
  * Created on 6-mag-2010, 15.46.34
@@ -11,15 +6,19 @@
 
 package gamegui;
 
+import java.awt.Cursor;
+import java.io.File;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
 import javasciff.SciffBridge;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import org.xml.sax.SAXException;
 
 /**
  *
- * @author muffo
+ * @author Baioni, Grandi,
  */
 public class ChessBoard extends javax.swing.JFrame {
 
@@ -30,18 +29,15 @@ public class ChessBoard extends javax.swing.JFrame {
     private static ChessBoard instance = new ChessBoard();
 
     Cell[][] cells = new Cell[DIM][DIM];
-    List<String> trace = new Vector<String>();
+    List<Move> trace = new Vector<Move>();
+    SciffBridge sciff = new SciffBridge("sciff/");
     private int moveCounter = 0;
    
-
-
-
 
     /** Creates new form ChessBoard */
     public ChessBoard() {
         initComponents();
-        initBoard();
-        
+        initBoard();   
     }
 
     /** This method is called from within the constructor to
@@ -226,71 +222,14 @@ public class ChessBoard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvalActionPerformed
-        SProject project = new SProject("nuovo2", "project_template");
 
-
-        project.kb = txtRules.getText();
-
-        // Aggiunge la traccia degli eventi
-        project.trace = trace;
-
-
-        // Crea un nuovo SciffBridge per poter verificare il progetto
-        SciffBridge sciff = new SciffBridge("sciff/");
-
-        // Lo verifica e stampa l'esito su terminale
-        txtRules.append("Result: " + sciff.runProject(project));
-    }//GEN-LAST:event_btnEvalActionPerformed
-
-    private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
-        // TODO add your handling code here:
-        String moves = txtTrace.getText();
-        String[] moveArray = moves.split("\n");
-        for (int i = 0; i<moveArray.length; i++){
-            int x = Integer.parseInt(""+moveArray[i].charAt(XSTRPOS));
-            int y = Integer.parseInt(""+moveArray[i].charAt(YSTRPOS));
-            cells[x][y].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-            //System.out.println("x:" + x + "\ny: "+ y);
-        }
-        trace.removeAll(trace);
-        moveCounter = 0;
-        refreshTrace();
-    }//GEN-LAST:event_btnClearMouseClicked
-
-    private void btnUndoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUndoMouseClicked
-        // TODO add your handling code here:
-        if (trace.isEmpty()){
-            return;
-        }
-        moveCounter--;
-        String lastMove = trace.get(trace.size()-1);
-        trace.remove(trace.size()-1);
-        refreshTrace();
-        //System.out.println(lastMove);
-        int x = Integer.parseInt(""+lastMove.charAt(XSTRPOS));
-        int y = Integer.parseInt(""+lastMove.charAt(YSTRPOS));
-        cells[x][y].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-    }//GEN-LAST:event_btnUndoMouseClicked
-
-    private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
-        loadFromXML(xmlFile);
-    }//GEN-LAST:event_jMenuItem1MousePressed
-
-
-    public static ChessBoard getInstance(){
-        return instance;
-    }
-
-    
     private void initBoard() {
 
         Cell.initDictionary();
 
         for(int i=0; i<DIM; i++) {
             for(int j=0; j<DIM; j++) {
-                cells[i][j] = new Cell(i, j, "blue", "martello");
+                cells[i][j] = new Cell(i, j);
                 cells[i][j].setLocation(i * CellGraphic.DIM_IMG, j* CellGraphic.DIM_IMG);
                 cells[i][j].setVisible(true);
                 Board.add(cells[i][j]);
@@ -298,9 +237,11 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
-    
-    
-    /**
+    public static ChessBoard getInstance(){
+        return instance;
+    }
+
+     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -314,16 +255,76 @@ public class ChessBoard extends javax.swing.JFrame {
         });
     }
 
-    public void appendMove(String move) {
-        trace.add("hap(" + move + "," + moveCounter + ").\n");
+    private void btnEvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvalActionPerformed
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        try {
+        SProject project = new SProject("gameProj", "project_template");
+        project.kb = txtRules.getText();
+
+        project.trace = trace;
+        
+        JOptionPane.showMessageDialog(null, "Result: " + sciff.runProject(project));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Errore: " + e.getMessage());
+        }
+        finally {
+            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
+    }//GEN-LAST:event_btnEvalActionPerformed
+
+    private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
+        for (Move move : trace){
+            int x = move.x;
+            int y = move.y;
+            cells[x][y].setHighlight(false);
+            //System.out.println("x:" + x + "\ny: "+ y);
+        }
+        trace.removeAll(trace);
+        moveCounter = 0;
+        refreshTrace();
+    }//GEN-LAST:event_btnClearMouseClicked
+
+    private void btnUndoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUndoMouseClicked
+        if (trace.isEmpty()){
+            return;
+        }
+        moveCounter--;
+        Move lastMove = trace.get(trace.size()-1);
+        trace.remove(trace.size()-1);
+        refreshTrace();
+        //System.out.println(lastMove);
+        int x = lastMove.x;
+        int y = lastMove.y;
+        cells[x][y].setHighlight(false);
+
+    }//GEN-LAST:event_btnUndoMouseClicked
+
+    private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
+        String wd = System.getProperty("user.dir");
+        JFileChooser fc = new JFileChooser(wd);
+        int rc = fc.showDialog(null, "Select Xml Game File");
+        if (rc == JFileChooser.APPROVE_OPTION)
+        {
+            File file = fc.getSelectedFile();
+            String fileName = file.getAbsolutePath();
+            loadFromXML(fileName);
+        }
+        
+    }//GEN-LAST:event_jMenuItem1MousePressed
+
+
+
+    public void addMove(int x, int y, String color, String figure) {
+        trace.add(new Move(x, y, color, figure, moveCounter));
         moveCounter++;
         refreshTrace();
     }
 
     private void refreshTrace() {
         txtTrace.setText("");
-        for (String moveStr : trace) {
-            txtTrace.append(moveStr);
+        for (Move move : trace) {
+            txtTrace.append(move.toString());
         }
     }
 
@@ -340,7 +341,6 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     public void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
-       // System.out.println(""+pos_x + pos_y + color + figure);
         cells[pos_x][pos_y].setFigure(figure.toLowerCase());
         cells[pos_x][pos_y].setColor(color.toLowerCase());
     }
