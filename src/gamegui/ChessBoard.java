@@ -12,8 +12,12 @@
 package gamegui;
 
 import java.awt.Dialog;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javasciff.SProject;
 import javasciff.SciffBridge;
 import org.xml.sax.SAXException;
@@ -247,6 +251,9 @@ public class ChessBoard extends javax.swing.JFrame {
 
     private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
         //@TODO dialog
+        
+        System.out.println("BAIOOOOO");
+        loadFromXML(xmlFile);
 
     }//GEN-LAST:event_jMenuItem1MouseClicked
 
@@ -330,12 +337,12 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
-    private void loadFromXML(String path){
+    private void loadFromXML(String fileName){
         XMLValidator validator = new XMLValidator();
         try{
             validator.Validate(xmlFile);
             XMLObj r = new XMLObj();
-            r.read(path);
+            r.read(fileName);
             r.writeToXML(cells, txtRules.getText(), "out.xml");
         }catch(SAXException sax){
             System.out.println("DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString());
