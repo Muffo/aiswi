@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
 import javasciff.SciffBridge;
+import org.xml.sax.SAXException;
 import sun.security.action.OpenFileInputStreamAction;
 
 /**
@@ -25,7 +26,7 @@ import sun.security.action.OpenFileInputStreamAction;
 public class ChessBoard extends javax.swing.JFrame {
 
     final static public int DIM = 8;
-    final static private String xmlFile = "xml.xml";
+    final static private String xmlFile = "game.xml";
     private static ChessBoard instance = new ChessBoard();
 
     Cell[][] cells = new Cell[DIM][DIM];
@@ -274,15 +275,26 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     private void loadFromXML(String path){
-        XMLObj r = new XMLObj();
-        r.read(path);
-        r.writeToXML(cells, "out.xml");
+        XMLValidator validator = new XMLValidator();
+        try{
+            validator.Validate(xmlFile);
+            XMLObj r = new XMLObj();
+            r.read(path);
+            r.writeToXML(cells, "out.xml");
+        }catch(SAXException sax){
+            System.out.println("DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString());
+        }
     }
 
     public void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
         System.out.println(""+pos_x + pos_y + color + figure);
         cells[pos_x][pos_y].setFigure(figure.toLowerCase());
         cells[pos_x][pos_y].setColor(color.toLowerCase());
+    }
+
+    public void updateRulesTextArea(String rules){
+        txtRules.append(rules);
+
     }
 
 
