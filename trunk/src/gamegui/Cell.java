@@ -155,9 +155,11 @@ public class Cell extends javax.swing.JPanel{
             catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
             catalogCF.put("giallo", new java.awt.Color(255,255,0));
             catalogCF.put("blue", new java.awt.Color(0,0,255));
-            catalogCF.put("blue", new java.awt.Color(0,0,255));
+            catalogCF.put("blu", new java.awt.Color(0,0,255));
             catalogCF.put("red", new java.awt.Color(255,0,0));
             catalogCF.put("rosso", new java.awt.Color(255,0,0));
+            catalogCF.put("black", new java.awt.Color(0,0,0));
+            catalogCF.put("nero", new java.awt.Color(0,0,0));
 
         }catch(Exception e){
             e.printStackTrace();
