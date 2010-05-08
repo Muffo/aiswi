@@ -1,6 +1,6 @@
 package javasciff;
 
-import gamegui.Move;
+import lib.Move;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
