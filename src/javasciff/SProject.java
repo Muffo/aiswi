@@ -1,5 +1,6 @@
 package javasciff;
 
+import gamegui.Move;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -49,7 +50,7 @@ public class SProject {
     /**
      * Lista contente la traccia, cioè le mosse effettuate
      */
-    public List<String> trace;
+    public List<Move> trace;
 
     /**
      * Base di conoscenz prolog
@@ -80,7 +81,7 @@ public class SProject {
      */
     public SProject(String projectName, String projectTemplate) {
         this.projectName = projectName;
-        trace = new Vector<String>();
+        trace = new Vector<Move>();
         kb = "";
         rules = readFileAsString(projectTemplate + "/" + rulesFile);
         project = readFileAsString(projectTemplate + "/" + projectFile);
@@ -113,9 +114,20 @@ public class SProject {
      */
     private void generateTraceFile() {
 
-        trace.add(0, "hap(start,0).\n");
+        try {
+            FileWriter fstream = new FileWriter(projectName + "/" + traceFile);
+            BufferedWriter out = new BufferedWriter(fstream);
 
-        writeListToFile(trace, projectName + "/" + traceFile);
+            out.write("hap(start,0).\n");
+            for (Object el : trace) {
+                out.write(el.toString() + "\n");
+                out.write("\n");
+            }
+
+            out.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
     
@@ -219,13 +231,13 @@ public class SProject {
      * @param list
      * @param fileName
      */
-    private void writeListToFile(List<String> list, String fileName) {
+    private void writeListToFile(List list, String fileName) {
         try {
             FileWriter fstream = new FileWriter(fileName);
             BufferedWriter out = new BufferedWriter(fstream);
 
-            for (String el : list) {
-                out.write(el + "\n");
+            for (Object el : list) {
+                out.write(el.toString() + "\n");
                 out.write("\n");
             }
 

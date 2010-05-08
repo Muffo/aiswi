@@ -20,12 +20,6 @@ public class Move {
         this.time = time;
     }
 
-    public int getX(){
-        return this.x;
-    }
-    public int getY(){
-        return this.y;
-    }
 
     public String toString() {
         return "hap(sono(" + x + "," + y + "," + color + "," + figure + ")," + time + ").\n";
