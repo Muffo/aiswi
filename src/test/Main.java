@@ -1,6 +1,6 @@
 package test;
 
-import gamegui.Move;
+import lib.Move;
 import javasciff.Project;
 import javasciff.SProject;
 import javasciff.SciffBridge;
