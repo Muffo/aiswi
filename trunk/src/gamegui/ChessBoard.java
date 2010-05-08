@@ -6,24 +6,18 @@
 
 package gamegui;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lib.*;
 import java.awt.Cursor;
-import java.awt.Toolkit;
-import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
 import javasciff.SciffBridge;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import lib.Move;
 import org.xml.sax.SAXException;
 
 /**
@@ -61,7 +55,8 @@ public class ChessBoard extends javax.swing.JFrame {
             HelpIconPath = projectPath +"/img/ass.png";
             ExitIconPath = projectPath + "/img/exit.png";
         } catch (IOException ex) {
-            Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -510,7 +505,7 @@ public class ChessBoard extends javax.swing.JFrame {
         }catch(SAXException sax){
             JOptionPane.showMessageDialog(new JFrame(), "DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString(), "Error", JOptionPane.WARNING_MESSAGE, new ImageIcon(WarningIconPath));
         }catch(IOException io){
-
+            io.printStackTrace();
         }
 
     }
