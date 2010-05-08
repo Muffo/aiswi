@@ -56,7 +56,7 @@ public class ChessBoard extends javax.swing.JFrame {
         try {
             projectPath = dir.getCanonicalPath();
             okIconPath = projectPath +"/img/ok.png";
-            ErrorIconPath = projectPath +"/img/Error.png";
+            ErrorIconPath = projectPath +"/img/error.png";
             WarningIconPath = projectPath +"/img/warning.png";
             HelpIconPath = projectPath +"/img/ass.png";
             ExitIconPath = projectPath + "/img/exit.png";
