@@ -8,6 +8,7 @@ package gamegui;
 
 import java.awt.Cursor;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
@@ -23,8 +24,6 @@ import org.xml.sax.SAXException;
 public class ChessBoard extends javax.swing.JFrame {
 
     final static public int DIM = 8;
-    final static public int XSTRPOS = 9;
-    final static public int YSTRPOS = 11;
     final static private String xmlFile = "game.xml";
     private static ChessBoard instance = new ChessBoard();
 
@@ -250,7 +249,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
             public void run() {
                 ChessBoard.instance.setVisible(true);
-                ChessBoard.instance.loadFromXML(xmlFile);
+                ChessBoard.instance.loadFromXML(xmlFile, false);
 
              }
         });
@@ -287,17 +286,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearMouseClicked
 
     private void btnUndoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUndoMouseClicked
-        if (trace.isEmpty()){
-            return;
-        }
-        moveCounter--;
-        Move lastMove = trace.get(trace.size()-1);
-        trace.remove(trace.size()-1);
-        refreshTrace();
-        //System.out.println(lastMove);
-        int x = lastMove.x;
-        int y = lastMove.y;
-        cells[x][y].setHighlight(false);
+        undoMove();
 
     }//GEN-LAST:event_btnUndoMouseClicked
 
@@ -309,12 +298,14 @@ public class ChessBoard extends javax.swing.JFrame {
         {
             File file = fc.getSelectedFile();
             String fileName = file.getAbsolutePath();
-            loadFromXML(fileName);
+            loadFromXML(fileName, true);
         }
         
     }//GEN-LAST:event_jMenuItem1MousePressed
 
-
+    public List<Move> getTrace(){
+        return trace;
+    }
 
     public void addMove(int x, int y, String color, String figure) {
         trace.add(new Move(x, y, color, figure, moveCounter));
@@ -329,16 +320,28 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
-    private void loadFromXML(String fileName){
+    private void loadFromXML(String fileName, boolean isFullPath){
         XMLValidator validator = new XMLValidator();
         try{
-            validator.Validate(xmlFile);
+            String fileNameComplete;
+            if (isFullPath==false){
+                //finding local path
+                File dir = new File (".");
+                String projectPath = dir.getCanonicalPath();
+                fileNameComplete = projectPath +"/src/xml/"+fileName;
+            }else
+                fileNameComplete = fileName;
+            System.out.println(fileNameComplete);
+            validator.Validate(fileNameComplete);
             XMLObj r = new XMLObj();
-            r.read(fileName);
+            r.read(fileNameComplete);
             r.writeToXML(cells, txtRules.getText(), "out.xml");
         }catch(SAXException sax){
             System.out.println("DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString());
+        }catch(IOException io){
+
         }
+
     }
 
     public void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
@@ -347,8 +350,22 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     public void updateRulesTextArea(String rules){
-        txtRules.append(rules);
+        txtRules.setText(rules);
 
+    }
+
+    public void undoMove() {
+        if (trace.isEmpty()){
+            return;
+        }
+        moveCounter--;
+        Move lastMove = trace.get(trace.size()-1);
+        trace.remove(trace.size()-1);
+        refreshTrace();
+        //System.out.println(lastMove);
+        int x = lastMove.x;
+        int y = lastMove.y;
+        cells[x][y].setHighlight(false);
     }
 
 

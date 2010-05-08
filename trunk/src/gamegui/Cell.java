@@ -67,8 +67,24 @@ public class Cell extends javax.swing.JPanel{
     
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {
-        setHighlight(true);
-        ChessBoard.getInstance().addMove(x, y, color, figure);
+        Move m = null;
+        // inizializziamo in modo che non matchino
+        int xLastMove = ChessBoard.DIM +1;
+        int yLastMove = ChessBoard.DIM +1;
+
+        if (!ChessBoard.getInstance().getTrace().isEmpty()){
+            Move lastMove = ChessBoard.getInstance().getTrace().get(ChessBoard.getInstance().getTrace().size()-1);
+            xLastMove = lastMove.x;
+            yLastMove = lastMove.y;
+        }
+        if (xLastMove==getPosX() && yLastMove==getPosY()){
+            //l'utente ha cliccato di nuovo sull'ultima cella quindi la deselezioniamo
+            ChessBoard.getInstance().undoMove();
+        }else{
+            setHighlight(true);
+            ChessBoard.getInstance().addMove(x, y, color, figure);
+        }
+
        
     }
 
