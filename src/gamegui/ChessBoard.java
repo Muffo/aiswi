@@ -34,6 +34,13 @@ public class ChessBoard extends javax.swing.JFrame {
 
     final static public int DIM = 8;
     final static private String xmlFile = "game.xml";
+    final static public File dir = new File(".");;
+    public static String projectPath;
+    public static String okIconPath;
+    public static String ErrorIconPath;
+    public static String WarningIconPath;
+    public static String HelpIconPath;
+    public static String ExitIconPath;
     private static ChessBoard instance = new ChessBoard();
 
     Cell[][] cells = new Cell[DIM][DIM];
@@ -46,6 +53,16 @@ public class ChessBoard extends javax.swing.JFrame {
     public ChessBoard() {
         initComponents();
         initBoard();
+        try {
+            projectPath = dir.getCanonicalPath();
+            okIconPath = projectPath +"/img/ok.png";
+            ErrorIconPath = projectPath +"/img/Error.png";
+            WarningIconPath = projectPath +"/img/warning.png";
+            HelpIconPath = projectPath +"/img/ass.png";
+            ExitIconPath = projectPath + "/img/exit.png";
+        } catch (IOException ex) {
+            Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** This method is called from within the constructor to
@@ -383,8 +400,6 @@ public class ChessBoard extends javax.swing.JFrame {
 
     private void btnEvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvalActionPerformed
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        File dir = new File (".");
-        String projectPath = "";
 
         try {
            
@@ -392,9 +407,6 @@ public class ChessBoard extends javax.swing.JFrame {
             project.kb = txtRules.getText();
             project.trace = trace;
 
-            projectPath = dir.getCanonicalPath();
-            String okIconPath = projectPath +"/img/ok.png";
-            String ErrorIconPath = projectPath +"/img/Error.png";
             String iconPath;
             String txtResult;
             Boolean bool = sciff.runProject(project);
@@ -409,13 +421,7 @@ public class ChessBoard extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(new JFrame(), "Result: " + txtResult, "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(iconPath));
         } catch (Exception e) {
-            try {
-                projectPath = dir.getCanonicalPath();
-            } catch (IOException ex) {
-                Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            String WarningIconPath = projectPath +"/img/warning.png";
-            JOptionPane.showMessageDialog(null, "Errore: " + e.getMessage(), "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: " + e.getMessage(), "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
         }
         finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -442,7 +448,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private void jMenuItem2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MousePressed
         // TODO add your handling code here:
         String message = "Uscire dal programma?";
-        int answer = JOptionPane.showConfirmDialog(this, message,"Uscita",JOptionPane.YES_NO_OPTION);
+        int answer = JOptionPane.showConfirmDialog(this, message,"Uscita",JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION, new ImageIcon(ExitIconPath));
         if (answer == JOptionPane.YES_OPTION) {
         System.exit(0);
         }
@@ -465,7 +471,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private void jMenu2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MousePressed
        // TODO add your handling code here:
         String message = "È troppo facile...\nnon ti poso aiutare ";
-        JOptionPane.showMessageDialog(null, message,"Help",JOptionPane.INFORMATION_MESSAGE, null);
+        JOptionPane.showMessageDialog(null, message,"Help",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(HelpIconPath));
     }//GEN-LAST:event_jMenu2MousePressed
 
     public List<Move> getTrace(){
@@ -502,7 +508,7 @@ public class ChessBoard extends javax.swing.JFrame {
             r.read(fileNameComplete);
             r.writeToXML(cells, txtRules.getText(), "out.xml");
         }catch(SAXException sax){
-            JOptionPane.showMessageDialog(null, "DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString(), "Error", JOptionPane.WARNING_MESSAGE, null);
+            JOptionPane.showMessageDialog(new JFrame(), "DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString(), "Error", JOptionPane.WARNING_MESSAGE, new ImageIcon(WarningIconPath));
         }catch(IOException io){
 
         }
