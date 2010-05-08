@@ -6,15 +6,21 @@
 
 package gamegui;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lib.*;
 import java.awt.Cursor;
+import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
 import javasciff.SciffBridge;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import lib.Move;
 import org.xml.sax.SAXException;
@@ -67,7 +73,6 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sciff Game");
@@ -190,7 +195,6 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu1.setBackground(new java.awt.Color(255, 255, 0));
         jMenu1.setText("File");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
         jMenuItem1.setText("Load XML...");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -199,15 +203,15 @@ public class ChessBoard extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_MASK));
         jMenuItem2.setText("Close");
+        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuItem2MousePressed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setBackground(new java.awt.Color(255, 255, 0));
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -262,15 +266,14 @@ public class ChessBoard extends javax.swing.JFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         try {
-        SProject project = new SProject("gameProj", "project_template");
-        project.kb = txtRules.getText();
+           
+            SProject project = new SProject("gameProj", "project_template");
+            project.kb = txtRules.getText();
 
-        project.trace = trace;
-        
-        JOptionPane.showMessageDialog(null, "Result: " + sciff.runProject(project));
+            project.trace = trace;
+            JOptionPane.showMessageDialog(new JFrame(), "Result: " + sciff.runProject(project), "Result", JOptionPane.INFORMATION_MESSAGE, null);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Errore: " + e.getMessage());
-
+            JOptionPane.showMessageDialog(null, "Errore: " + e.getMessage(), "Result", JOptionPane.INFORMATION_MESSAGE, null);
         }
         finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -294,17 +297,27 @@ public class ChessBoard extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnUndoMouseClicked
 
+    private void jMenuItem2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MousePressed
+        // TODO add your handling code here:
+        String message = "Uscire dal programma?";
+        int answer = JOptionPane.showConfirmDialog(this, message,"Uscita",JOptionPane.YES_NO_OPTION);
+        if (answer == JOptionPane.YES_OPTION) {
+        System.exit(0);
+        }
+        else if (answer == JOptionPane.NO_OPTION) {
+        return;
+        }
+    }//GEN-LAST:event_jMenuItem2MousePressed
+
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
         String wd = System.getProperty("user.dir");
         JFileChooser fc = new JFileChooser(wd);
         int rc = fc.showDialog(null, "Select Xml Game File");
-        if (rc == JFileChooser.APPROVE_OPTION)
-        {
+        if (rc == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             String fileName = file.getAbsolutePath();
             loadFromXML(fileName, true);
         }
-      
     }//GEN-LAST:event_jMenuItem1MousePressed
 
     public List<Move> getTrace(){
@@ -341,7 +354,7 @@ public class ChessBoard extends javax.swing.JFrame {
             r.read(fileNameComplete);
             r.writeToXML(cells, txtRules.getText(), "out.xml");
         }catch(SAXException sax){
-            System.out.println("DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString());
+            JOptionPane.showMessageDialog(null, "DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString(), "Error", JOptionPane.WARNING_MESSAGE, null);
         }catch(IOException io){
 
         }
@@ -380,7 +393,6 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JButton btnEval;
     private javax.swing.JButton btnUndo;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
