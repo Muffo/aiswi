@@ -6,6 +6,7 @@
 
 package gamegui;
 
+import lib.*;
 import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javasciff.SProject;
 import javasciff.SciffBridge;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import lib.Move;
 import org.xml.sax.SAXException;
 
 /**
@@ -36,7 +38,8 @@ public class ChessBoard extends javax.swing.JFrame {
     /** Creates new form ChessBoard */
     public ChessBoard() {
         initComponents();
-        initBoard();   
+        initBoard();
+        
     }
 
     /** This method is called from within the constructor to
@@ -267,6 +270,7 @@ public class ChessBoard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Result: " + sciff.runProject(project));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Errore: " + e.getMessage());
+
         }
         finally {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -275,8 +279,8 @@ public class ChessBoard extends javax.swing.JFrame {
 
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
         for (Move move : trace){
-            int x = move.x;
-            int y = move.y;
+            int x = move.getX();
+            int y = move.getY();
             cells[x][y].setHighlight(false);
             //System.out.println("x:" + x + "\ny: "+ y);
         }
@@ -328,7 +332,7 @@ public class ChessBoard extends javax.swing.JFrame {
                 //finding local path
                 File dir = new File (".");
                 String projectPath = dir.getCanonicalPath();
-                fileNameComplete = projectPath +"/src/xml/"+fileName;
+                fileNameComplete = projectPath +"/xml/"+fileName;
             }else
                 fileNameComplete = fileName;
             System.out.println(fileNameComplete);
@@ -363,8 +367,8 @@ public class ChessBoard extends javax.swing.JFrame {
         trace.remove(trace.size()-1);
         refreshTrace();
         //System.out.println(lastMove);
-        int x = lastMove.x;
-        int y = lastMove.y;
+        int x = lastMove.getX();
+        int y = lastMove.getY();
         cells[x][y].setHighlight(false);
     }
 
