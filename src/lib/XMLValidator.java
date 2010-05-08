@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package gamegui;
+package lib;
 
 /**
  *
@@ -11,8 +11,6 @@ package gamegui;
  */
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -33,7 +31,8 @@ public class XMLValidator {
         try {
             projectPath = dir.getCanonicalPath();
         } catch (IOException ex) {
-            Logger.getLogger(XMLValidator.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(XMLValidator.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     
       // define the type of schema - we use W3C:
@@ -50,6 +49,7 @@ public class XMLValidator {
             validator.validate(new StreamSource(fileNameToValidate));
         } catch (IOException ex) {
            // Logger.getLogger(XMLValidator.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 
     

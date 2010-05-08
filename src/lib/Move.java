@@ -28,6 +28,7 @@ public class Move {
         return this.y;
     }
 
+    @Override
     public String toString() {
         return "hap(sono(" + x + "," + y + "," + color + "," + figure + ")," + time + ").\n";
     }
