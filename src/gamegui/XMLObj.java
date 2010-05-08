@@ -25,9 +25,8 @@ public class XMLObj {
         try {
 
             //finding local path
-            File dir = new File (".");
-            String projectPath = dir.getCanonicalPath();
-            File file = new File(projectPath +"/src/xml/"+fileName);
+            String rule = "";
+            File file = new File(fileName);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
@@ -118,11 +117,12 @@ public class XMLObj {
                         Element ruleNmElmnt = (Element) ruleNmElmntLst.item(i);
                         NodeList ruleNm = ruleNmElmnt.getChildNodes();
                        // System.out.println("rule : " + ((Node) ruleNm.item(0)).getNodeValue());
-                        String rule =  ("" + ((Node) ruleNm.item(0)).getNodeValue());
-                        rule = rule + "\n";
-                        ChessBoard.getInstance().updateRulesTextArea(rule);
-                    }
+                        rule +=  ("" + ((Node) ruleNm.item(0)).getNodeValue());
+                        rule += "\n";
+                        //ChessBoard.getInstance().updateRulesTextArea(rule);
 
+                    }
+                 ChessBoard.getInstance().updateRulesTextArea(rule);
                 }
            }
         }catch (Exception e) {
