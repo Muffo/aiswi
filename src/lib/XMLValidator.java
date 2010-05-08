@@ -43,7 +43,7 @@ public class XMLValidator {
       SchemaFactory factory = SchemaFactory.newInstance(schemaLang);
 
       // create schema by reading it from an XSD file:
-      Schema schema = factory.newSchema(new StreamSource(projectPath+"/src/xml/game.xsd"));
+      Schema schema = factory.newSchema(new StreamSource(projectPath+"/xml/game.xsd"));
       Validator validator = schema.newValidator();
         try {
             // at last perform validation:
