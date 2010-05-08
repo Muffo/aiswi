@@ -8,7 +8,6 @@ package gamegui;
 
 import java.awt.Cursor;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
@@ -24,6 +23,8 @@ import org.xml.sax.SAXException;
 public class ChessBoard extends javax.swing.JFrame {
 
     final static public int DIM = 8;
+    final static public int XSTRPOS = 9;
+    final static public int YSTRPOS = 11;
     final static private String xmlFile = "game.xml";
     private static ChessBoard instance = new ChessBoard();
 
@@ -67,6 +68,7 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sciff Game");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 102));
 
@@ -248,7 +250,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
             public void run() {
                 ChessBoard.instance.setVisible(true);
-                ChessBoard.instance.loadFromXML(xmlFile, false);
+                ChessBoard.instance.loadFromXML(xmlFile);
 
              }
         });
@@ -285,7 +287,17 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearMouseClicked
 
     private void btnUndoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUndoMouseClicked
-        undoMove();
+        if (trace.isEmpty()){
+            return;
+        }
+        moveCounter--;
+        Move lastMove = trace.get(trace.size()-1);
+        trace.remove(trace.size()-1);
+        refreshTrace();
+        //System.out.println(lastMove);
+        int x = lastMove.x;
+        int y = lastMove.y;
+        cells[x][y].setHighlight(false);
 
     }//GEN-LAST:event_btnUndoMouseClicked
 
@@ -297,7 +309,7 @@ public class ChessBoard extends javax.swing.JFrame {
         {
             File file = fc.getSelectedFile();
             String fileName = file.getAbsolutePath();
-            loadFromXML(fileName, true);
+            loadFromXML(fileName);
         }
         
     }//GEN-LAST:event_jMenuItem1MousePressed
@@ -317,30 +329,15 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
-    public List<Move> getTrace(){
-        return trace;
-    }
-
-    private void loadFromXML(String fileName, boolean isFullPath){
+    private void loadFromXML(String fileName){
         XMLValidator validator = new XMLValidator();
         try{
-            String fileNameComplete;
-            if (isFullPath==false){
-                //finding local path
-                File dir = new File (".");
-                String projectPath = dir.getCanonicalPath();
-                fileNameComplete = projectPath +"/src/xml/"+fileName;
-            }else
-                fileNameComplete = fileName;
-            System.out.println(fileNameComplete);
-            validator.Validate(fileNameComplete);
+            validator.Validate(xmlFile);
             XMLObj r = new XMLObj();
-            r.read(fileNameComplete);
+            r.read(fileName);
             r.writeToXML(cells, txtRules.getText(), "out.xml");
         }catch(SAXException sax){
             System.out.println("DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString());
-        }catch(IOException io){
-            
         }
     }
 
@@ -350,7 +347,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     public void updateRulesTextArea(String rules){
-        txtRules.setText(rules);
+        txtRules.append(rules);
 
     }
 
@@ -375,20 +372,6 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JTextArea txtRules;
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
-
-    public void undoMove() {
-        if (trace.isEmpty()){
-            return;
-        }
-        moveCounter--;
-        Move lastMove = trace.get(trace.size()-1);
-        trace.remove(trace.size()-1);
-        refreshTrace();
-        //System.out.println(lastMove);
-        int x = lastMove.x;
-        int y = lastMove.y;
-        cells[x][y].setHighlight(false);
-    }
 
 
 
