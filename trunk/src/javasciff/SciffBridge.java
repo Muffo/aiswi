@@ -58,9 +58,21 @@ public class SciffBridge {
      * @return esito dell'esecuzione
      */
     public boolean runProject(String projectName) {
+        boolean result;
+        
         setDefaultPath();
-        if(Query.hasSolution("project(" + projectName + ")"))
-            return Query.hasSolution("run");
+        if(Query.hasSolution("project(" + projectName + ")")) {
+            result = Query.hasSolution("run");
+            if (!result) {
+                Query.hasSolution("set_option(violation_causes_failure, no)");
+                Query.hasSolution("run");
+                Query.hasSolution("set_option(violation_causes_failure, yes)");
+            }
+
+            return result;
+        }
+
+
 
         return false;
     }

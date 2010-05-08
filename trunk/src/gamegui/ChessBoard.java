@@ -300,7 +300,7 @@ public class ChessBoard extends javax.swing.JFrame {
             String fileName = file.getAbsolutePath();
             loadFromXML(fileName, true);
         }
-        
+      
     }//GEN-LAST:event_jMenuItem1MousePressed
 
     public List<Move> getTrace(){
