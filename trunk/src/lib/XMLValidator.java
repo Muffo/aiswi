@@ -18,10 +18,6 @@ import javax.xml.validation.Validator;
 
 import org.xml.sax.SAXException;
 
-/**
- * A sample application which shows how to perform a
- * XML document validation.
- */
 
 public class XMLValidator {
   public void Validate(String fileNameToValidate) throws SAXException {
