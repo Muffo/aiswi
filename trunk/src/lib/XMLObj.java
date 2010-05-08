@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gamegui;
+package lib;
 
+import gamegui.Cell;
+import gamegui.ChessBoard;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -150,9 +152,9 @@ public class XMLObj {
         String projectPath = "";
         try {
             projectPath = dir.getCanonicalPath();
-            File file = new File(projectPath + "/src/xml/" + newFileName);
+            File file = new File(projectPath + "/xml/" + newFileName);
             file.createNewFile();
-            FileWriter fstream = new FileWriter(projectPath + "/src/xml/" + newFileName);
+            FileWriter fstream = new FileWriter(projectPath + "/xml/" + newFileName);
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(head);
             out.write(rootElement);

@@ -1,5 +1,5 @@
 
-package gamegui;
+package lib;
 
 /**
  * Rappresenta una mossa
@@ -7,7 +7,7 @@ package gamegui;
  * @author muffo
  */
 public class Move {
-    int x, y;
+    private int x, y;
     String color;
     String figure;
     int time;
@@ -20,6 +20,13 @@ public class Move {
         this.time = time;
     }
 
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
+    }
 
     public String toString() {
         return "hap(sono(" + x + "," + y + "," + color + "," + figure + ")," + time + ").\n";
