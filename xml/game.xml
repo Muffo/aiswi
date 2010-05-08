@@ -5,14 +5,14 @@
 		<cell>
 			<x>4</x>
 			<y>4</y>
-			<color>Blue</color>
+			<color>red</color>
 			<figure>arrow</figure>
 		</cell>
 		<cell>
 			<x>5</x>
 			<y>5</y>
-			<color>Yellow</color>
-			<figure>arrow</figure>
+			<color>black</color>
+			<figure>bin</figure>
 		</cell>
 		<cell>
 			<x>6</x>
