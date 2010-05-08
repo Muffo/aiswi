@@ -23,8 +23,8 @@ H(start,0)
 	/\EN(sono(_,_,_,_),T2) /\ T2 > T.
 
 H(start,0)
- /\ maxmove(MAXT)
- --->EN(sono(_,_,_,_),T2) /\ T2 > MAXT.
+/\ maxmove(MAXT)
+--->EN(sono(_,_,_,_),T2) /\ T2 > MAXT.
 
 H(start,0)
  /\ minmove(MINT)

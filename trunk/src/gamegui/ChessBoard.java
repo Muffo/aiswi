@@ -390,6 +390,7 @@ public class ChessBoard extends javax.swing.JFrame {
            
             SProject project = new SProject("gameProj", "project_template");
             project.kb = txtRules.getText();
+            project.trace = trace;
 
             projectPath = dir.getCanonicalPath();
             String okIconPath = projectPath +"/img/ok.png";
@@ -405,8 +406,7 @@ public class ChessBoard extends javax.swing.JFrame {
                 txtResult = "Percorso errato";
                 iconPath = ErrorIconPath;
             }
-
-            project.trace = trace;
+            
             JOptionPane.showMessageDialog(new JFrame(), "Result: " + txtResult, "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(iconPath));
         } catch (Exception e) {
             try {
