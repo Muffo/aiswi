@@ -60,6 +60,7 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -100,8 +101,17 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuProject = new javax.swing.JMenu();
+        jMenuItemRun = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItemUndoLast = new javax.swing.JMenuItem();
+        jMenuClearAll = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuHelp = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sciff Game");
@@ -237,14 +247,12 @@ public class ChessBoard extends javax.swing.JFrame {
                 .add(8, 8, 8)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(201, 201, 201)
-                        .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(127, 127, 127)
+                        .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(btnClear)
-                        .add(96, 96, 96)
-                        .add(btnUndo))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                             .add(jPanel1Layout.createSequentialGroup()
                                 .add(jLabel1)
@@ -271,7 +279,7 @@ public class ChessBoard extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .add(20, 20, 20)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel1)
                     .add(jLabel2)
@@ -282,20 +290,20 @@ public class ChessBoard extends javax.swing.JFrame {
                     .add(jLabel6)
                     .add(jLabel3))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .add(18, 18, 18)
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(btnEval)
-                            .add(btnClear)
-                            .add(btnUndo))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                            .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 44, Short.MAX_VALUE)
                         .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
                         .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -317,6 +325,8 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu1.setBackground(new java.awt.Color(255, 255, 0));
         jMenu1.setText("File");
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconOpen.png")); // NOI18N
         jMenuItem1.setText("Load XML...");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -324,7 +334,9 @@ public class ChessBoard extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
+        jMenu1.add(jSeparator3);
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_MASK));
         jMenuItem2.setText("Close");
         jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -335,13 +347,68 @@ public class ChessBoard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setBackground(new java.awt.Color(255, 255, 0));
-        jMenu2.setText("Help");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jMenu2MousePressed(evt);
+        jMenuProject.setBackground(new java.awt.Color(255, 255, 0));
+        jMenuProject.setText("Project");
+        jMenuProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvalActionPerformed(evt);
             }
         });
+
+        jMenuItemRun.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.META_MASK));
+        jMenuItemRun.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconRun.png")); // NOI18N
+        jMenuItemRun.setText("Run Project...");
+        jMenuItemRun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvalActionPerformed(evt);
+            }
+        });
+        jMenuProject.add(jMenuItemRun);
+        jMenuProject.add(jSeparator1);
+
+        jMenuItemUndoLast.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.META_MASK));
+        jMenuItemUndoLast.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconUndo.png")); // NOI18N
+        jMenuItemUndoLast.setText("Undo Last Move");
+        jMenuItemUndoLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUndoLastActionPerformed(evt);
+            }
+        });
+        jMenuProject.add(jMenuItemUndoLast);
+
+        jMenuClearAll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.META_MASK));
+        jMenuClearAll.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconDelete.gif")); // NOI18N
+        jMenuClearAll.setText("Clear All Moves");
+        jMenuClearAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuClearAllActionPerformed(evt);
+            }
+        });
+        jMenuProject.add(jMenuClearAll);
+
+        jMenuBar1.add(jMenuProject);
+
+        jMenu2.setBackground(new java.awt.Color(255, 255, 0));
+        jMenu2.setText("Help");
+
+        jMenuHelp.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconHelp.gif")); // NOI18N
+        jMenuHelp.setText("Help");
+        jMenuHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuHelpActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuHelp);
+        jMenu2.add(jSeparator2);
+
+        jMenuAbout.setText("About Sciff Game...");
+        jMenuAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuAboutActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuAbout);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -424,15 +491,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEvalActionPerformed
 
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
-        for (Move move : trace){
-            int x = move.getX();
-            int y = move.getY();
-            cells[x][y].setHighlight(false);
-            //System.out.println("x:" + x + "\ny: "+ y);
-        }
-        trace.removeAll(trace);
-        moveCounter = 0;
-        refreshTrace();
+        clearMoves();
     }//GEN-LAST:event_btnClearMouseClicked
 
     private void btnUndoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUndoMouseClicked
@@ -463,11 +522,23 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1MousePressed
 
-    private void jMenu2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MousePressed
-       // TODO add your handling code here:
+    private void jMenuItemUndoLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUndoLastActionPerformed
+        undoMove();
+    }//GEN-LAST:event_jMenuItemUndoLastActionPerformed
+
+    private void jMenuClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClearAllActionPerformed
+        clearMoves();
+    }//GEN-LAST:event_jMenuClearAllActionPerformed
+
+    private void jMenuHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuHelpActionPerformed
         String message = "È troppo facile...\nnon ti poso aiutare ";
         JOptionPane.showMessageDialog(null, message,"Help",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(HelpIconPath));
-    }//GEN-LAST:event_jMenu2MousePressed
+    }//GEN-LAST:event_jMenuHelpActionPerformed
+
+    private void jMenuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAboutActionPerformed
+        String message = "Realizzato da:\n Baioni Enrico\n Grandi Andrea\n Tallevi Simone";
+        JOptionPane.showMessageDialog(null, message,"About Sciff Game",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(HelpIconPath));
+    }//GEN-LAST:event_jMenuAboutActionPerformed
 
     public List<Move> getTrace(){
         return trace;
@@ -476,6 +547,32 @@ public class ChessBoard extends javax.swing.JFrame {
     public void addMove(int x, int y, String color, String figure) {
         trace.add(new Move(x, y, color, figure, moveCounter));
         moveCounter++;
+        refreshTrace();
+    }
+
+     public void undoMove() {
+        if (trace.isEmpty()){
+            return;
+        }
+        moveCounter--;
+        Move lastMove = trace.get(trace.size()-1);
+        trace.remove(trace.size()-1);
+        refreshTrace();
+        //System.out.println(lastMove);
+        int x = lastMove.getX();
+        int y = lastMove.getY();
+        cells[x][y].setHighlight(false);
+    }
+
+    private void clearMoves() {
+        for (Move move : trace) {
+            int x = move.getX();
+            int y = move.getY();
+            cells[x][y].setHighlight(false);
+            //System.out.println("x:" + x + "\ny: "+ y);
+        }
+        trace.removeAll(trace);
+        moveCounter = 0;
         refreshTrace();
     }
 
@@ -520,19 +617,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
     }
 
-    public void undoMove() {
-        if (trace.isEmpty()){
-            return;
-        }
-        moveCounter--;
-        Move lastMove = trace.get(trace.size()-1);
-        trace.remove(trace.size()-1);
-        refreshTrace();
-        //System.out.println(lastMove);
-        int x = lastMove.getX();
-        int y = lastMove.getY();
-        cells[x][y].setHighlight(false);
-    }
+   
 
 
 
@@ -559,14 +644,23 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuAbout;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuClearAll;
+    private javax.swing.JMenuItem jMenuHelp;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemRun;
+    private javax.swing.JMenuItem jMenuItemUndoLast;
+    private javax.swing.JMenu jMenuProject;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTextArea txtRules;
     private javax.swing.JTextArea txtTrace;
