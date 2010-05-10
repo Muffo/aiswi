@@ -120,7 +120,6 @@ public class SProject {
             out.write("hap(start,0).\n");
             for (Object el : trace) {
                 out.write(el.toString() + "\n");
-                out.write("\n");
             }
 
             out.close();

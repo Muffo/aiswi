@@ -46,7 +46,7 @@ public class Move {
 
     @Override
     public String toString() {
-        return "hap(sono(" + x + "," + y + "," + color + "," + figure + ")," + time + ").\n";
+        return "hap(sono(" + x + "," + y + "," + color + "," + figure + ")," + time + ").";
     }
 
 }

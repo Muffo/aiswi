@@ -3,26 +3,92 @@
 
 	<chessboard>
 		<cell>
+			<x>1</x>
+			<y>3</y>
+			<color>red</color>
+			<figure>money</figure>
+		</cell>
+        <cell>
+			<x>3</x>
+			<y>0</y>
+			<color>red</color>
+			<figure>paper</figure>
+		</cell>
+		<cell>
+			<x>3</x>
+			<y>6</y>
+			<color>yellow</color>
+			<figure>money</figure>
+		</cell>
+        <cell>
+			<x>6</x>
+			<y>2</y>
+			<color>yellow</color>
+			<figure>money</figure>
+		</cell>
+		<cell>
+			<x>7</x>
+			<y>6</y>
+			<color>yellow</color>
+			<figure>treasure</figure>
+		</cell>
+        <cell>
+			<x>2</x>
+			<y>2</y>
+			<color>red</color>
+			<figure>treasure</figure>
+		</cell>
+        <cell>
 			<x>4</x>
-			<y>4</y>
+			<y>5</y>
+			<color>yellow</color>
+			<figure>troll</figure>
+		</cell>
+        <cell>
+			<x>0</x>
+			<y>6</y>
+			<color>blue</color>
+			<figure>troll</figure>
+		</cell>
+        <cell>
+			<x>0</x>
+			<y>0</y>
+			<color>yellow</color>
+			<figure>troll</figure>
+		</cell>
+        <cell>
+			<x>5</x>
+			<y>7</y>
+			<color>blue</color>
+			<figure>arm</figure>
+		</cell>
+        <cell>
+			<x>6</x>
+			<y>0</y>
 			<color>red</color>
 			<figure>arrow</figure>
 		</cell>
-		<cell>
-			<x>5</x>
-			<y>5</y>
-			<color>black</color>
-			<figure>bin</figure>
+        <cell>
+			<x>4</x>
+			<y>1</y>
+			<color>yellow</color>
+			<figure>arm</figure>
 		</cell>
-		<cell>
-			<x>6</x>
-			<y>6</y>
-			<color>Red</color>
-			<figure>arrow</figure>
+        <cell>
+			<x>7</x>
+			<y>7</y>
+			<color>yellow</color>
+			<figure>home</figure>
 		</cell>
+        
 	</chessboard>
 	<rules>
-		<rule>inizio(1,1,_,_).</rule>
-		<rule>fine(7,7,_,_).</rule>
+		<rule>begin(1,1,_,_).</rule>
+		<rule>end(_,_,_,home).</rule>
+        <rule>maxmove(5).</rule>
+        <rule>ban([_,_,_,paper], [_,_,_,treasure], 2).</rule>
+        <rule>force([_,_,COL,money], [_,_COL,treasure], 3).</rule>
+        <rule>move_rules([_,_,_,paper], left, 1).</rule>
+        <rule>left(X1,Y1,X2,Y2) :- X2 #&lt; X1.</rule>
 	</rules>
 </game>
