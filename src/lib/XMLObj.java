@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package lib;
 
 import gamegui.Cell;
@@ -21,7 +18,7 @@ import org.w3c.dom.NodeList;
 
 /**
  *
- * @author baio
+ * @author Baioni, Grandi, Tallevi
  */
 public class XMLObj {
     
@@ -165,9 +162,12 @@ public class XMLObj {
         String projectPath = "";
         try {
             projectPath = dir.getCanonicalPath();
-            File file = new File(projectPath + "/xml/" + newFileName);
+            // passo direttamente il percorso assoluto
+            // File file = new File(projectPath + "/xml/" + newFileName);
+            File file = new File(newFileName);
             file.createNewFile();
-            FileWriter fstream = new FileWriter(projectPath + "/xml/" + newFileName);
+            // FileWriter fstream = new FileWriter(projectPath + "/xml/" + newFileName);
+            FileWriter fstream = new FileWriter(newFileName);
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(head);
             out.write(rootElement);
