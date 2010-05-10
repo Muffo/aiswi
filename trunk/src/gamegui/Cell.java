@@ -151,6 +151,9 @@ public class Cell extends javax.swing.JPanel{
             catalogCF.put("martello", projectPath + "/img/martello.png");
             catalogCF.put("hammer", projectPath + "/img/martello.png");
             catalogCF.put("arrow", projectPath + "/img/arrow.png");
+            catalogCF.put("money", projectPath + "/img/money.png");
+            catalogCF.put("treasure", projectPath + "/img/treasure.png");
+            catalogCF.put("home", projectPath + "/img/home.png");
             catalogCF.put("default", new java.awt.Color(255, 255, 255));
             catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
             catalogCF.put("giallo", new java.awt.Color(255,255,0));

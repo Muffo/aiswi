@@ -624,7 +624,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private void refreshTrace() {
         txtTrace.setText("");
         for (Move move : trace) {
-            txtTrace.append(move.toString());
+            txtTrace.append(move.toString() + "\n");
         }
     }
 
