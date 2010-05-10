@@ -513,7 +513,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuClearAllActionPerformed
 
     private void jMenuHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuHelpActionPerformed
-        String message = "È troppo facile...\nnon ti poso aiutare ";
+        String message = "È troppo facile...\nnon ti posso aiutare ";
         JOptionPane.showMessageDialog(null, message,"Help",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(HelpIconPath));
     }//GEN-LAST:event_jMenuHelpActionPerformed
 
