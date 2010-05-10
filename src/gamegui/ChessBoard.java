@@ -472,7 +472,12 @@ public class ChessBoard extends javax.swing.JFrame {
            
             SProject project = new SProject("gameProj", "project_template");
             project.kb = txtRules.getText();
+            if (trace.isEmpty()){
+                JOptionPane.showMessageDialog(new JFrame(), "Errore: non hai selezionato un percorso", "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+                return;
+            }
             project.trace = trace;
+
 
             String iconPath;
             String txtResult;

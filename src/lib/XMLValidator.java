@@ -44,7 +44,7 @@ public class XMLValidator {
             // at last perform validation:
             validator.validate(new StreamSource(fileNameToValidate));
         } catch (IOException ex) {
-           // Logger.getLogger(XMLValidator.class.getName()).log(Level.SEVERE, null, ex);
+           
             ex.printStackTrace();
         }
 
