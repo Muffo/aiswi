@@ -9,6 +9,9 @@ import gamegui.ChessBoard;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -28,6 +31,7 @@ public class XMLObj {
 
             //finding local path
             String rule = "";
+            String errorMessage = "";
             File file = new File(fileName);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -86,7 +90,11 @@ public class XMLObj {
                         NodeList figureNm = figureNmElmnt.getChildNodes();
                         //System.out.println("figure : " + ((Node) figureNm.item(0)).getNodeValue());
                         String figure = ("" + ((Node) figureNm.item(0)).getNodeValue());
-                        ChessBoard.getInstance().updateBoardFromXml(x, y, color, figure);
+
+                        if (x<ChessBoard.DIM && y<ChessBoard.DIM)
+                            ChessBoard.getInstance().updateBoardFromXml(x, y, color, figure);
+                        else
+                           errorMessage += "Warning: x -> " + x + " y-> " +y + " out of range-> 0 - " + (ChessBoard.DIM - 1) +"\n";
 
                     }
 
@@ -127,6 +135,8 @@ public class XMLObj {
                  ChessBoard.getInstance().updateRulesTextArea(rule);
                 }
            }
+        if (!errorMessage.isEmpty())
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: " + errorMessage, "Result of import", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(ChessBoard.WarningIconPath));
         }catch (Exception e) {
                 e.printStackTrace();
         }
