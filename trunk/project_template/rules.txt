@@ -1,4 +1,4 @@
-% INIZIO
+% Specifica la cella iniziale
 H(start,0)
 /\ begin(X, Y, C, F)
 --->E(sono(X, Y, C, F), 0).
@@ -6,26 +6,30 @@ H(start,0)
 %% /\ not clause(end(X,Y,C,F), true) %% aggiungendo questa riga all'evento impediamo di terminare il gioco nella stessa casella dell'inizio
 
 
+% Cella iniziale di default 0,0
 H(start,0)
 /\ not clause(begin(_,_,_,_), true)
----> E(sono(1,1,_,_),0).
+---> E(sono(0,0,_,_),0).
 
-%% cosi il numero di casi se aggiungiamo una cluasola esplode! perche non fare aspettative separate???
-%OBIETTIVO se non e definito maxmove
+
+% Specifica la cella di arrivo
  H(start,0)
  /\ end(X, Y, C, F)
  --->E(sono(X,Y,C,F),T) /\ T > 0
  	/\EN(sono(_,_,_,_),T2) /\ T2 > T.
 
+% Cella finale di default 7,7
 H(start,0)
 /\ not clause(end(_,_,_,_), true)
 --->E(sono(7,7,_,_),T) /\ T > 0 
 	/\EN(sono(_,_,_,_),T2) /\ T2 > T.
 
+% Specifica il massimo numero di mosse
 H(start,0)
 /\ maxmove(MAXT)
 --->EN(sono(_,_,_,_),T2) /\ T2 > MAXT.
 
+% Specifica il minimo numero di mosse
 H(start,0)
  /\ minmove(MINT)
  --->E(sono(_,_,_,_),T2) /\ T2 > MINT.
@@ -42,7 +46,9 @@ H(start,0)
 /\ H(sono(X,Y,C,F),T)	
 --->EN(sono(X2,Y2,C2,F2),T2) /\ T2 > T /\ T2 <= T+DELAY.
 
-% regola che stabilisce come DEVO spostarmi [definito in kb.pl] rispetto all'ultimo click
+% Mossa che devi aver fatto prima di andare su una cellaH(start,0)/\ prereq([X,Y,C,F],[X2,Y2,C2,F2])/\ H(sono(X,Y,C,F),T)	--->E(sono(X2,Y2,C2,F2),T2) /\ T2 < T.
+
+% Regola che stabilisce come DEVO spostarmi [definito in kb.pl] rispetto all'ultimo click
 H(start,0)
 /\ move_rules([X,Y,C,F], COND, DELAY)
 /\ H(sono(X,Y,C,F),T)
@@ -50,7 +56,7 @@ H(start,0)
 
 %% condregola([X,Y,C,F], [X2,Y2,C2,F2]).
 
-% regola che stabilisce come NON POSSO spostarmi [definito in kb.pl] rispetto all'ultimo click
+% Regola che stabilisce come NON POSSO spostarmi [definito in kb.pl] rispetto all'ultimo click
 H(start,0)
 /\ not_move_rules([X,Y,C,F], COND, DELAY)
 /\ H(sono(X,Y,C,F),T)
