@@ -94,7 +94,7 @@ public class XMLObj {
                         if (x<ChessBoard.DIM && y<ChessBoard.DIM)
                             ChessBoard.getInstance().updateBoardFromXml(x, y, color, figure);
                         else
-                           errorMessage += "Warning: x -> " + x + " y-> " +y + " out of range-> 0 - " + (ChessBoard.DIM - 1) +"\n";
+                           errorMessage += "Warning: x -> " + x + " y-> " +y + " out of range-> 0 - " + (ChessBoard.DIM - 1) +" The element has been ignored\n";
 
                     }
 
@@ -136,7 +136,7 @@ public class XMLObj {
                 }
            }
         if (!errorMessage.isEmpty())
-            JOptionPane.showMessageDialog(new JFrame(), "Errore: " + errorMessage, "Result of import", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(ChessBoard.WarningIconPath));
+            JOptionPane.showMessageDialog(new JFrame(), errorMessage, "Result of import", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(ChessBoard.WarningIconPath));
         }catch (Exception e) {
                 e.printStackTrace();
         }
