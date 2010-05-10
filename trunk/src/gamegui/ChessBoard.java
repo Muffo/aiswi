@@ -56,7 +56,7 @@ public class ChessBoard extends javax.swing.JFrame {
             ExitIconPath = projectPath + "/img/exit.png";
         } catch (IOException ex) {
            // Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: " + ex.getMessage(), "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
         }
     }
 
@@ -101,6 +101,7 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuProject = new javax.swing.JMenu();
@@ -326,21 +327,29 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconOpen.png")); // NOI18N
         jMenuItem1.setText("Load XML...");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jMenuItem1MousePressed(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseReleased(evt);
             }
         });
         jMenu1.add(jMenuItem1);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.META_MASK));
+        jMenuItem3.setText("Export to XML...");
+        jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem3MouseReleased(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
         jMenu1.add(jSeparator3);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_MASK));
         jMenuItem2.setText("Close");
         jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jMenuItem2MousePressed(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem2MouseReleased(evt);
             }
         });
         jMenu1.add(jMenuItem2);
@@ -356,7 +365,6 @@ public class ChessBoard extends javax.swing.JFrame {
         });
 
         jMenuItemRun.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.META_MASK));
-        jMenuItemRun.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconRun.png")); // NOI18N
         jMenuItemRun.setText("Run Project...");
         jMenuItemRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,7 +375,6 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenuProject.add(jSeparator1);
 
         jMenuItemUndoLast.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.META_MASK));
-        jMenuItemUndoLast.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconUndo.png")); // NOI18N
         jMenuItemUndoLast.setText("Undo Last Move");
         jMenuItemUndoLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -377,7 +384,6 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenuProject.add(jMenuItemUndoLast);
 
         jMenuClearAll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.META_MASK));
-        jMenuClearAll.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconDelete.gif")); // NOI18N
         jMenuClearAll.setText("Clear All Moves");
         jMenuClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -391,7 +397,6 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu2.setBackground(new java.awt.Color(255, 255, 0));
         jMenu2.setText("Help");
 
-        jMenuHelp.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/iconHelp.gif")); // NOI18N
         jMenuHelp.setText("Help");
         jMenuHelp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -499,29 +504,6 @@ public class ChessBoard extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnUndoMouseClicked
 
-    private void jMenuItem2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MousePressed
-        // TODO add your handling code here:
-        String message = "Uscire dal programma?";
-        int answer = JOptionPane.showConfirmDialog(this, message,"Uscita",JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION, new ImageIcon(ExitIconPath));
-        if (answer == JOptionPane.YES_OPTION) {
-        System.exit(0);
-        }
-        else if (answer == JOptionPane.NO_OPTION) {
-        return;
-        }
-    }//GEN-LAST:event_jMenuItem2MousePressed
-
-    private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
-        String wd = System.getProperty("user.dir");
-        JFileChooser fc = new JFileChooser(wd);
-        int rc = fc.showDialog(null, "Select Xml Game File");
-        if (rc == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            String fileName = file.getAbsolutePath();
-            loadFromXML(fileName, true);
-        }
-    }//GEN-LAST:event_jMenuItem1MousePressed
-
     private void jMenuItemUndoLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUndoLastActionPerformed
         undoMove();
     }//GEN-LAST:event_jMenuItemUndoLastActionPerformed
@@ -536,9 +518,39 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuHelpActionPerformed
 
     private void jMenuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAboutActionPerformed
-        String message = "Realizzato da:\n Baioni Enrico\n Grandi Andrea\n Tallevi Simone";
+        String message = "Realizzato da:\n Enrico Baioni\n Andrea Grandi\n Simone Tallevi Diotallevi";
         JOptionPane.showMessageDialog(null, message,"About Sciff Game",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(HelpIconPath));
     }//GEN-LAST:event_jMenuAboutActionPerformed
+
+    private void jMenuItem3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MouseReleased
+        // TODO add your handling code here:
+        XMLObj r = new XMLObj();
+        r.writeToXML(cells, txtRules.getText(), "out.xml");
+    }//GEN-LAST:event_jMenuItem3MouseReleased
+
+    private void jMenuItem2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseReleased
+        // TODO add your handling code here:
+        String message = "Uscire dal programma?";
+        int answer = JOptionPane.showConfirmDialog(this, message,"Uscita",JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION, new ImageIcon(ExitIconPath));
+        if (answer == JOptionPane.YES_OPTION) {
+        System.exit(0);
+        }
+        else if (answer == JOptionPane.NO_OPTION) {
+        return;
+        }
+    }//GEN-LAST:event_jMenuItem2MouseReleased
+
+    private void jMenuItem1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseReleased
+        // TODO add your handling code here:
+        String wd = System.getProperty("user.dir");
+        JFileChooser fc = new JFileChooser(wd);
+        int rc = fc.showDialog(null, "Select Xml Game File");
+        if (rc == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            String fileName = file.getAbsolutePath();
+            loadFromXML(fileName, true);
+        }
+    }//GEN-LAST:event_jMenuItem1MouseReleased
 
     public List<Move> getTrace(){
         return trace;
@@ -587,22 +599,16 @@ public class ChessBoard extends javax.swing.JFrame {
         XMLValidator validator = new XMLValidator();
         try{
             String fileNameComplete;
-            if (isFullPath==false){
-                //finding local path
-                File dir = new File (".");
-                String projectPath = dir.getCanonicalPath();
+            if (isFullPath==false)
                 fileNameComplete = projectPath +"/xml/"+fileName;
-            }else
+            else
                 fileNameComplete = fileName;
             System.out.println(fileNameComplete);
             validator.Validate(fileNameComplete);
             XMLObj r = new XMLObj();
             r.read(fileNameComplete);
-            r.writeToXML(cells, txtRules.getText(), "out.xml");
         }catch(SAXException sax){
             JOptionPane.showMessageDialog(new JFrame(), "DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString(), "Error", JOptionPane.WARNING_MESSAGE, new ImageIcon(WarningIconPath));
-        }catch(IOException io){
-            io.printStackTrace();
         }
 
     }
@@ -650,6 +656,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuHelp;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemRun;
     private javax.swing.JMenuItem jMenuItemUndoLast;
     private javax.swing.JMenu jMenuProject;
