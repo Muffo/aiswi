@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package gamegui;
 import lib.*;
 import java.awt.Cursor;
@@ -12,8 +7,8 @@ import java.util.Hashtable;
 
 
 /**
- *
- * @author muffo
+ * Cell of the chessboard.
+ * @author Baioni, Grandi, Tallevi
  */
 public class Cell extends javax.swing.JPanel{
 
@@ -25,9 +20,9 @@ public class Cell extends javax.swing.JPanel{
 
     private static Dictionary<String, Object> catalogCF = new Hashtable<String, Object>();
 
-     public Cell(int x, int y) {
+    public Cell(int x, int y) {
          this(x, y, "default", "empty");
-     }
+    }
 
     public Cell(int x, int y, String color, String figure) {
         super();
@@ -83,11 +78,13 @@ public class Cell extends javax.swing.JPanel{
         }else{
             setHighlight(true);
             ChessBoard.getInstance().addMove(x, y, color, figure);
-        }
-
-       
+        }  
     }
 
+    /**
+     * Set the figure of a Cell
+     * @param figure name of the figure
+     */
     public void setFigure(String figure) {
         this.figure = figure;
         if (figure.equals("empty")) {
@@ -97,9 +94,12 @@ public class Cell extends javax.swing.JPanel{
             String figureFile = (String) Cell.catalogCF.get(figure);
             lblIcon.setIcon(new javax.swing.ImageIcon(figureFile));
         }
-
     }
 
+    /**
+     * Set the color of a Cell
+     * @param color Italian or in English color name
+     */
     public void setColor(String color) {
         this.color = color;
         setBackground((java.awt.Color)Cell.catalogCF.get(color));

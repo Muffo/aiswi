@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package lib;
 
 /**
  *
- * @author baio
+ * @author Baioni, Grandi, Tallevi
  */
 import java.io.IOException;
 import javax.xml.transform.stream.StreamSource;
