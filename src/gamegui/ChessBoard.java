@@ -31,6 +31,7 @@ public class ChessBoard extends javax.swing.JFrame {
     final static private String xmlFile = "game.xml";
     final static public File dir = new File(".");;
     public static String projectPath;
+    public static String logoIconPath;
     public static String okIconPath;
     public static String ErrorIconPath;
     public static String WarningIconPath;
@@ -55,6 +56,7 @@ public class ChessBoard extends javax.swing.JFrame {
             WarningIconPath = projectPath +"/img/warning.png";
             HelpIconPath = projectPath +"/img/ass.png";
             ExitIconPath = projectPath + "/img/exit.png";
+            logoIconPath = projectPath + "/img/sciffGameLogo.png";
         } catch (IOException ex) {
            // Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(new JFrame(), "Errore: " + ex.getMessage(), "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
@@ -534,7 +536,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
     private void jMenuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAboutActionPerformed
         String message = "Realizzato da:\n Enrico Baioni\n Andrea Grandi\n Simone Tallevi Diotallevi";
-        JOptionPane.showMessageDialog(null, message,"About Sciff Game",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(HelpIconPath));
+        JOptionPane.showMessageDialog(null, message,"About Sciff Game",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(logoIconPath));
     }//GEN-LAST:event_jMenuAboutActionPerformed
 
     private void jMenuItem3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MouseReleased
