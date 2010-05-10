@@ -32,14 +32,14 @@ H(start,0)
 
 % Mossa che devi fare entro DELAY mosse
 H(start,0)
-/\ force([X,Y,C,F],[X2,Y2,C2,F2], DELAY)	
 /\ H(sono(X,Y,C,F),T)
+/\ force([X,Y,C,F],[X2,Y2,C2,F2], DELAY)	
 --->E(sono(X2,Y2,C2,F2),T2) /\ T2 > T /\ T2 <= T+DELAY.
 
 % Mossa che NON puoi fare per DELAY mosse
 H(start,0)
-/\ ban([X,Y,C,F],[X2,Y2,C2,F2], DELAY)	
 /\ H(sono(X,Y,C,F),T)
+/\ ban([X,Y,C,F],[X2,Y2,C2,F2], DELAY)	
 --->EN(sono(X2,Y2,C2,F2),T2) /\ T2 > T /\ T2 <= T+DELAY.
 
 % regola che stabilisce come DEVO spostarmi [definito in kb.pl] rispetto all'ultimo click
