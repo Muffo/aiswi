@@ -638,7 +638,7 @@ public class ChessBoard extends javax.swing.JFrame {
                 fileNameComplete = "xml/"+fileName;
             else
                 fileNameComplete = fileName;
-            System.out.println(fileNameComplete);
+            //System.out.println(fileNameComplete);
             validator.Validate(fileNameComplete);
             XMLObj r = new XMLObj();
             r.read(fileNameComplete);
