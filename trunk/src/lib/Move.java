@@ -2,7 +2,7 @@
 package lib;
 
 /**
- * Rappresenta una mossa
+ * Rappresents a move
  * 
  * @author muffo
  */
@@ -12,6 +12,14 @@ public class Move {
     String figure;
     int time;
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param color
+     * @param figure
+     * @param time
+     */
     public Move(int x, int y, String color, String figure, int time) {
         this.x = x;
         this.y = y;
@@ -20,10 +28,18 @@ public class Move {
         this.time = time;
     }
 
+    /**
+     * Get X value
+     * @return
+     */
     public int getX(){
         return this.x;
     }
 
+    /**
+     * Get Y value
+     * @return
+     */
     public int getY(){
         return this.y;
     }

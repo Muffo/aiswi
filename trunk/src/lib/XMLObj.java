@@ -25,7 +25,10 @@ import org.w3c.dom.NodeList;
  */
 public class XMLObj {
     
-
+    /**
+     * Read an xml file well-formatted according to game.xsd schema
+     * @param fileName
+     */
     public void read(String fileName) {
         try {
 
@@ -143,7 +146,7 @@ public class XMLObj {
     }
 
     /**
-     *
+     * Write out in a file named output.xml the current chessboard state
      * @param c
      * @param newFileName
      */

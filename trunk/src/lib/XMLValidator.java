@@ -9,7 +9,6 @@ package lib;
  *
  * @author baio
  */
-import java.io.File;
 import java.io.IOException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -20,16 +19,12 @@ import org.xml.sax.SAXException;
 
 
 public class XMLValidator {
+  /**
+   * Validate an xml file according to xml/game.xsd schema
+   * @param fileNameToValidate
+   * @throws SAXException
+   */
   public void Validate(String fileNameToValidate) throws SAXException {
-
-      File dir = new File (".");
-      String projectPath="";
-        try {
-            projectPath = dir.getCanonicalPath();
-        } catch (IOException ex) {
-            //Logger.getLogger(XMLValidator.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
     
       // define the type of schema - we use W3C:
       String schemaLang = "http://www.w3.org/2001/XMLSchema";
@@ -38,7 +33,7 @@ public class XMLValidator {
       SchemaFactory factory = SchemaFactory.newInstance(schemaLang);
 
       // create schema by reading it from an XSD file:
-      Schema schema = factory.newSchema(new StreamSource(projectPath+"/xml/game.xsd"));
+      Schema schema = factory.newSchema(new StreamSource("xml/game.xsd"));
       Validator validator = schema.newValidator();
         try {
             // at last perform validation:

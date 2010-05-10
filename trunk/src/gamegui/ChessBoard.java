@@ -22,8 +22,9 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author Baioni, Grandi,
+ * @author Baioni, Grandi, Tallevi
  */
+
 public class ChessBoard extends javax.swing.JFrame {
 
     final static public int DIM = 8;
@@ -432,7 +433,6 @@ public class ChessBoard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
     private void initBoard() {
 
         Cell.initDictionary();
@@ -447,6 +447,10 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Get the only one Chessboard instance created in the system
+     * @return CHessBoard
+     */
     public static ChessBoard getInstance(){
         return instance;
     }
@@ -557,17 +561,31 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1MouseReleased
 
+    /**
+     * Return the trace list
+     * @return List<Move>
+     */
     public List<Move> getTrace(){
         return trace;
     }
 
+    /**
+     * Add a move to trace list
+     * @param x
+     * @param y
+     * @param color
+     * @param figure
+     */
     public void addMove(int x, int y, String color, String figure) {
         trace.add(new Move(x, y, color, figure, moveCounter));
         moveCounter++;
         refreshTrace();
     }
 
-     public void undoMove() {
+    /**
+     * undo last move
+     */
+    public void undoMove() {
         if (trace.isEmpty()){
             return;
         }
@@ -586,7 +604,7 @@ public class ChessBoard extends javax.swing.JFrame {
             int x = move.getX();
             int y = move.getY();
             cells[x][y].setHighlight(false);
-            //System.out.println("x:" + x + "\ny: "+ y);
+            
         }
         trace.removeAll(trace);
         moveCounter = 0;
@@ -605,7 +623,7 @@ public class ChessBoard extends javax.swing.JFrame {
         try{
             String fileNameComplete;
             if (isFullPath==false)
-                fileNameComplete = projectPath +"/xml/"+fileName;
+                fileNameComplete = "xml/"+fileName;
             else
                 fileNameComplete = fileName;
             System.out.println(fileNameComplete);
@@ -613,16 +631,27 @@ public class ChessBoard extends javax.swing.JFrame {
             XMLObj r = new XMLObj();
             r.read(fileNameComplete);
         }catch(SAXException sax){
-            JOptionPane.showMessageDialog(new JFrame(), "DOCUMENTO XML NON VALIDO: "+sax.getStackTrace().toString(), "Error", JOptionPane.WARNING_MESSAGE, new ImageIcon(WarningIconPath));
+            JOptionPane.showMessageDialog(new JFrame(), "XML "+fileName+" NON VALIDO: "+sax.getMessage(), "Error", JOptionPane.WARNING_MESSAGE, new ImageIcon(WarningIconPath));
         }
 
     }
 
+    /**
+     * Update a chessboard cell
+     * @param pos_x
+     * @param pos_y
+     * @param color
+     * @param figure
+     */
     public void updateBoardFromXml(int pos_x, int pos_y, String color, String figure) {
         cells[pos_x][pos_y].setFigure(figure.toLowerCase());
         cells[pos_x][pos_y].setColor(color.toLowerCase());
     }
 
+    /**
+     * Set the rules box text
+     * @param rules
+     */
     public void updateRulesTextArea(String rules){
         txtRules.setText(rules);
 
