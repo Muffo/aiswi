@@ -119,7 +119,7 @@ public class SProject {
             FileWriter fstream = new FileWriter(projectName + "/" + traceFile);
             BufferedWriter out = new BufferedWriter(fstream);
 
-            out.write("hap(start,0).\n");
+            out.write("hap(start,0.0).\n");
             for (Object el : trace) {
                 out.write(el.toString() + "\n");
             }
