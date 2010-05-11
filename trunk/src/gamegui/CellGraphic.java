@@ -33,7 +33,9 @@ public class CellGraphic extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        lblNumber = new javax.swing.JLabel();
+        lblIcon = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(102, 255, 102));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -43,19 +45,34 @@ public class CellGraphic extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/src/img/martello.png")); // NOI18N
-        jLabel1.setSize(new java.awt.Dimension(64, 64));
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(64, 64));
+
+        lblNumber.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblNumber.setForeground(new java.awt.Color(102, 204, 0));
+        lblNumber.setText("jLabel2");
+        lblNumber.setBounds(0, 0, 60, 20);
+        jLayeredPane1.add(lblNumber, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblIcon.setIcon(new javax.swing.ImageIcon("/Users/muffo/Dropbox/Develop/NetBeansProjects/TestJPL/img/bin.png")); // NOI18N
+        lblIcon.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lblIcon.setBounds(0, 0, 64, 64);
+        jLayeredPane1.add(lblIcon, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jLabel1)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(53, 53, 53))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -65,7 +82,9 @@ public class CellGraphic extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JLabel lblIcon;
+    private javax.swing.JLabel lblNumber;
     // End of variables declaration//GEN-END:variables
 
 }
