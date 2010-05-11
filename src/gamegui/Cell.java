@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.io.File;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import javax.swing.JLayeredPane;
 
 
 /**
@@ -13,12 +14,15 @@ import java.util.Hashtable;
 public class Cell extends javax.swing.JPanel{
 
     final static public int DIM_IMG = 64;
+    private JLayeredPane jLayeredPane1;
     private javax.swing.JLabel lblIcon;
+    private javax.swing.JLabel lblNumber;
     private int x, y;
     private String color;
     private String figure;
 
     private static Dictionary<String, Object> catalogCF = new Hashtable<String, Object>();
+   
 
     public Cell(int x, int y) {
          this(x, y, "default", "empty");
@@ -33,26 +37,32 @@ public class Cell extends javax.swing.JPanel{
         this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        lblIcon = new javax.swing.JLabel();
-
-        lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIcon.setSize(new java.awt.Dimension(64, 64));
+        initInternalComponents();
 
         this.setColor(color);
         this.setFigure(figure);
+        this.resetNumber();
+    }
 
+    private void initInternalComponents() {
+        lblIcon = new javax.swing.JLabel();
+        lblNumber = new javax.swing.JLabel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(64, 64));
+        lblNumber.setFont(new java.awt.Font("Arial", 1, 16));
+        lblNumber.setForeground(new java.awt.Color(102, 204, 0));
+        lblNumber.setBounds(0, 0, 60, 16);
+        jLayeredPane1.add(lblNumber, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblIcon.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lblIcon.setBounds(0, 0, 64, 64);
+        jLayeredPane1.add(lblIcon, javax.swing.JLayeredPane.DEFAULT_LAYER);
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lblIcon)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lblIcon, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, Short.MAX_VALUE)
-        );
-
+        layout.setHorizontalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(jLayeredPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
+        layout.setVerticalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(jLayeredPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap()));
         addMouseListener(new java.awt.event.MouseAdapter() {
+
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
             }
@@ -112,6 +122,21 @@ public class Cell extends javax.swing.JPanel{
             setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0,  0, 0), 1));
         
     }
+
+
+    public void addNumber(int number) {
+        if (!lblNumber.getText().isEmpty()) {
+            lblNumber.setText(lblNumber.getText() + "," + number);
+        }
+        else {
+            lblNumber.setText("" + number);
+        }
+    }
+
+    public void resetNumber() {
+        lblNumber.setText(""); 
+    }
+
 
     public String getColor(){
         return this.color;

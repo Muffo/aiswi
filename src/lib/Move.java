@@ -44,9 +44,13 @@ public class Move {
         return this.y;
     }
 
+    public int getTime(){
+        return this.time;
+    }
+
     @Override
     public String toString() {
-        return "hap(sono(" + x + "," + y + "," + color + "," + figure + ")," + time + ").";
+        return "hap(sono(" + x + "," + y + "," + color + "," + figure + ")," + time + ".0).";
     }
 
 }
