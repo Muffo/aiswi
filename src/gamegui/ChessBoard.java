@@ -43,7 +43,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
     Cell[][] cells = new Cell[DIM][DIM];
     List<Move> trace = new Vector<Move>();
-    SciffBridge sciff = new SciffBridge("sciff/");
+    SciffBridge sciff;
     private int moveCounter = 0;
    
 
@@ -51,18 +51,8 @@ public class ChessBoard extends javax.swing.JFrame {
     public ChessBoard() {
         initComponents();
         initBoard();
-        try {
-            projectPath = dir.getCanonicalPath();
-            okIconPath = projectPath +"/img/ok.png";
-            ErrorIconPath = projectPath +"/img/error.png";
-            WarningIconPath = projectPath +"/img/warning.png";
-            HelpIconPath = projectPath +"/img/ass.png";
-            ExitIconPath = projectPath + "/img/exit.png";
-            logoIconPath = projectPath + "/img/sciffGameLogo.png";
-        } catch (IOException ex) {
-           // Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(new JFrame(), "Errore: " + ex.getMessage(), "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
-        }
+        initSciff();
+        reloadDefaultSciffRules();
     }
 
 
@@ -104,9 +94,10 @@ public class ChessBoard extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtSciffRules = new javax.swing.JTextArea();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        btnReloadSciffRules = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -240,13 +231,25 @@ public class ChessBoard extends javax.swing.JFrame {
 
         jLabel16.setText("6");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        txtSciffRules.setColumns(20);
+        txtSciffRules.setRows(5);
+        jScrollPane3.setViewportView(txtSciffRules);
 
         jLabel17.setText("REGOLE PROLOG");
 
         jLabel18.setText("REGOLE SCIFF");
+
+        btnReloadSciffRules.setText("Reload Default");
+        btnReloadSciffRules.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReloadSciffRulesMouseClicked(evt);
+            }
+        });
+        btnReloadSciffRules.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadSciffRulesActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -298,8 +301,10 @@ public class ChessBoard extends javax.swing.JFrame {
                             .add(jLabel17))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel18))
+                            .add(jLabel18)
+                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .add(20, 20, 20))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -347,7 +352,8 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                             .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
 
@@ -490,6 +496,26 @@ public class ChessBoard extends javax.swing.JFrame {
                 Board.add(cells[i][j]);
             }
         }
+
+        try {
+            projectPath = dir.getCanonicalPath();
+            okIconPath = projectPath +"/img/ok.png";
+            ErrorIconPath = projectPath +"/img/error.png";
+            WarningIconPath = projectPath +"/img/warning.png";
+            HelpIconPath = projectPath +"/img/ass.png";
+            ExitIconPath = projectPath + "/img/exit.png";
+            logoIconPath = projectPath + "/img/sciffGameLogo.png";
+        } catch (IOException ex) {
+           // Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: " + ex.getMessage(), "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+        }
+ 
+    }
+
+    private void initSciff() {
+        sciff = new SciffBridge("sciff/");
+        sciff.loadClpModule();
+        sciff.compileSciff();
     }
 
     /**
@@ -518,21 +544,21 @@ public class ChessBoard extends javax.swing.JFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         try {
-           
-            SProject project = new SProject("gameProj", "project_template");
-            project.kb = txtRules.getText();
             if (trace.isEmpty()){
                 JOptionPane.showMessageDialog(new JFrame(), "Errore: non hai selezionato un percorso", "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
                 return;
             }
+           
+            SProject project = new SProject("gameProj");
+            project.kb = txtRules.getText();
+            project.rules = txtSciffRules.getText();
             project.trace = trace;
-
+            Boolean projResult = sciff.runProject(project);
 
             String iconPath;
             String txtResult;
-            Boolean bool = sciff.runProject(project);
-            System.out.println(bool);
-            if(bool){
+            
+            if(projResult){
                 txtResult = "Percorso corretto";
                 iconPath = okIconPath;
             }else{
@@ -609,6 +635,15 @@ public class ChessBoard extends javax.swing.JFrame {
             loadFromXML(fileName, true);
         }
     }//GEN-LAST:event_jMenuItem1MouseReleased
+
+
+    private void btnReloadSciffRulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadSciffRulesMouseClicked
+       
+    }//GEN-LAST:event_btnReloadSciffRulesMouseClicked
+
+    private void btnReloadSciffRulesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadSciffRulesActionPerformed
+        reloadDefaultSciffRules();
+    }//GEN-LAST:event_btnReloadSciffRulesActionPerformed
 
     private void jMenuItem4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseReleased
         String wd = System.getProperty("user.dir");
@@ -747,7 +782,10 @@ public class ChessBoard extends javax.swing.JFrame {
      */
     public void updateRulesTextArea(String rules){
         txtRules.setText(rules);
+    }
 
+    private void reloadDefaultSciffRules() {
+        txtSciffRules.setText(FileManager.readFileAsString("project_template/rules.txt"));
     }
 
    
@@ -758,6 +796,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JPanel Board;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEval;
+    private javax.swing.JButton btnReloadSciffRules;
     private javax.swing.JButton btnUndo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -800,10 +839,12 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea txtRules;
+    private javax.swing.JTextArea txtSciffRules;
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
+
+
 
 
 
