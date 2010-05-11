@@ -8,7 +8,9 @@ package gamegui;
 
 import lib.*;
 import java.awt.Cursor;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
@@ -109,6 +111,7 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuProject = new javax.swing.JMenu();
@@ -372,6 +375,16 @@ public class ChessBoard extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.META_MASK));
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconSave.png"))); // NOI18N
+        jMenuItem4.setText("ChessBoard Descr...");
+        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem4MouseReleased(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
         jMenu1.add(jSeparator3);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.META_MASK));
@@ -597,6 +610,17 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1MouseReleased
 
+    private void jMenuItem4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseReleased
+        String wd = System.getProperty("user.dir");
+        JFileChooser fc = new JFileChooser(wd);
+        int rc = fc.showDialog(null, "Export ChessBoard Description");
+        if (rc == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            String fileName = file.getAbsolutePath();
+            this.writeWordDescription(cells, fileName);
+        }
+    }//GEN-LAST:event_jMenuItem4MouseReleased
+
     /**
      * Return the trace list
      * @return List<Move>
@@ -656,7 +680,37 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
-    
+    private void writeWordDescription(Cell[][] c, String newFileName){
+
+        try {
+            File file = new File(newFileName);
+            file.createNewFile();
+            // FileWriter fstream = new FileWriter(projectPath + "/xml/" + newFileName);
+            FileWriter fstream = new FileWriter(newFileName);
+            BufferedWriter out = new BufferedWriter(fstream);
+            for (int i = 0; i < ChessBoard.DIM; i++) {
+                for (int j = 0; j < ChessBoard.DIM; j++) {
+                    String figure = c[i][j].getFigure();
+                    String color = c[i][j].getColor();
+                    String pos_x = "" + c[i][j].getPosX();
+                    String pos_y = "" + c[i][j].getPosY();
+                    String element = "cell("
+                            + pos_x + ","
+                            + pos_y + ","
+                            + color + ","
+                            + figure
+                            + ").\n";
+                    out.write(element);
+                }
+            }
+            out.close();
+            fstream.close();
+        }catch  (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
     private void loadFromXML(String fileName, boolean isFullPath){
         XMLValidator validator = new XMLValidator();
         try{
@@ -732,6 +786,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItemRun;
     private javax.swing.JMenuItem jMenuItemUndoLast;
     private javax.swing.JMenu jMenuProject;
