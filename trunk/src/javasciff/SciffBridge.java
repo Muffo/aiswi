@@ -28,8 +28,6 @@ public class SciffBridge {
      */
     public SciffBridge(String path) {
         this.path = path;
-        loadClpModule();
-        compileSciff();
     }
 
     
@@ -80,14 +78,16 @@ public class SciffBridge {
     /***
      * Esegue il comando prolog: "compile(sciff)"
      */
-    private void compileSciff() {
-        Query.hasSolution("compile(" + path + "sciff)");
+    public void compileSciff() {
+        SciffCompiler sc = new SciffCompiler(path);
+        Thread scThread = new Thread(sc);
+        scThread.start();
     }
 
     /***
      * Esegue il comando prolog: "compile(sciff)"
      */
-    private void loadClpModule() {
+    public void loadClpModule() {
         Query.hasSolution("use_module(library(clpfd))");
     }
 

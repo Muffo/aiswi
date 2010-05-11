@@ -266,8 +266,11 @@
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane3" min="-2" pref="334" max="-2" attributes="0"/>
                               <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                  <Component id="btnReloadSciffRules" alignment="1" min="-2" pref="125" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane3" alignment="1" min="-2" pref="334" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
@@ -325,6 +328,7 @@
                               <Component id="btnUndo" alignment="2" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="btnClear" alignment="2" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="btnEval" alignment="2" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="btnReloadSciffRules" alignment="2" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -559,7 +563,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="txtSciffRules">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
@@ -576,6 +580,15 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="REGOLE SCIFF"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnReloadSciffRules">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reload Default"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnReloadSciffRulesMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReloadSciffRulesActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

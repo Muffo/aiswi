@@ -19,7 +19,7 @@ public class Main {
         System.out.println(System.getProperty("user.dir"));
 
         // Crea un nuovo pogettto chiamato "nuovo"
-        SProject project = new SProject("nuovo2", "project_template");
+        SProject project = new SProject("nuovo2");
 
         // Aggiunge delle regole
 //        project.rules.add("H(start,0) ---> E(sono(1,1,_,_),0).");
