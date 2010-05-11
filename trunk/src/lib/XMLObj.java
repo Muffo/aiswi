@@ -132,6 +132,9 @@ public class XMLObj {
                         //ChessBoard.getInstance().updateRulesTextArea(rule);
 
                     }
+                 rule = rule.replace("&lt;","<");
+                 rule = rule.replace("&gt;",">");
+                // System.out.println(rule);
                  ChessBoard.getInstance().updateRulesTextArea(rule);
                 }
            }
@@ -160,6 +163,8 @@ public class XMLObj {
 
         File dir = new File(".");
         String projectPath = "";
+        String row = "";
+        
         try {
             projectPath = dir.getCanonicalPath();
             // passo direttamente il percorso assoluto
@@ -196,7 +201,9 @@ public class XMLObj {
                 out.write(secElement);
                 String[] rows = rules.split("\n");
                 for (int k = 0; k < rows.length; k++){
-                    out.write("\t\t<rule>"+rows[k] + "<rule>\n");
+                    row = EscapeChars.forXML(rows[k]);
+                 //   System.out.println(row);
+                    out.write("\t\t<rule>"+row + "</rule>\n");
                     
                 }
                 out.write(closeSecElement);
