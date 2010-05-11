@@ -491,7 +491,7 @@ public class ChessBoard extends javax.swing.JFrame {
         for(int i=0; i<DIM; i++) {
             for(int j=0; j<DIM; j++) {
                 cells[i][j] = new Cell(i, j);
-                cells[i][j].setLocation(i * CellGraphic.DIM_IMG, j* CellGraphic.DIM_IMG);
+                cells[i][j].setLocation(i * Cell.DIM_IMG, j* Cell.DIM_IMG);
                 cells[i][j].setVisible(true);
                 Board.add(cells[i][j]);
             }
@@ -787,9 +787,6 @@ public class ChessBoard extends javax.swing.JFrame {
     private void reloadDefaultSciffRules() {
         txtSciffRules.setText(FileManager.readFileAsString("project_template/rules.txt"));
     }
-
-   
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
