@@ -652,7 +652,7 @@ public class ChessBoard extends javax.swing.JFrame {
         if (rc == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             String fileName = file.getAbsolutePath();
-            this.writeWordDescription(cells, fileName);
+            writeWorldDescription(cells, fileName);
         }
     }//GEN-LAST:event_jMenuItem4MouseReleased
 
@@ -715,7 +715,7 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
-    private void writeWordDescription(Cell[][] c, String newFileName){
+    private void writeWorldDescription(Cell[][] c, String newFileName){
 
         try {
             File file = new File(newFileName);
