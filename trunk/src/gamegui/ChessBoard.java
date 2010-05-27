@@ -6,12 +6,14 @@
 
 package gamegui;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lib.*;
 import java.awt.Cursor;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javasciff.SProject;
@@ -509,6 +511,23 @@ public class ChessBoard extends javax.swing.JFrame {
            // Logger.getLogger(ChessBoard.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(new JFrame(), "Errore: " + ex.getMessage(), "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
         }
+
+        Autocomplete ruleAutocomp = new Autocomplete(txtRules);
+        txtRules.getDocument().addDocumentListener(ruleAutocomp);
+
+        // Ordinata in senso alfabetico!!
+        ruleAutocomp.words = new ArrayList<String>();
+        ruleAutocomp.words.add("begin");
+        ruleAutocomp.words.add("blue");
+        ruleAutocomp.words.add("force");
+        ruleAutocomp.words.add("maxmove");
+        ruleAutocomp.words.add("minmove");
+        ruleAutocomp.words.add("money");
+        ruleAutocomp.words.add("move_rules");
+        ruleAutocomp.words.add("red");
+        ruleAutocomp.words.add("treasure");
+        ruleAutocomp.words.add("troll");
+        ruleAutocomp.words.add("yellow");
  
     }
 
