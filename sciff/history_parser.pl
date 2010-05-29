@@ -56,8 +56,8 @@ history([Event|MoreEvents],N) -->
 	{N1 is N+1},
 	history(MoreEvents,N1).
 history([_|_],N) -->
-    {write('Error in Event number '), 
-    write(N), write(' ***'), nl, 
+    {write_error('Error in Event number '), 
+    write_error(N), write_error(' ***'), nl, 
     write('see help(history).'), nl, fail}.
 
 event(hap(statePath(Content),Time)) -->
@@ -108,31 +108,31 @@ event(hap(Content,Time)) -->
 
 event_full_stop --> full_stop.
 event_full_stop -->
-    {write('\n*** Could not find full stop: '), fail}.
+    {write_error('\n*** Could not find full stop: '), fail}.
 
 initial_functor(Act) --> funct(Act), opening_parenthesis, !.
-initial_functor(_) --> {write('\n*** Error in functor: '), fail}.
+initial_functor(_) --> {write_error('\n*** Error in functor: '), fail}.
 
 society_id -->	"[",atomic_constant_list(_),"]",comma,!.
-society_id --> {write('\n*** Error in Society ID: should be a list containing an atom'),nl, fail}.
+society_id --> {write_error('\n*** Error in Society ID: should be a list containing an atom'),nl, fail}.
 
 dialog(Dialog) --> atomic_constant(Dialog),comma,!.
-dialog(_) --> {write('\n*** Error in Dialog: should be a non compound constant'),nl, fail}.
+dialog(_) --> {write_error('\n*** Error in Dialog: should be a non compound constant'),nl, fail}.
 
 sender(Sender) --> atomic_constant(Sender),comma,!.
-sender(_) --> {write('\n*** Error in Sender: should be a non compound constant'),nl, fail}.
+sender(_) --> {write_error('\n*** Error in Sender: should be a non compound constant'),nl, fail}.
 
 receiver(Receiver) --> atomic_constant(Receiver),comma,!.
-receiver(_) --> {write('\n*** Error in Receiver: should be a non compound constant'),nl, fail}.
+receiver(_) --> {write_error('\n*** Error in Receiver: should be a non compound constant'),nl, fail}.
 
 performative(Performative) --> funct(Performative),comma,!.
-performative(_) --> {write('\n*** Error in Performative: should be a non compound constant'),nl, fail}.
+performative(_) --> {write_error('\n*** Error in Performative: should be a non compound constant'),nl, fail}.
 
 performative_arguments(Arguments) --> "[",term_list(Arguments),"]",comma,!.
-performative_arguments(_) --> {write('\n*** Error in performative Arguments: should be a list of terms'),nl, fail}.
+performative_arguments(_) --> {write_error('\n*** Error in performative Arguments: should be a list of terms'),nl, fail}.
 
 event_time(Time) --> time(Time),closing_parenthesis,!.
-event_time(_) --> {write('\n*** Error in Time: should be an integer'),nl, fail}.
+event_time(_) --> {write_error('\n*** Error in Time: should be an integer'),nl, fail}.
 
 write_history_to_file(FileName,History):-
 	open(FileName,write,Stream),

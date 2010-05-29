@@ -4,6 +4,22 @@
 findall_constraints(C,L):-
     findall(C,'$enumerate_constraints'(C),L).
 
+% This version has N^2 complexity,
+% but retains the names of the variables, ie., if two CHR constraints
+% share a variable, the list will have two terms sharing the same variable.
+findall_constraints_nsquare(C,L):-
+    findall_constraints_nsquare(C,[],L).
+findall_constraints_nsquare(C,Lin,Lout):-
+    copy_term(C,C1),
+    '$enumerate_constraints'(C1),
+    not_member_eq(C1,Lin),!,
+    findall_constraints_nsquare(C,[C1|Lin],Lout).
+findall_constraints_nsquare(_,L,L).
+
+not_member_eq(_,[]).
+not_member_eq(X,[Y|T]):- \+(X==Y), not_member_eq(X,T).
+    
+
 max_constraints(C,Max):-
     assert('$n_constraints'(0)),
     ('$enumerate_constraints'(C), retract('$n_constraints'(N)),

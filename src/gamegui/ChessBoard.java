@@ -29,16 +29,12 @@ import org.xml.sax.SAXException;
  *
  * @author Baioni, Grandi, Tallevi
  *
- * *
- *
- * INTERFACE BUGS:
- *      - Il pannello sotto la scacchiera sborda (quello marrone)
+ * 
  *
  * TODO:
  *      - Creare un thread separato per la ricerca di un percorso, dando così la possibilità di abort all'utente
- *      - Una barra progressiva per indicare lo stato di avanzamento?
- *
- *
+ *      - Una barra progressiva per indicare lo stato di avanzamento? Questo non credo sia possibile
+ * 
  * 
  */
 
@@ -55,9 +51,10 @@ public class ChessBoard extends javax.swing.JFrame {
     public static String HelpIconPath;
     public static String ExitIconPath;
     private static ChessBoard instance = new ChessBoard();
+    public Thread genThread;
 
     Cell[][] cells = new Cell[DIM][DIM];
-    List<Move> trace = new Vector<Move>();
+    public List<Move> trace = new Vector<Move>();
     SciffBridge sciff;
     private int moveCounter = 0;
    
@@ -115,8 +112,9 @@ public class ChessBoard extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         btnReloadSciffRules = new javax.swing.JButton();
-        btnUndo1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        btnGenerate = new javax.swing.JButton();
+        txtNumMoves = new javax.swing.JTextField();
+        btnStopGen = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -153,7 +151,7 @@ public class ChessBoard extends javax.swing.JFrame {
         );
         BoardLayout.setVerticalGroup(
             BoardLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 545, Short.MAX_VALUE)
+            .add(0, 512, Short.MAX_VALUE)
         );
 
         jSplitPane1.setBackground(new java.awt.Color(255, 255, 0));
@@ -197,7 +195,7 @@ public class ChessBoard extends javax.swing.JFrame {
             .add(jSplitPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
         );
 
-        btnEval.setText("Eval");
+        btnEval.setText("Verify Trace");
         btnEval.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEvalActionPerformed(evt);
@@ -270,22 +268,29 @@ public class ChessBoard extends javax.swing.JFrame {
             }
         });
 
-        btnUndo1.setText("Generate Trace");
-        btnUndo1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnGenerate.setText("Generate Trace");
+        btnGenerate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 generateTrace(evt);
             }
         });
 
-        jTextField1.setText("# moves");
-        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtNumMoves.setText("# moves");
+        txtNumMoves.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clearText(evt);
             }
         });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtNumMoves.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtNumMovesActionPerformed(evt);
+            }
+        });
+
+        btnStopGen.setText("Stop Generate");
+        btnStopGen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnStopGengenerateTrace(evt);
             }
         });
 
@@ -294,63 +299,71 @@ public class ChessBoard extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel13, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(8, 8, 8)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 71, Short.MAX_VALUE)
-                        .add(jLabel2)
-                        .add(54, 54, 54)
-                        .add(jLabel3)
-                        .add(56, 56, 56)
-                        .add(jLabel4)
-                        .add(60, 60, 60)
-                        .add(jLabel5)
-                        .add(57, 57, 57)
-                        .add(jLabel6)
-                        .add(56, 56, 56)
-                        .add(jLabel7)
-                        .add(58, 58, 58)
-                        .add(jLabel8)
-                        .add(46, 46, 46))
+                        .addContainerGap()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel13, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(8, 8, 8)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(jLabel1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 74, Short.MAX_VALUE)
+                                .add(jLabel2)
+                                .add(54, 54, 54)
+                                .add(jLabel3)
+                                .add(56, 56, 56)
+                                .add(jLabel4)
+                                .add(60, 60, 60)
+                                .add(jLabel5)
+                                .add(57, 57, 57)
+                                .add(jLabel6)
+                                .add(56, 56, 56)
+                                .add(jLabel7)
+                                .add(58, 58, 58)
+                                .add(jLabel8)
+                                .add(46, 46, 46))
+                            .add(Board, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
                     .add(jPanel1Layout.createSequentialGroup()
+                        .add(45, 45, 45)
                         .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(btnClear)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .add(btnGenerate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(btnUndo1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(Board, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(26, 26, 26)
-                        .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel17))
+                        .add(btnStopGen, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(txtNumMoves, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(jLabel17)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel18)
-                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel18)
+                            .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(20, 20, 20))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
                         .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(20, 20, 20))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(20, 20, 20)
+                .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(jLabel1)
@@ -367,7 +380,7 @@ public class ChessBoard extends javax.swing.JFrame {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 82, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 19, Short.MAX_VALUE)
                         .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
                         .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -382,21 +395,21 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(43, 43, 43)
                         .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(142, 142, 142))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane3))
-                            .add(Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE))
-                        .add(7, 7, 7)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane3))
+                        .add(18, 18, 18)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                             .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(btnUndo1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(61, 61, 61))))
+                            .add(txtNumMoves, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnGenerate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnStopGen, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 0));
@@ -520,7 +533,7 @@ public class ChessBoard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 627, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -720,41 +733,63 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4MouseReleased
 
     private void generateTrace(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateTrace
-        // TODO add your handling code here:
+        int moves;
+
         try{
-            int moves = Integer.parseInt(jTextField1.getText());
-            if (moves == 0){
-                 JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse = 0", "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
-            }else{
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                SProject project = new SProject("gameProj");
-                project.kb = txtRules.getText();
-                project.rules = txtSciffRules.getText();
-                trace.clear();
-                for( int i=0; i< moves; i++){
-                    trace.add(new Move(-1,-1,"_","_", i));
-                }
-                project.trace = trace;
-                String projResult = sciff.runGenerativeProject(project);
-                //String projResult =
-                trace = convertStringToMove(projResult);
-                refreshTrace();
-                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
-         }catch(Exception e){
-             JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse NON definito"+ e.getMessage(), "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            moves = Integer.parseInt(txtNumMoves.getText());
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse NON definito"+ e.getMessage(),
+                     "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            return;
         }
+        
+        if (moves == 0){
+             JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse = 0", "Result",
+                     JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+             return;
+             
+        }
+        
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        SProject project = new SProject("gameProj");
+        project.kb = txtRules.getText();
+        project.rules = txtSciffRules.getText();
+        trace.clear();
+        for( int i=0; i< moves; i++){
+            trace.add(new Move(-1,-1,"_","_", i));
+        }
+        project.trace = trace;
+
+        // Per usare i thread decommentare la linea sotto e cancellare tutto il codice seguente
+        // genThread = sciff.runThreadGenerativeProject(project);
+        
+        String projResult = sciff.runGenerativeProject(project);
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        if (projResult.isEmpty()) {
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: non è stato possibile recuperare una lista di mosse valida",
+                    "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            return;
+        }
+        trace = MoveConverter.convertStringToMoves(projResult);
+        refreshTrace();
+        
+         
 
     }//GEN-LAST:event_generateTrace
 
     private void clearText(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearText
         // TODO add your handling code here:
-        jTextField1.setText("");
+        txtNumMoves.setText("");
     }//GEN-LAST:event_clearText
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtNumMovesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumMovesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtNumMovesActionPerformed
+
+    private void btnStopGengenerateTrace(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStopGengenerateTrace
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        genThread.interrupt();
+    }//GEN-LAST:event_btnStopGengenerateTrace
 
     /**
      * Return the trace list
@@ -817,33 +852,11 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     public void writeWorldDescription(String newFileName){
-        String worldDescription = generateWorldDescription();
+        String worldDescription = WorldDescription.generateWorldDescription(cells);
         writeWorldDescriptionToAFile(worldDescription, newFileName);
     }
     
-    public String generateWorldDescription(){
-
-        Cell[][] c = cells;
-        
-        String world = "";
-        for (int i = 0; i < ChessBoard.DIM; i++) {
-            for (int j = 0; j < ChessBoard.DIM; j++) {
-                String figure = c[i][j].getFigure();
-                String color = c[i][j].getColor();
-                String pos_x = "" + c[i][j].getPosX();
-                String pos_y = "" + c[i][j].getPosY();
-                String element = "cell("
-                        + pos_x + ","
-                        + pos_y + ","
-                        + color + ","
-                        + figure
-                        + ").\n";
-                world += element;
-            }
-        }
-      return world;
-
-    }
+    
 
     public void writeWorldDescriptionToAFile(String worldDescription, String newFileName){
           try {
@@ -902,66 +915,28 @@ public class ChessBoard extends javax.swing.JFrame {
         txtSciffRules.setText(FileManager.readFileAsString("project_template/rules.txt"));
     }
 
-    /**
-     *
-     * @param p
-     * @return
-     */
-    private List<Move> convertStringToMove(String sciffOutput) {
-
-        System.out.print(sciffOutput);
-        List<Move> lm = new Vector<Move>();
-        sciffOutput = sciffOutput.replace("'", "");
-        StringTokenizer st = new StringTokenizer(sciffOutput, "(");
-        int counter = 1;
-        while (st.hasMoreTokens()) {
-             if (counter == 1){
-                 // abbiamo necessita di scartare un token in pii la prima volta
-                st.nextToken();
-                st.nextToken();
-                st.nextToken();
-                st.nextToken();
-                st.nextToken();
-             }else{
-                st.nextToken();
-                st.nextToken();
-                st.nextToken();
-                st.nextToken();
-             }
-             String substring = st.nextToken();
-             StringTokenizer st2 = new StringTokenizer(substring, "," );
-             String substring2 = st2.nextToken();
-             int x = Integer.parseInt(substring2.trim());
-             substring2 = st2.nextToken();
-             int y = Integer.parseInt(substring2.trim());
-             substring2 = st2.nextToken();
-             String color = substring2.trim();
-             substring2 = st2.nextToken();
-             String figure = substring2.trim();
-             figure = figure.replace(")", "");
-             substring2 = st2.nextToken().trim();
-             substring2 = substring2.replace(")", "");
-             StringTokenizer st3 = new StringTokenizer(substring2);
-             int time = Integer.parseInt(st3.nextToken("."));
-             lm.add(new Move(x,y,color, figure, time));
-             if (time==0){
-                 break;
-             }
-             counter++;
-         }
-      //  System.out.print("baio");
-        Collections.reverse(lm);
-        return lm;
-
+    public void updateGenTrace(String result) {
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        if (result.isEmpty()) {
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: non è stato possibile recuperare una lista di mosse valida",
+                    "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            return;
+        }
+        trace = MoveConverter.convertStringToMoves(result);
+        refreshTrace();
     }
+
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Board;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEval;
+    private javax.swing.JButton btnGenerate;
     private javax.swing.JButton btnReloadSciffRules;
+    private javax.swing.JButton btnStopGen;
     private javax.swing.JButton btnUndo;
-    private javax.swing.JButton btnUndo1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1003,11 +978,12 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtNumMoves;
     private javax.swing.JTextArea txtRules;
     private javax.swing.JTextArea txtSciffRules;
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
+
 
 
 }

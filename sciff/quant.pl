@@ -171,12 +171,15 @@ attribute_goal(Var, T) :-     % interpretation as goal
       ;     false             % if no attribute, fail (print nothing)
     ).
 
-% Version for SWI (does not work)
-attribute_goals(Var, [T], [T]):-
+
+% Version for SWI
+attribute_goals(Var, Out, Rest):-
     (get_atts(Var, quant(Q)), get_option(print_quant,on)
-      ->    T =.. [Q,Var]
-      ;     false             % if no attribute, fail (print nothing)
+      ->    T =.. [Q,Var], [T|Rest]=Out
+      ;     Out=Rest             % if no attribute, print nothing
     ).
+
+
 
 
 %% MG 9 aug 09
@@ -367,7 +370,7 @@ print_quant(M):-
 
 print_quantified(G):-
     var(G), get_quant(G,Q),!, write(Q), write('('), write(G), write(')'),
-    get_restrictions(G,R), write(R), nl.
+    restrictions:get_restrictions(G,R), write(R), nl.
 print_quantified(G):-
     var(G),!, write('unquantified('), write(G), write(')\n').
 print_quantified(G):-

@@ -53,6 +53,11 @@ public class SciffBridge {
         return runGenerativeProject(project.getProjectName());
     }
 
+    public Thread runThreadGenerativedProject(SProject project) {
+        project.generateProject();
+        return runThreadGenerativeProject(project.getProjectName());
+    }
+
     /**
      * Esegue il progetto SCIFF - il cui nome è pasato come parametro - e ritorna l'esito.
      * L'esecuzione avviene invocando i comandi prolog "project(nome)." e "run."
@@ -80,17 +85,31 @@ public class SciffBridge {
         return false;
     }
 
+    public Thread runThreadGenerativeProject(String projectName) {
+        setDefaultPath();
+        SciffGenerate sg = new SciffGenerate(path);
+        Thread sgThread = new Thread(sg);
+        sgThread.start();
+
+        return sgThread;
+    }
+
+
     public String runGenerativeProject(String projectName) {
+
         String result = "";
-        
 
         setDefaultPath();
         if(Query.hasSolution("project(" + projectName + ")")) {
-            Hashtable solution = Query.oneSolution("game(L)");
-           // System.out.println(Query.oneSolution("run, findall_constraints(h(_,_,_),X)"));
-            System.out.println("L = " + solution.get("L"));
-            result = "" + solution.get("L");
-            return result;
+//            Hashtable solution = Query.oneSolution("game(L)");
+//            System.out.println(Query.oneSolution("run, findall_constraints(h(_,_,_),X)"));
+
+            Hashtable solution = Query.oneSolution("run, findall_constraints(h(_,_,_),L)");
+            if (solution != null) {
+                System.out.println("L = " + solution.get("L"));
+                result = "" + solution.get("L");
+                return result;
+             }
         }
         return result;
     }
