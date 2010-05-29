@@ -1,5 +1,6 @@
 package javasciff;
 
+import gamegui.ChessBoard;
 import lib.Move;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -135,7 +136,7 @@ public class SProject {
      * Crea il file kb.pl, secondo il relativo modello
      */
     private void generateKBFile() {
-         FileManager.writeStringToFile("society_goal.\n%%%% TEORIA PROLOG %%%%\n\n" + kb, projectName + "/" + kbFile);
+         FileManager.writeStringToFile("society_goal.\n%%%% TEORIA PROLOG %%%%\n\n" + kb + ChessBoard.getInstance().generateWorldDescription(), projectName + "/" + kbFile);
     }
 
     /**
@@ -172,6 +173,7 @@ public class SProject {
             out.write("run(_):- run.\n");
             out.write("run_open(_):- run_no_close.\n");
             out.write("run_closed(_):- run.\n");
+            out.write("game(L) :- run, findall_constraints(h(_,_,_), L).\n");
 
             out.close();
         } catch (Exception e) {

@@ -28,6 +28,7 @@ public class Move {
         this.time = time;
     }
 
+
     /**
      * Get X value
      * @return
@@ -50,7 +51,11 @@ public class Move {
 
     @Override
     public String toString() {
-        return "hap(sono(" + x + "," + y + "," + color + "," + figure + "), " + time + ".0).";
+        if (x<0 || y<0){
+            return "hap(sono(A,B,C,D), "+ time + ".0).";
+        }else{
+            return "hap(sono(" + x + "," + y + "," + color + "," + figure + "), " + time + ".0).";
+        }
     }
 
 }
