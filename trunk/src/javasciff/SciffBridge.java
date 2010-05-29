@@ -2,6 +2,7 @@ package javasciff;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.Hashtable;
 import jpl.*;
 
 /**
@@ -47,6 +48,10 @@ public class SciffBridge {
         return runProject(project.getProjectName());
     }
 
+    public String runGenerativeProject(SProject project) {
+        project.generateProject();
+        return runGenerativeProject(project.getProjectName());
+    }
 
     /**
      * Esegue il progetto SCIFF - il cui nome è pasato come parametro - e ritorna l'esito.
@@ -73,6 +78,21 @@ public class SciffBridge {
 
 
         return false;
+    }
+
+    public String runGenerativeProject(String projectName) {
+        String result = "";
+        
+
+        setDefaultPath();
+        if(Query.hasSolution("project(" + projectName + ")")) {
+            Hashtable solution = Query.oneSolution("game(L)");
+           // System.out.println(Query.oneSolution("run, findall_constraints(h(_,_,_),X)"));
+            System.out.println("L = " + solution.get("L"));
+            result = "" + solution.get("L");
+            return result;
+        }
+        return result;
     }
 
     /***

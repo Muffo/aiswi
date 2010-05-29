@@ -6,7 +6,6 @@
 
 package gamegui;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lib.*;
 import java.awt.Cursor;
 import java.io.BufferedWriter;
@@ -14,7 +13,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import javasciff.SProject;
 import javasciff.SciffBridge;
@@ -27,6 +28,18 @@ import org.xml.sax.SAXException;
 /**
  *
  * @author Baioni, Grandi, Tallevi
+ *
+ * *
+ *
+ * INTERFACE BUGS:
+ *      - Il pannello sotto la scacchiera sborda (quello marrone)
+ *
+ * TODO:
+ *      - Creare un thread separato per la ricerca di un percorso, dando così la possibilità di abort all'utente
+ *      - Una barra progressiva per indicare lo stato di avanzamento?
+ *
+ *
+ * 
  */
 
 public class ChessBoard extends javax.swing.JFrame {
@@ -57,7 +70,9 @@ public class ChessBoard extends javax.swing.JFrame {
         reloadDefaultSciffRules();
     }
 
-
+    public Cell[][] getCells(){
+        return this.cells;
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -100,6 +115,8 @@ public class ChessBoard extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         btnReloadSciffRules = new javax.swing.JButton();
+        btnUndo1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -136,7 +153,7 @@ public class ChessBoard extends javax.swing.JFrame {
         );
         BoardLayout.setVerticalGroup(
             BoardLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 512, Short.MAX_VALUE)
+            .add(0, 545, Short.MAX_VALUE)
         );
 
         jSplitPane1.setBackground(new java.awt.Color(255, 255, 0));
@@ -253,6 +270,25 @@ public class ChessBoard extends javax.swing.JFrame {
             }
         });
 
+        btnUndo1.setText("Generate Trace");
+        btnUndo1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generateTrace(evt);
+            }
+        });
+
+        jTextField1.setText("# moves");
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clearText(evt);
+            }
+        });
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -271,43 +307,45 @@ public class ChessBoard extends javax.swing.JFrame {
                 .add(8, 8, 8)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
+                        .add(jLabel1)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 71, Short.MAX_VALUE)
+                        .add(jLabel2)
+                        .add(54, 54, 54)
+                        .add(jLabel3)
+                        .add(56, 56, 56)
+                        .add(jLabel4)
+                        .add(60, 60, 60)
+                        .add(jLabel5)
+                        .add(57, 57, 57)
+                        .add(jLabel6)
+                        .add(56, 56, 56)
+                        .add(jLabel7)
+                        .add(58, 58, 58)
+                        .add(jLabel8)
+                        .add(46, 46, 46))
+                    .add(jPanel1Layout.createSequentialGroup()
                         .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(btnClear)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(862, Short.MAX_VALUE))
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(jLabel1)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(jLabel2)
-                                .add(54, 54, 54)
-                                .add(jLabel3)
-                                .add(56, 56, 56)
-                                .add(jLabel4)
-                                .add(60, 60, 60)
-                                .add(jLabel5)
-                                .add(57, 57, 57)
-                                .add(jLabel6)
-                                .add(56, 56, 56)
-                                .add(jLabel7)
-                                .add(58, 58, 58)
-                                .add(jLabel8)
-                                .add(46, 46, 46))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, Board, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel17))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel18)
-                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(20, 20, 20))))
+                        .add(btnUndo1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(Board, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(26, 26, 26)
+                        .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel17))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel18)
+                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -329,7 +367,7 @@ public class ChessBoard extends javax.swing.JFrame {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 44, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 82, Short.MAX_VALUE)
                         .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
                         .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -343,20 +381,22 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(jLabel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
                         .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(109, 109, 109))
+                        .add(142, 142, 142))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 6, Short.MAX_VALUE)
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane3))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane3))
+                            .add(Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE))
+                        .add(7, 7, 7)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                             .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnUndo1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(61, 61, 61))))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 0));
@@ -517,6 +557,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
         // Ordinata in senso alfabetico!!
         ruleAutocomp.words = new ArrayList<String>();
+      //  ruleAutocomp.words.add("().");
         ruleAutocomp.words.add("begin");
         ruleAutocomp.words.add("blue");
         ruleAutocomp.words.add("force");
@@ -524,10 +565,13 @@ public class ChessBoard extends javax.swing.JFrame {
         ruleAutocomp.words.add("minmove");
         ruleAutocomp.words.add("money");
         ruleAutocomp.words.add("move_rules");
+        ruleAutocomp.words.add("prereq");
         ruleAutocomp.words.add("red");
         ruleAutocomp.words.add("treasure");
         ruleAutocomp.words.add("troll");
         ruleAutocomp.words.add("yellow");
+        
+        
  
     }
 
@@ -671,9 +715,46 @@ public class ChessBoard extends javax.swing.JFrame {
         if (rc == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             String fileName = file.getAbsolutePath();
-            writeWorldDescription(cells, fileName);
+            writeWorldDescription(fileName);
         }
     }//GEN-LAST:event_jMenuItem4MouseReleased
+
+    private void generateTrace(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateTrace
+        // TODO add your handling code here:
+        try{
+            int moves = Integer.parseInt(jTextField1.getText());
+            if (moves == 0){
+                 JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse = 0", "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            }else{
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                SProject project = new SProject("gameProj");
+                project.kb = txtRules.getText();
+                project.rules = txtSciffRules.getText();
+                trace.clear();
+                for( int i=0; i< moves; i++){
+                    trace.add(new Move(-1,-1,"_","_", i));
+                }
+                project.trace = trace;
+                String projResult = sciff.runGenerativeProject(project);
+                //String projResult =
+                trace = convertStringToMove(projResult);
+                refreshTrace();
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+         }catch(Exception e){
+             JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse NON definito"+ e.getMessage(), "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+        }
+
+    }//GEN-LAST:event_generateTrace
+
+    private void clearText(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearText
+        // TODO add your handling code here:
+        jTextField1.setText("");
+    }//GEN-LAST:event_clearText
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * Return the trace list
@@ -695,6 +776,7 @@ public class ChessBoard extends javax.swing.JFrame {
         moveCounter++;
         refreshTrace();
     }
+    
 
     /**
      * undo last move
@@ -704,7 +786,7 @@ public class ChessBoard extends javax.swing.JFrame {
             return;
         }
         moveCounter--;
-        Move lastMove = trace.get(trace.size()-1);
+      //  Move lastMove = trace.get(trace.size()-1);
         trace.remove(trace.size()-1);
         refreshTrace();
     }
@@ -734,35 +816,48 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
-    private void writeWorldDescription(Cell[][] c, String newFileName){
+    public void writeWorldDescription(String newFileName){
+        String worldDescription = generateWorldDescription();
+        writeWorldDescriptionToAFile(worldDescription, newFileName);
+    }
+    
+    public String generateWorldDescription(){
 
-        try {
-            File file = new File(newFileName);
-            file.createNewFile();
-            // FileWriter fstream = new FileWriter(projectPath + "/xml/" + newFileName);
-            FileWriter fstream = new FileWriter(newFileName);
-            BufferedWriter out = new BufferedWriter(fstream);
-            for (int i = 0; i < ChessBoard.DIM; i++) {
-                for (int j = 0; j < ChessBoard.DIM; j++) {
-                    String figure = c[i][j].getFigure();
-                    String color = c[i][j].getColor();
-                    String pos_x = "" + c[i][j].getPosX();
-                    String pos_y = "" + c[i][j].getPosY();
-                    String element = "cell("
-                            + pos_x + ","
-                            + pos_y + ","
-                            + color + ","
-                            + figure
-                            + ").\n";
-                    out.write(element);
-                }
+        Cell[][] c = cells;
+        
+        String world = "";
+        for (int i = 0; i < ChessBoard.DIM; i++) {
+            for (int j = 0; j < ChessBoard.DIM; j++) {
+                String figure = c[i][j].getFigure();
+                String color = c[i][j].getColor();
+                String pos_x = "" + c[i][j].getPosX();
+                String pos_y = "" + c[i][j].getPosY();
+                String element = "cell("
+                        + pos_x + ","
+                        + pos_y + ","
+                        + color + ","
+                        + figure
+                        + ").\n";
+                world += element;
             }
-            out.close();
-            fstream.close();
-        }catch  (Exception ex) {
-            ex.printStackTrace();
         }
+      return world;
 
+    }
+
+    public void writeWorldDescriptionToAFile(String worldDescription, String newFileName){
+          try {
+                File file = new File(newFileName);
+                file.createNewFile();
+                //FileWriter fstream = new FileWriter(projectPath + "/xml/" + newFileName);
+                FileWriter fstream = new FileWriter(newFileName);
+                BufferedWriter out = new BufferedWriter(fstream);
+                out.write(worldDescription);
+                out.close();
+                fstream.close();
+         }catch(Exception ex) {
+                ex.printStackTrace();
+        }
     }
 
     private void loadFromXML(String fileName, boolean isFullPath){
@@ -807,6 +902,58 @@ public class ChessBoard extends javax.swing.JFrame {
         txtSciffRules.setText(FileManager.readFileAsString("project_template/rules.txt"));
     }
 
+    /**
+     *
+     * @param p
+     * @return
+     */
+    private List<Move> convertStringToMove(String sciffOutput) {
+
+        System.out.print(sciffOutput);
+        List<Move> lm = new Vector<Move>();
+        sciffOutput = sciffOutput.replace("'", "");
+        StringTokenizer st = new StringTokenizer(sciffOutput, "(");
+        int counter = 1;
+        while (st.hasMoreTokens()) {
+             if (counter == 1){
+                 // abbiamo necessita di scartare un token in pii la prima volta
+                st.nextToken();
+                st.nextToken();
+                st.nextToken();
+                st.nextToken();
+                st.nextToken();
+             }else{
+                st.nextToken();
+                st.nextToken();
+                st.nextToken();
+                st.nextToken();
+             }
+             String substring = st.nextToken();
+             StringTokenizer st2 = new StringTokenizer(substring, "," );
+             String substring2 = st2.nextToken();
+             int x = Integer.parseInt(substring2.trim());
+             substring2 = st2.nextToken();
+             int y = Integer.parseInt(substring2.trim());
+             substring2 = st2.nextToken();
+             String color = substring2.trim();
+             substring2 = st2.nextToken();
+             String figure = substring2.trim();
+             figure = figure.replace(")", "");
+             substring2 = st2.nextToken().trim();
+             substring2 = substring2.replace(")", "");
+             StringTokenizer st3 = new StringTokenizer(substring2);
+             int time = Integer.parseInt(st3.nextToken("."));
+             lm.add(new Move(x,y,color, figure, time));
+             if (time==0){
+                 break;
+             }
+             counter++;
+         }
+      //  System.out.print("baio");
+        Collections.reverse(lm);
+        return lm;
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Board;
@@ -814,6 +961,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JButton btnEval;
     private javax.swing.JButton btnReloadSciffRules;
     private javax.swing.JButton btnUndo;
+    private javax.swing.JButton btnUndo1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -855,13 +1003,11 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextArea txtRules;
     private javax.swing.JTextArea txtSciffRules;
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
-
-
-
 
 
 }
