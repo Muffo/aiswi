@@ -295,11 +295,14 @@ get_disunif_variables_args([X|ArgX],[Y|ArgY],Lx,Ly):-
 disunif_list([X],[Y]):- !,not_unify_constr(X,Y).
 disunif_list([X1,X2|Tx],[Y1,Y2|Ty]):-
     reif_unify(X1,Y1,B1),
-    (B1 == 0 -> true
-        ;   (B1 == 1 -> disunif_list([X2|Tx],[Y2|Ty])
-            ;   disunif_list_constr(B1,[X2|Tx],[Y2|Ty])
+    (B1 == 0 -> !
+        ;   (B1 == 1 -> fail % undo the unification X1=Y1 and take next clause
+            ;   !,disunif_list_constr(B1,[X2|Tx],[Y2|Ty])
             )
     ).
+% X1 and Y1 necessarily unify: continue with the other  arguments
+disunif_list([_X1,X2|Tx],[_Y1,Y2|Ty]):- 
+    disunif_list([X2|Tx],[Y2|Ty]).
 
 :- chr_constraint disunif_list_constr(?natural,?any,?any).
 disunif_list_constr(0,_,_) <=> true.

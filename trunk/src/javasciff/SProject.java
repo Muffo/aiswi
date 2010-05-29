@@ -13,6 +13,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lib.FileManager;
+import lib.WorldDescription;
 
 /**
  * Rappresenta un progetto SCIFF.
@@ -136,7 +137,8 @@ public class SProject {
      * Crea il file kb.pl, secondo il relativo modello
      */
     private void generateKBFile() {
-         FileManager.writeStringToFile("society_goal.\n%%%% TEORIA PROLOG %%%%\n\n" + kb + ChessBoard.getInstance().generateWorldDescription(), projectName + "/" + kbFile);
+         FileManager.writeStringToFile("society_goal.\n%%%% TEORIA PROLOG %%%%\n\n" + 
+                 kb + "\n\n%%%% DESCIZIONE MONDO %%%%\n\n" +   WorldDescription.generateWorldDescription(ChessBoard.getInstance().getCells()), projectName + "/" + kbFile);
     }
 
     /**

@@ -119,15 +119,17 @@ ic_list([IC|MoreICs],N) -->
 	{N1 is N+1},
 	ic_list(MoreICs,N1).
 ic_list([_|_],N) -->
-    {write('Error in IC number '), 
-    write(N), write(' ***'), nl, fail}.
+    {write_error('Error in IC number '), 
+    write_error(N), 
+    write_error(' ***'),
+    nl, fail}.
 
 ic(ic(Body,Head)) -->
 	body(Body),
 	impl_symbol,!,
 	head2(Head).
 ic(_) -->
-    {nl, write('*** Error in Body or could not find implication symbol: '), nl, fail}.
+    {nl, write_error('*** Error in Body or could not find implication symbol: '), nl, fail}.
 
 /* Old syntax: body should start with event or abducible 
 body([BodyAtom|MoreAtoms]) -->
@@ -137,7 +139,7 @@ body([BodyAtom|MoreAtoms]) -->
 	event(BodyAtom),!,
 	body_tail(MoreAtoms).
 body(_) -->
-    {nl, write('*** Body must begin with event or abducible.'), nl, fail}.
+    {nl, write_error('*** Body must begin with event or abducible.'), nl, fail}.
 */
 
 body([BodyAtom|MoreAtoms]) -->
@@ -153,7 +155,7 @@ body_tail([]) -->
 	[].
 body_tail(_) -->
     comma,
-    {nl, write('*** Error in body conjunct: comma instead of /\\ symbol?'), fail}.
+    {nl, write_error('*** Error in body conjunct: comma instead of /\\ symbol?'), fail}.
 
 body_atom(BodyAtom) -->
 	abducible(BodyAtom).
@@ -243,7 +245,7 @@ head2(Head) -->
     head1(Head),
 	full_stop,!.
 head2(_) -->
-    {nl, write('*** Error in Head or could not find full stop: '), fail}.
+    {nl, write_error('*** Error in Head or could not find full stop: '), fail}.
 
 %head1([[false]])-->"false",!.
 head1([])-->"false",!.
@@ -303,7 +305,7 @@ disjunct_tail([]) -->
 	[].
 disjunct_tail(_) -->
     comma,
-    {nl, write('*** Error in conjunct: comma instead of /\\ symbol?'), fail}.
+    {nl, write_error('*** Error in conjunct: comma instead of /\\ symbol?'), fail}.
 
 head_conjunct(Conjunct) -->
 	abducible(Conjunct).
@@ -338,18 +340,19 @@ abducible(_) -->
 	opening_parenthesis,
 	content(Content),
 	comma,!,
-	{nl, write('*** Error in Abducible "'), write(Functor), write('('), write(Content),
-	write(' -HERE- ":'), nl,
-    write('error in Time, wrong number of arguments or missing ")"  '), nl, fail}.
+	{nl, write_error('*** Error in Abducible "'), write_error2(Functor), write_error2('('), write_error2(Content),
+	write_error(' -HERE- ":'), nl,
+    write_error('error in Time, wrong number of arguments or missing ")"  '), nl, fail}.
 abducible(_) -->
 	abducible_functor(Functor),
 	opening_parenthesis,!,
-	{nl, write('*** Error in Abducible "'), write(Functor), 
-    write('( -HERE- ": error in Content or missing \',\' '), nl, fail}.
+	{nl, write_error('*** Error in Abducible "'), write_error2(Functor), 
+    write_error2('('),
+    write_error(' -HERE- ": error in Content or missing \',\' '), nl, fail}.
 abducible(_) -->
 	abducible_functor(Functor),!,
-	{nl, write('*** Error in Abducible "'), write(Functor), 
-    write(' -HERE- ": missing \'(\' '), nl, fail}.
+	{nl, write_error('*** Error in Abducible "'), write_error2(Functor), 
+    write_error(' -HERE- ": missing \'(\' '), nl, fail}.
 
 
 event(Event) -->
@@ -365,18 +368,19 @@ event(_) -->
 	opening_parenthesis,
 	content(Content),
 	comma,!,
-	{nl, write('*** Error in event "'), write(Functor), write('('), write(Content),
-	write(' -HERE- ":'), nl,
-    write('error in Time, wrong number of arguments or missing ")"  '), nl, fail}.
+	{nl, write_error('*** Error in event "'), write_error2(Functor), write_error2('('), write_error2(Content),
+	write_error(' -HERE- ":'), nl,
+    write_error('error in Time, wrong number of arguments or missing ")"  '), nl, fail}.
 event(_) -->
 	event_functor(Functor),
 	opening_parenthesis,!,
-	{nl, write('*** Error in event "'), write(Functor), 
-    write('( -HERE- ": error in Content or missing \',\' '), nl, fail}.
+	{nl, write_error('*** Error in event "'), write_error2(Functor), 
+    write_error2('('),
+    write_error(' -HERE- ": error in Content or missing \',\' '), nl, fail}.
 event(_) -->
 	event_functor(Functor),!,
-	{nl, write('*** Error in event "'), write(Functor), 
-    write(' -HERE- ": missing \'(\' '), nl, fail}.
+	{nl, write_error('*** Error in event "'), write_error2(Functor), 
+    write_error(' -HERE- ": missing \'(\' '), nl, fail}.
 
 abducible_functor(e) -->
 	"E".
@@ -473,6 +477,5 @@ write_head_to_stream([Disjunct1,Disjunct2|MoreDisjuncts],Stream):-
 		     
 spaces(Stream):-
 	write(Stream,'        ').
-
 
 

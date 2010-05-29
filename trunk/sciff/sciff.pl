@@ -234,6 +234,14 @@ e([act,1],act(_),_), max_depth(DepthMax) ==>
     max_constraints(e(_,act(_),_),DepthMax).
 
 
+%%%MARCOM
+max_depth_e_act @
+h([sono,4],sono(_,_,_,_),_), max_depth(DepthMax) ==>
+    findall_constraints(h(_,sono(_,_,_,_),_),L), length(L,N), N>DepthMax | writeln(ciao(N)),fail.
+    %max_constraints(e(_,sono(_,_,_,_),_),DepthMax).
+
+
+
 %----------------------------------------------------------
 % ITERATIVE DEEPENING: max number of violation
 %----------------------------------------------------------
@@ -453,10 +461,11 @@ p([[],NotHa,[],[],[],[],[viol(Event2a)|MoreAbda],Aa],Heada)),
 
 % Two terms may be unifiable.
 % Profiled version, nearly twice as fast
+
 fn_ok(Term1,Term2):- Term1 == Term2,!. % either if they are identical
 fn_ok(Term1,Term2):- \+(?=(Term1,Term2)). % or if they are syntactically unifiable
 
-/* old version
+/* old version 
 fn_ok(Term1,Term2):-
     nonvar(Term1),
     nonvar(Term2),
@@ -465,12 +474,14 @@ fn_ok(Term1,Term2):-
     Term2=..[H|T2],
     fn_ok_list(T1,T2).
 fn_ok(_,_).
+*/
+
 
 fn_ok_list([],[]).
 fn_ok_list([H1|T1],[H2|T2]):-
     fn_ok(H1,H2),
     fn_ok_list(T1,T2).
-*/
+
 
 split_list(List,1,[],List):-
     !.
@@ -1159,7 +1170,9 @@ fulfiller1 @
     %findall_constraints(nondeterministic(_),[]) bug fix: fulfilment does not use nondeterinistic
     |
     fulf(e(F,Event,Time)),
-    h(F,Event,Time).
+    h(F,Event,Time),
+    %%%MARCOM
+    writeln(h(Event,Time)).
 
 %Constraints used by AlLoWS
 :- chr_constraint
@@ -1528,7 +1541,9 @@ run_no_close:-
 try_number(0).
 try_number(X):-
     try_number(Y),
-    X is Y+1.
+    X is Y+1,
+    max_bound(B),
+    X < B.
 
 iterative_deepening(Goal):-
     try_number(Depth),

@@ -97,13 +97,10 @@ class Autocomplete  implements DocumentListener {
             return;
         }
 
-        System.out.println("Content è: " + content);
-
         String prefix = content.substring(w + 1).toLowerCase();
         int n = Collections.binarySearch(words, prefix);
         if (n < 0 && -n <= words.size()) {
             String match = words.get(-n - 1);
-            System.out.println("Provo match di " + prefix + " con " + match);
             if (match.startsWith(prefix)) {
                 // A completion is found
                 String completion = match.substring(pos - w);
@@ -133,7 +130,6 @@ class Autocomplete  implements DocumentListener {
         }
 
         public void run() {
-            System.out.println("Ok, completo");
             textArea.insert(completion, position);
             textArea.setCaretPosition(position + completion.length());
             textArea.moveCaretPosition(position);
