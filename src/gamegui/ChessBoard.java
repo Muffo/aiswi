@@ -763,7 +763,7 @@ public class ChessBoard extends javax.swing.JFrame {
         // Per usare i thread decommentare la linea sotto e cancellare tutto il codice seguente
         genThread = sciff.runThreadGenerativeProject(project.getProjectName());
         
-        String projResult = sciff.runGenerativeProject(project);
+        /*String projResult = sciff.runGenerativeProject(project);
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         if (projResult.isEmpty()) {
             JOptionPane.showMessageDialog(new JFrame(), "Errore: non è stato possibile recuperare una lista di mosse valida",
@@ -772,7 +772,7 @@ public class ChessBoard extends javax.swing.JFrame {
         }
         trace = MoveConverter.convertStringToMoves(projResult);
         refreshTrace();
-
+        */
     }//GEN-LAST:event_generateTrace
 
     private void clearText(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearText
