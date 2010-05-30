@@ -761,7 +761,7 @@ public class ChessBoard extends javax.swing.JFrame {
         project.trace = trace;
 
         // Per usare i thread decommentare la linea sotto e cancellare tutto il codice seguente
-        // genThread = sciff.runThreadGenerativeProject(project);
+        genThread = sciff.runThreadGenerativeProject(project.getProjectName());
         
         String projResult = sciff.runGenerativeProject(project);
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -772,8 +772,6 @@ public class ChessBoard extends javax.swing.JFrame {
         }
         trace = MoveConverter.convertStringToMoves(projResult);
         refreshTrace();
-        
-         
 
     }//GEN-LAST:event_generateTrace
 

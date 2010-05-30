@@ -87,7 +87,7 @@ public class SciffBridge {
 
     public Thread runThreadGenerativeProject(String projectName) {
         setDefaultPath();
-        SciffGenerate sg = new SciffGenerate(path);
+        SciffGenerate sg = new SciffGenerate(projectName);
         Thread sgThread = new Thread(sg);
         sgThread.start();
 
