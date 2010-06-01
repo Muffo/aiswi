@@ -12,9 +12,9 @@ H(start,0.0)
 /\ H(sono(X,Y,C,F),T)
 --->EN(sono(X,Y,C,F), T2) /\ T2==T+1.0.
 
-% Cella iniziale (0,0,yellow,money)
+% Cella iniziale (0,0,yellow,arm)
 H(start,0.0)
---->E(sono(0,0,yellow,money),0.0).
+--->E(sono(0,0,yellow,arm),0.0).
 
 % Cella finale (7,7,default,home) e non mi aspetto altri eventi in seguito
 H(start,0.0)
