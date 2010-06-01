@@ -6,7 +6,7 @@
 			<x>0</x>
 			<y>0</y>
 			<color>yellow</color>
-			<figure>arm</figure>
+			<figure>money</figure>
 		</cell>
         <cell>
 			<x>0</x>
@@ -173,6 +173,12 @@
         <cell>
 			<x>7</x>
 			<y>5</y>
+			<color>default</color>
+			<figure>arm</figure>
+		</cell>
+         <cell>
+			<x>7</x>
+			<y>7</y>
 			<color>default</color>
 			<figure>home</figure>
 		</cell>
