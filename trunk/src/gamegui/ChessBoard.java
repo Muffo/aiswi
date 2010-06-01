@@ -127,6 +127,8 @@ public class ChessBoard extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItemUndoLast = new javax.swing.JMenuItem();
         jMenuClearAll = new javax.swing.JMenuItem();
+        JMenuGenerate = new javax.swing.JMenu();
+        ignorePrologRulesCheckbox = new javax.swing.JCheckBoxMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuHelp = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -275,7 +277,9 @@ public class ChessBoard extends javax.swing.JFrame {
             }
         });
 
+        txtNumMoves.setColumns(5);
         txtNumMoves.setText("# moves");
+        txtNumMoves.setMinimumSize(new java.awt.Dimension(30, 28));
         txtNumMoves.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clearText(evt);
@@ -349,7 +353,7 @@ public class ChessBoard extends javax.swing.JFrame {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                         .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(jLabel17)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 46, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -380,21 +384,21 @@ public class ChessBoard extends javax.swing.JFrame {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 19, Short.MAX_VALUE)
+                        .add(43, 43, 43)
                         .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
                         .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(36, 36, 36)
+                        .add(43, 43, 43)
                         .add(jLabel12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(47, 47, 47)
+                        .add(43, 43, 43)
                         .add(jLabel13, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
                         .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(41, 41, 41)
+                        .add(43, 43, 43)
                         .add(jLabel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
                         .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(142, 142, 142))
+                        .add(36, 36, 36))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -460,7 +464,7 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenuProject.setBackground(new java.awt.Color(255, 255, 0));
-        jMenuProject.setText("Project");
+        jMenuProject.setText("Verify");
         jMenuProject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEvalActionPerformed(evt);
@@ -469,7 +473,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
         jMenuItemRun.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.META_MASK));
         jMenuItemRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconRun.png"))); // NOI18N
-        jMenuItemRun.setText("Run Project...");
+        jMenuItemRun.setText("Run Verify...");
         jMenuItemRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEvalActionPerformed(evt);
@@ -499,6 +503,15 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenuProject.add(jMenuClearAll);
 
         jMenuBar1.add(jMenuProject);
+
+        JMenuGenerate.setBackground(new java.awt.Color(255, 255, 0));
+        JMenuGenerate.setText("Generate");
+
+        ignorePrologRulesCheckbox.setSelected(true);
+        ignorePrologRulesCheckbox.setText(" Ignore Prolog Rules");
+        JMenuGenerate.add(ignorePrologRulesCheckbox);
+
+        jMenuBar1.add(JMenuGenerate);
 
         jMenu2.setBackground(new java.awt.Color(255, 255, 0));
         jMenu2.setText("Help");
@@ -533,7 +546,7 @@ public class ChessBoard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 627, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 658, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -752,7 +765,11 @@ public class ChessBoard extends javax.swing.JFrame {
         
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         SProject project = new SProject("gameProj");
-        project.kb = txtRules.getText();
+        if ( ignorePrologRulesCheckbox.getState() ){
+            project.kb = "";
+        }else{
+            project.kb = txtRules.getText();
+        }
         project.rules = txtSciffRules.getText();
         trace.clear();
         for( int i=0; i< moves; i++){
@@ -930,12 +947,14 @@ public class ChessBoard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Board;
+    private javax.swing.JMenu JMenuGenerate;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEval;
     private javax.swing.JButton btnGenerate;
     private javax.swing.JButton btnReloadSciffRules;
     private javax.swing.JButton btnStopGen;
     private javax.swing.JButton btnUndo;
+    private javax.swing.JCheckBoxMenuItem ignorePrologRulesCheckbox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
