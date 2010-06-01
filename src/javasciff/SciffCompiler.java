@@ -1,24 +1,26 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package javasciff;
 
 import jpl.Query;
 
 /**
  *
- * @author muffo
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class SciffCompiler implements Runnable {
 
     private String sciffPath;
 
+    /**
+     *
+     * @param sciffPath
+     */
     public SciffCompiler(String sciffPath) {
         this.sciffPath = sciffPath;
     }
 
+    /**
+     * Esecuzione del comando prolog compile(sciff).
+     */
     public void run() {
         Query.hasSolution("compile(" + sciffPath + "sciff)");
     }

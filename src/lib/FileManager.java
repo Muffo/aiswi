@@ -12,7 +12,7 @@ import javasciff.SProject;
 
 /**
  *
- * @author Baioni, Grandi, Tallevi
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class FileManager {
     

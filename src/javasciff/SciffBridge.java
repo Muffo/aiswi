@@ -11,7 +11,7 @@ import jpl.*;
  *
  * L'esecuzione dei comandi prolog viene effettuata tramite jpl.
  *
- * @author Andrea Grandi
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class SciffBridge {
 

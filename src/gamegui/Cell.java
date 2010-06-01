@@ -8,8 +8,8 @@ import javax.swing.JLayeredPane;
 
 
 /**
- * Cell of the chessboard.
- * @author Baioni, Grandi, Tallevi
+ * Cella della scacchiera
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class Cell extends javax.swing.JPanel{
 
@@ -23,11 +23,22 @@ public class Cell extends javax.swing.JPanel{
 
     private static Dictionary<String, Object> catalogCF = new Hashtable<String, Object>();
    
-
+    /**
+     * 
+     * @param x
+     * @param y
+     */
     public Cell(int x, int y) {
          this(x, y, "default", "empty");
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param color
+     * @param figure
+     */
     public Cell(int x, int y, String color, String figure) {
         super();
         this.x = x;
@@ -92,8 +103,8 @@ public class Cell extends javax.swing.JPanel{
     }
 
     /**
-     * Set the figure of a Cell
-     * @param figure name of the figure
+     * Set della figura
+     * @param figure nome della figura
      */
     public void setFigure(String figure) {
         this.figure = figure;
@@ -107,14 +118,18 @@ public class Cell extends javax.swing.JPanel{
     }
 
     /**
-     * Set the color of a Cell
-     * @param color Italian or in English color name
+     * Set del colore
+     * @param color nome del colore in inglese
      */
     public void setColor(String color) {
         this.color = color;
         setBackground((java.awt.Color)Cell.catalogCF.get(color));
     }
 
+    /**
+     * Set dell'evidenziazione. Se la cella è già selezionata essa verrà deselezionata
+     * @param highlight
+     */
     public void setHighlight(boolean highlight) {
         if (highlight)
             setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0), 3));
@@ -123,7 +138,10 @@ public class Cell extends javax.swing.JPanel{
         
     }
 
-
+    /**
+     * Aggiunta di un numero alla label
+     * @param number
+     */
     public void addNumber(int number) {
         if (!lblNumber.getText().isEmpty()) {
             lblNumber.setText(lblNumber.getText() + "," + number);
@@ -133,28 +151,46 @@ public class Cell extends javax.swing.JPanel{
         }
     }
 
+    /**
+     * Reset del testo della label
+     */
     public void resetNumber() {
         lblNumber.setText(""); 
     }
 
-
+    /**
+     *
+     * @return
+     */
     public String getColor(){
         return this.color;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFigure(){
         return this.figure;
     }
-
+    /**
+     *
+     * @return
+     */
     public int getPosX(){
         return this.x;
     }
-
+    /**
+     *
+     * @return
+     */
     public int getPosY(){
         return this.y;
     }
 
-    
+    /**
+     * Inizializzazione del dizionario interno utilizzato per recuperare i path delle immagini e dei colori
+     */
     public static void initDictionary() {
        File dir = new File (".");
         try{
@@ -173,7 +209,6 @@ public class Cell extends javax.swing.JPanel{
             catalogCF.put("skull", projectPath + "/img/skull-empty.png");
             catalogCF.put("star", projectPath + "/img/star.png");
             catalogCF.put("troll", projectPath + "/img/troll.png");
-            //catalogCF.put("martello", projectPath + "/img/martello.png");
             catalogCF.put("hammer", projectPath + "/img/martello.png");
             catalogCF.put("arrow", projectPath + "/img/arrow.png");
             catalogCF.put("money", projectPath + "/img/money.png");
@@ -181,13 +216,9 @@ public class Cell extends javax.swing.JPanel{
             catalogCF.put("home", projectPath + "/img/home.png");
             catalogCF.put("default", new java.awt.Color(255, 255, 255));
             catalogCF.put("yellow", new java.awt.Color(255, 255, 0));
-            //catalogCF.put("giallo", new java.awt.Color(255,255,0));
             catalogCF.put("blue", new java.awt.Color(0,0,255));
-            //catalogCF.put("blu", new java.awt.Color(0,0,255));
             catalogCF.put("red", new java.awt.Color(255,0,0));
-            //catalogCF.put("rosso", new java.awt.Color(255,0,0));
             catalogCF.put("black", new java.awt.Color(0,0,0));
-            //catalogCF.put("nero", new java.awt.Color(0,0,0));
 
         }catch(Exception e){
             e.printStackTrace();

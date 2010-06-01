@@ -1,10 +1,9 @@
-
 package lib;
 
 /**
- * Rappresents a move
+ * Rappresenta una mossa
  * 
- * @author muffo
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class Move {
     private int x, y;
@@ -30,7 +29,7 @@ public class Move {
 
 
     /**
-     * Get X value
+     * Get X
      * @return
      */
     public int getX(){
@@ -38,13 +37,17 @@ public class Move {
     }
 
     /**
-     * Get Y value
+     * Get Y
      * @return
      */
     public int getY(){
         return this.y;
     }
 
+    /**
+     * Get time
+     * @return
+     */
     public int getTime(){
         return this.time;
     }
