@@ -3,81 +3,177 @@
 
 	<chessboard>
 		<cell>
-			<x>1</x>
-			<y>3</y>
-			<color>red</color>
-			<figure>empty</figure>
+			<x>0</x>
+			<y>0</y>
+			<color>yellow</color>
+			<figure>arm</figure>
 		</cell>
         <cell>
-			<x>3</x>
+			<x>0</x>
+			<y>2</y>
+			<color>blue</color>
+			<figure>money</figure>
+		</cell>
+        <cell>
+			<x>0</x>
+			<y>6</y>
+			<color>yellow</color>
+			<figure>star</figure>
+		</cell>
+        <cell>
+			<x>0</x>
+			<y>7</y>
+			<color>yellow</color>
+			<figure>book</figure>
+		</cell>
+        <cell>
+			<x>1</x>
 			<y>0</y>
 			<color>red</color>
 			<figure>paper</figure>
 		</cell>
-		<cell>
-			<x>3</x>
-			<y>6</y>
-			<color>yellow</color>
+        <cell>
+			<x>1</x>
+			<y>1</y>
+			<color>blue</color>
 			<figure>money</figure>
 		</cell>
         <cell>
-			<x>6</x>
-			<y>2</y>
-			<color>yellow</color>
-			<figure>money</figure>
+			<x>1</x>
+			<y>4</y>
+			<color>blue</color>
+			<figure>paper</figure>
 		</cell>
-		<cell>
-			<x>7</x>
+        <cell>
+			<x>1</x>
+			<y>7</y>
+			<color>red</color>
+			<figure>ipod</figure>
+		</cell>
+        <cell>
+			<x>1</x>
 			<y>6</y>
-			<color>yellow</color>
-			<figure>treasure</figure>
+			<color>blue</color>
+			<figure>monkey</figure>
+		</cell>
+        <cell>
+			<x>2</x>
+			<y>1</y>
+			<color>red</color>
+			<figure>money</figure>
 		</cell>
         <cell>
 			<x>2</x>
 			<y>2</y>
 			<color>red</color>
-			<figure>treasure</figure>
+			<figure>troll</figure>
+		</cell>
+        <cell>
+			<x>2</x>
+			<y>5</y>
+			<color>blue</color>
+			<figure>poison</figure>
+		</cell>
+        <cell>
+			<x>2</x>
+			<y>6</y>
+			<color>red</color>
+			<figure>troll</figure>
+		</cell>
+        <cell>
+			<x>3</x>
+			<y>0</y>
+			<color>red</color>
+			<figure>ipod</figure>
+		</cell>
+        <cell>
+			<x>3</x>
+			<y>1</y>
+			<color>red</color>
+			<figure>poison</figure>
+		</cell>
+        <cell>
+			<x>3</x>
+			<y>2</y>
+			<color>blue</color>
+			<figure>paper</figure>
+		</cell>
+		<cell>
+			<x>3</x>
+			<y>5</y>
+			<color>yellow</color>
+			<figure>money</figure>
 		</cell>
         <cell>
 			<x>4</x>
-			<y>5</y>
+			<y>3</y>
 			<color>yellow</color>
 			<figure>troll</figure>
 		</cell>
-        <cell>
-			<x>0</x>
-			<y>6</y>
-			<color>blue</color>
-			<figure>troll</figure>
+		<cell>
+			<x>4</x>
+			<y>7</y>
+			<color>yellow</color>
+			<figure>treasure</figure>
 		</cell>
-        <cell>
-			<x>0</x>
+         <cell>
+			<x>5</x>
 			<y>0</y>
-			<color>yellow</color>
-			<figure>troll</figure>
+			<color>red</color>
+			<figure>star</figure>
 		</cell>
         <cell>
 			<x>5</x>
-			<y>7</y>
+			<y>2</y>
+			<color>yellow</color>
+			<figure>treasure</figure>
+		</cell>
+        <cell>
+			<x>5</x>
+			<y>6</y>
+			<color>yellow</color>
+			<figure>book</figure>
+		</cell>
+        <cell>
+			<x>6</x>
+			<y>3</y>
 			<color>blue</color>
+			<figure>troll</figure>
+		</cell>
+        <cell>
+			<x>6</x>
+			<y>4</y>
+			<color>yellow</color>
 			<figure>arm</figure>
 		</cell>
         <cell>
 			<x>6</x>
+			<y>6</y>
+			<color>blue</color>
+			<figure>monkey</figure>
+		</cell>
+        <cell>
+			<x>7</x>
 			<y>0</y>
 			<color>red</color>
+			<figure>monkey</figure>
+		</cell>
+        <cell>
+			<x>7</x>
+			<y>1</y>
+			<color>yellow</color>
 			<figure>arrow</figure>
 		</cell>
         <cell>
-			<x>4</x>
-			<y>1</y>
+			<x>7</x>
+			<y>4</y>
 			<color>yellow</color>
 			<figure>arm</figure>
 		</cell>
         <cell>
 			<x>7</x>
-			<y>7</y>
-			<color>yellow</color>
+			<y>5</y>
+			<color>default</color>
 			<figure>home</figure>
 		</cell>
         
