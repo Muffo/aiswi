@@ -1,9 +1,3 @@
-/*
- * ChessBoard.java
- *
- * Created on 6-mag-2010, 15.46.34
- */
-
 package gamegui;
 
 import lib.*;
@@ -25,13 +19,8 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author Baioni, Grandi, Tallevi
+ * @author Baioni, Grandi, Tallevi Diotallevi
  *
- * 
- *
- * 
- * 
- * 
  */
 
 public class ChessBoard extends javax.swing.JFrame {
@@ -623,7 +612,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     /**
-     * Get the only one Chessboard instance created in the system
+     * Ritorna l'unica istanza di Chessboard presente nel sistema
      * @return CHessBoard
      */
     public static ChessBoard getInstance(){
@@ -710,7 +699,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuHelpActionPerformed
 
     private void jMenuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAboutActionPerformed
-        String message = "Realizzato da:\n Enrico Baioni\n Andrea Grandi\n Simone Tallevi Diotallevi";
+        String message = "Realizzato da:\n Enrico Baioni\n Andrea Grandi\n Simone Tallevi Diotallevi DioTallevi Diotallevi";
         JOptionPane.showMessageDialog(null, message,"About Sciff Game",JOptionPane.INFORMATION_MESSAGE, new ImageIcon(logoIconPath));
     }//GEN-LAST:event_jMenuAboutActionPerformed
 
@@ -771,7 +760,6 @@ public class ChessBoard extends javax.swing.JFrame {
     private void generateTraceHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateTraceHandler
 
         generateTrace();
-
     }//GEN-LAST:event_generateTraceHandler
 
     private void clearText(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearText
@@ -796,7 +784,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6MouseReleased
 
     /**
-     * Return the trace list
+     * Get lista traccia
      * @return List<Move>
      */
     public List<Move> getTrace(){
@@ -808,7 +796,7 @@ public class ChessBoard extends javax.swing.JFrame {
         genThread.interrupt();
     }
     /**
-     * Add a move to trace list
+     * Aggiunta di una mossa alla traccia
      * @param x
      * @param y
      * @param color
@@ -822,14 +810,13 @@ public class ChessBoard extends javax.swing.JFrame {
     
 
     /**
-     * undo last move
+     * Annulla l'ultima mossa
      */
     public void undoMove() {
         if (trace.isEmpty()){
             return;
         }
         moveCounter--;
-      //  Move lastMove = trace.get(trace.size()-1);
         trace.remove(trace.size()-1);
         refreshTrace();
     }
@@ -859,6 +846,10 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }
 
+     /**
+      * Scrive su newFileName la descrizione del mondo
+      * @param newFileName
+      */
     public void writeWorldDescription(String newFileName){
         String worldDescription = WorldDescription.generateWorldDescription(cells);
         writeWorldDescriptionToAFile(worldDescription, newFileName);
@@ -866,7 +857,7 @@ public class ChessBoard extends javax.swing.JFrame {
     
     
 
-    public void writeWorldDescriptionToAFile(String worldDescription, String newFileName){
+    private void writeWorldDescriptionToAFile(String worldDescription, String newFileName){
           try {
                 File file = new File(newFileName);
                 file.createNewFile();
@@ -900,7 +891,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     /**
-     * Update a chessboard cell
+     * Aggiornamento di una cella
      * @param pos_x
      * @param pos_y
      * @param color
@@ -912,7 +903,7 @@ public class ChessBoard extends javax.swing.JFrame {
     }
 
     /**
-     * Set the rules box text
+     * Set delle regole nella textbox
      * @param rules
      */
     public void updateRulesTextArea(String rules){
@@ -922,7 +913,7 @@ public class ChessBoard extends javax.swing.JFrame {
     private void reloadDefaultSciffRules() {
         txtSciffRules.setText(FileManager.readFileAsString("project_template/rules.txt"));
     }
-
+    
     public void updateGenTrace(String result) {
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         if (result.isEmpty()) {

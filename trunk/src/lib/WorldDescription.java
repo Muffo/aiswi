@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package lib;
 
 import gamegui.Cell;
@@ -10,10 +5,15 @@ import gamegui.ChessBoard;
 
 /**
  *
- * @author muffo
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class WorldDescription {
 
+    /**
+     * Generazione di una descrizione del mondo a partire della matrice di celle
+     * @param cells
+     * @return
+     */
     public static String generateWorldDescription(Cell[][] cells) {
          Cell[][] c = cells;
 

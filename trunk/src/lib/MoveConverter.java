@@ -1,4 +1,3 @@
-
 package lib;
 
 import java.util.Collections;
@@ -8,14 +7,14 @@ import java.util.Vector;
 
 /**
  *
- * @author muffo
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class MoveConverter {
     
 
     /**
      *
-     * @param p
+     * @param sciffOutput
      * @return
      */
     public static List<Move> convertStringToMoves(String sciffOutput) {
@@ -60,7 +59,6 @@ public class MoveConverter {
              }
              counter++;
          }
-      //  System.out.print("baio");
         Collections.reverse(lm);
         return lm;
 

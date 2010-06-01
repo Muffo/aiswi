@@ -11,7 +11,7 @@ import java.util.Vector;
  *
  * Consente di creare un progetto tramite Java, specificando le regole e la traccia.
  *
- * @author Andrea Grandi
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class Project {
 

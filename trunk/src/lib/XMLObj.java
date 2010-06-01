@@ -1,4 +1,3 @@
-
 package lib;
 
 import gamegui.Cell;
@@ -18,7 +17,7 @@ import org.w3c.dom.NodeList;
 
 /**
  *
- * @author Baioni, Grandi, Tallevi
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class XMLObj {
     
@@ -29,7 +28,6 @@ public class XMLObj {
     public void read(String fileName) {
         try {
 
-            //finding local path
             String rule = "";
             String errorMessage = "";
             File file = new File(fileName);
@@ -126,15 +124,12 @@ public class XMLObj {
                     for (int i = 0; i < ruleNmElmntLst.getLength(); i++){
                         Element ruleNmElmnt = (Element) ruleNmElmntLst.item(i);
                         NodeList ruleNm = ruleNmElmnt.getChildNodes();
-                       // System.out.println("rule : " + ((Node) ruleNm.item(0)).getNodeValue());
                         rule +=  ("" + ((Node) ruleNm.item(0)).getNodeValue());
                         rule += "\n";
-                        //ChessBoard.getInstance().updateRulesTextArea(rule);
 
                     }
                  rule = rule.replace("&lt;","<");
                  rule = rule.replace("&gt;",">");
-                // System.out.println(rule);
                  ChessBoard.getInstance().updateRulesTextArea(rule);
                 }
            }
@@ -160,18 +155,11 @@ public class XMLObj {
         String secElement = "\t<rules>\n";
         String closeSecElement = "\t</rules>\n";
 
-
-        File dir = new File(".");
-        String projectPath = "";
         String row = "";
         
         try {
-            projectPath = dir.getCanonicalPath();
-            // passo direttamente il percorso assoluto
-            // File file = new File(projectPath + "/xml/" + newFileName);
             File file = new File(newFileName);
             file.createNewFile();
-            // FileWriter fstream = new FileWriter(projectPath + "/xml/" + newFileName);
             FileWriter fstream = new FileWriter(newFileName);
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(head);
@@ -202,7 +190,6 @@ public class XMLObj {
                 String[] rows = rules.split("\n");
                 for (int k = 0; k < rows.length; k++){
                     row = EscapeChars.forXML(rows[k]);
-                 //   System.out.println(row);
                     out.write("\t\t<rule>"+row + "</rule>\n");
                     
                 }

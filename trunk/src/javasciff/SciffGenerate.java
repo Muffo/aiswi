@@ -1,4 +1,3 @@
-
 package javasciff;
 
 import gamegui.ChessBoard;
@@ -7,7 +6,7 @@ import jpl.Query;
 
 /**
  *
- * @author muffo
+ * @author Baioni, Grandi, Tallevi Diotallevi
  */
 public class SciffGenerate implements Runnable {
 
@@ -19,20 +18,15 @@ public class SciffGenerate implements Runnable {
 
     public void run() {
         String result = "";
-
-        
         if(Query.hasSolution("project(" + projectName + ")")) {
-//         Hashtable solution = Query.oneSolution("game(L)");
-//         System.out.println(Query.oneSolution("run, findall_constraints(h(_,_,_),X)"));
-
-            Hashtable solution = Query.oneSolution("run, findall_constraints(h(_,_,_),L)");
+            //Hashtable solution = Query.oneSolution("run, findall_constraints(h(_,_,_),L)");
+            Hashtable solution = Query.oneSolution("game(L)");
             if (solution != null) {
                 System.out.println("L = " + solution.get("L"));
                 result = "" + solution.get("L");
                 
             }
         }
-
         ChessBoard.getInstance().updateGenTrace(result);
         
     }
