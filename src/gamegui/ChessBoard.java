@@ -13,9 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Vector;
 import javasciff.SProject;
 import javasciff.SciffBridge;
@@ -31,9 +29,7 @@ import org.xml.sax.SAXException;
  *
  * 
  *
- * TODO:
- *      - Creare un thread separato per la ricerca di un percorso, dando così la possibilità di abort all'utente
- *      - Una barra progressiva per indicare lo stato di avanzamento? Questo non credo sia possibile
+ * 
  * 
  * 
  */
@@ -60,16 +56,14 @@ public class ChessBoard extends javax.swing.JFrame {
    
 
     /** Creates new form ChessBoard */
+
     public ChessBoard() {
         initComponents();
         initBoard();
         initSciff();
         reloadDefaultSciffRules();
     }
-
-    public Cell[][] getCells(){
-        return this.cells;
-    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -128,6 +122,8 @@ public class ChessBoard extends javax.swing.JFrame {
         jMenuItemUndoLast = new javax.swing.JMenuItem();
         jMenuClearAll = new javax.swing.JMenuItem();
         JMenuGenerate = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         ignorePrologRulesCheckbox = new javax.swing.JCheckBoxMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuHelp = new javax.swing.JMenuItem();
@@ -273,7 +269,7 @@ public class ChessBoard extends javax.swing.JFrame {
         btnGenerate.setText("Generate Trace");
         btnGenerate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generateTrace(evt);
+                generateTraceHandler(evt);
             }
         });
 
@@ -319,7 +315,7 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jPanel1Layout.createSequentialGroup()
                                 .add(jLabel1)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 74, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 61, Short.MAX_VALUE)
                                 .add(jLabel2)
                                 .add(54, 54, 54)
                                 .add(jLabel3)
@@ -353,15 +349,16 @@ public class ChessBoard extends javax.swing.JFrame {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                         .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(jLabel17)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 46, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel18)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 27, Short.MAX_VALUE)
+                        .add(jLabel18)
+                        .add(268, 268, 268))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(18, 18, 18)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(20, 20, 20))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -397,23 +394,23 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(43, 43, 43)
                         .add(jLabel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(43, 43, 43)
-                        .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(36, 36, 36))
+                        .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane3))
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(Board, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .add(18, 18, 18)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                             .add(btnUndo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnEval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(txtNumMoves, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(btnGenerate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(btnStopGen, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .add(btnStopGen, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(btnReloadSciffRules, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .add(44, 44, 44))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 0));
@@ -507,6 +504,24 @@ public class ChessBoard extends javax.swing.JFrame {
         JMenuGenerate.setBackground(new java.awt.Color(255, 255, 0));
         JMenuGenerate.setText("Generate");
 
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconRun.png"))); // NOI18N
+        jMenuItem5.setText(" Run Generative Project");
+        jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem5MouseReleased(evt);
+            }
+        });
+        JMenuGenerate.add(jMenuItem5);
+
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconDelete.gif"))); // NOI18N
+        jMenuItem6.setText(" Interrupt Generation");
+        jMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem6MouseReleased(evt);
+            }
+        });
+        JMenuGenerate.add(jMenuItem6);
+
         ignorePrologRulesCheckbox.setSelected(true);
         ignorePrologRulesCheckbox.setText(" Ignore Prolog Rules");
         JMenuGenerate.add(ignorePrologRulesCheckbox);
@@ -546,7 +561,7 @@ public class ChessBoard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 658, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -613,6 +628,14 @@ public class ChessBoard extends javax.swing.JFrame {
      */
     public static ChessBoard getInstance(){
         return instance;
+    }
+    
+    /**
+     * Return cells
+     * @return
+     */
+    public Cell[][] getCells(){
+        return this.cells;
     }
 
      /**
@@ -745,53 +768,11 @@ public class ChessBoard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem4MouseReleased
 
-    private void generateTrace(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateTrace
-        int moves;
+    private void generateTraceHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateTraceHandler
 
-        try{
-            moves = Integer.parseInt(txtNumMoves.getText());
-        }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse NON definito"+ e.getMessage(),
-                     "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
-            return;
-        }
-        
-        if (moves == 0){
-             JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse = 0", "Result",
-                     JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
-             return;
-             
-        }
-        
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SProject project = new SProject("gameProj");
-        if ( ignorePrologRulesCheckbox.getState() ){
-            project.kb = "";
-        }else{
-            project.kb = txtRules.getText();
-        }
-        project.rules = txtSciffRules.getText();
-        trace.clear();
-        for( int i=0; i< moves; i++){
-            trace.add(new Move(-1,-1,"_","_", i));
-        }
-        project.trace = trace;
-        project.generateProject();
+        generateTrace();
 
-        // Per usare i thread decommentare la linea sotto e cancellare tutto il codice seguente
-        genThread = sciff.runThreadGenerativeProject(project.getProjectName());
-        
-        /*String projResult = sciff.runGenerativeProject(project);
-        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        if (projResult.isEmpty()) {
-            JOptionPane.showMessageDialog(new JFrame(), "Errore: non è stato possibile recuperare una lista di mosse valida",
-                    "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
-            return;
-        }
-        trace = MoveConverter.convertStringToMoves(projResult);
-        refreshTrace();
-        */
-    }//GEN-LAST:event_generateTrace
+    }//GEN-LAST:event_generateTraceHandler
 
     private void clearText(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearText
         // TODO add your handling code here:
@@ -803,9 +784,16 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNumMovesActionPerformed
 
     private void btnStopGengenerateTrace(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStopGengenerateTrace
-        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        genThread.interrupt();
+        stopGenerateTrace();
     }//GEN-LAST:event_btnStopGengenerateTrace
+
+    private void jMenuItem5MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem5MouseReleased
+        generateTrace();
+    }//GEN-LAST:event_jMenuItem5MouseReleased
+
+    private void jMenuItem6MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem6MouseReleased
+        stopGenerateTrace();
+    }//GEN-LAST:event_jMenuItem6MouseReleased
 
     /**
      * Return the trace list
@@ -815,6 +803,10 @@ public class ChessBoard extends javax.swing.JFrame {
         return trace;
     }
 
+    private void stopGenerateTrace(){
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        genThread.interrupt();
+    }
     /**
      * Add a move to trace list
      * @param x
@@ -942,6 +934,56 @@ public class ChessBoard extends javax.swing.JFrame {
         refreshTrace();
     }
 
+private void generateTrace() {
+        int moves;
+
+        try{
+            moves = Integer.parseInt(txtNumMoves.getText());
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse NON definito"+ e.getMessage(),
+                     "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            return;
+        }
+
+        if (moves == 0){
+             JOptionPane.showMessageDialog(new JFrame(), "Errore: numero di mosse = 0", "Result",
+                     JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+             return;
+
+        }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        SProject project = new SProject("gameProj");
+        if ( ignorePrologRulesCheckbox.getState() ){
+            project.kb = "";
+        }else{
+            project.kb = txtRules.getText();
+        }
+        project.rules = txtSciffRules.getText();
+        trace.clear();
+        for( int i=0; i< moves; i++){
+            trace.add(new Move(-1,-1,"_","_", i));
+        }
+        project.trace = trace;
+        project.generateProject();
+
+        // Per usare i thread decommentare la linea sotto e cancellare tutto il codice seguente
+        genThread = sciff.runThreadGenerativeProject(project.getProjectName());
+
+        /*String projResult = sciff.runGenerativeProject(project);
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        if (projResult.isEmpty()) {
+            JOptionPane.showMessageDialog(new JFrame(), "Errore: non è stato possibile recuperare una lista di mosse valida",
+                    "Result", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(WarningIconPath));
+            return;
+        }
+        trace = MoveConverter.convertStringToMoves(projResult);
+        refreshTrace();
+        */
+    }
+
+
+
 
     
 
@@ -983,6 +1025,8 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItemRun;
     private javax.swing.JMenuItem jMenuItemUndoLast;
     private javax.swing.JMenu jMenuProject;
@@ -1002,6 +1046,4 @@ public class ChessBoard extends javax.swing.JFrame {
     private javax.swing.JTextArea txtTrace;
     // End of variables declaration//GEN-END:variables
 
-
-
-}
+    }
