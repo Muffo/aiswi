@@ -22,6 +22,7 @@ public class SciffCompiler implements Runnable {
      * Esecuzione del comando prolog compile(sciff).
      */
     public void run() {
+        Query.hasSolution("set_prolog_flag(optimise,true)");
         Query.hasSolution("compile(" + sciffPath + "sciff)");
     }
 

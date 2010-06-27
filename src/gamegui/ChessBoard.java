@@ -244,11 +244,6 @@ public class ChessBoard extends javax.swing.JFrame {
         jLabel18.setText("REGOLE SCIFF");
 
         btnReloadSciffRules.setText("Reload Default");
-        btnReloadSciffRules.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnReloadSciffRulesMouseClicked(evt);
-            }
-        });
         btnReloadSciffRules.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadSciffRulesActionPerformed(evt);
@@ -304,7 +299,7 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jPanel1Layout.createSequentialGroup()
                                 .add(jLabel1)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 61, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 68, Short.MAX_VALUE)
                                 .add(jLabel2)
                                 .add(54, 54, 54)
                                 .add(jLabel3)
@@ -340,7 +335,7 @@ public class ChessBoard extends javax.swing.JFrame {
                         .add(jLabel17)))
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 37, Short.MAX_VALUE)
                         .add(jLabel18)
                         .add(268, 268, 268))
                     .add(jPanel1Layout.createSequentialGroup()
@@ -738,12 +733,8 @@ public class ChessBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1MouseReleased
 
 
-    private void btnReloadSciffRulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadSciffRulesMouseClicked
-       
-    }//GEN-LAST:event_btnReloadSciffRulesMouseClicked
-
     private void btnReloadSciffRulesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadSciffRulesActionPerformed
-        reloadDefaultSciffRules();
+        reloadSciffRules();
     }//GEN-LAST:event_btnReloadSciffRulesActionPerformed
 
     private void jMenuItem4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseReleased
@@ -793,7 +784,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
     private void stopGenerateTrace(){
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        genThread.interrupt();
+        genThread.stop();
     }
     /**
      * Aggiunta di una mossa alla traccia
@@ -912,6 +903,17 @@ public class ChessBoard extends javax.swing.JFrame {
 
     private void reloadDefaultSciffRules() {
         txtSciffRules.setText(FileManager.readFileAsString("project_template/rules.txt"));
+    }
+
+    private void reloadSciffRules(){
+        String wd = System.getProperty("user.dir");
+        JFileChooser fc = new JFileChooser(wd);
+        int rc = fc.showDialog(null, "Select txt roules file");
+        if (rc == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            String fileName = file.getAbsolutePath();
+            txtSciffRules.setText(FileManager.readFileAsString(fileName));
+        }
     }
     
     public void updateGenTrace(String result) {
