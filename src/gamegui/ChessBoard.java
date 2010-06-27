@@ -243,7 +243,7 @@ public class ChessBoard extends javax.swing.JFrame {
 
         jLabel18.setText("REGOLE SCIFF");
 
-        btnReloadSciffRules.setText("Reload Default");
+        btnReloadSciffRules.setText("Reload Rules");
         btnReloadSciffRules.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadSciffRulesActionPerformed(evt);
